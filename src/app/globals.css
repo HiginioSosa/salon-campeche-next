@@ -1,26 +1,203 @@
-@import "tailwindcss";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Estilos base para el proyecto Salón Campeche */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-raleway antialiased;
+    min-height: 100vh;
+  }
+  
+  /* Personalización de scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent-3 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent-2;
+  }
+  
+  /* Focus states personalizados */
+  *:focus {
+    @apply outline-none ring-2 ring-accent-3 ring-opacity-50;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Botones principales */
+  .btn-primary {
+    @apply bg-accent-3 hover:bg-accent-2 text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-accent-3 focus:ring-opacity-50;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-accent-3 text-accent-3 hover:bg-accent-3 hover:text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-foreground hover:bg-foreground hover:bg-opacity-10 font-raleway font-medium px-4 py-2 rounded-lg transition-all duration-300;
+  }
+  
+  /* Cards y containers */
+  .card {
+    @apply bg-gray-900 bg-opacity-50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 transition-all duration-300 hover:border-accent-3 hover:shadow-accent-glow;
+  }
+  
+  .container-section {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Efectos de gradiente */
+  .gradient-accent {
+    background: linear-gradient(135deg, #ec842f 0%, #de8052 50%, #cf7b75 100%);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, #f2b98d 0%, #ec842f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Animaciones personalizadas */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+  
+  /* Efectos de texto brillante */
+  .text-glow {
+    text-shadow: 0 0 10px rgba(236, 132, 47, 0.5);
+  }
+  
+  /* Separadores decorativos */
+  .divider {
+    @apply w-24 h-1 bg-gradient-to-r from-accent-3 to-accent-2 mx-auto my-8 rounded-full;
+  }
+  
+  /* Inputs personalizados */
+  .input-custom {
+    @apply bg-gray-900 bg-opacity-50 border border-gray-700 text-foreground placeholder-gray-400 px-4 py-3 rounded-lg focus:border-accent-3 focus:ring-1 focus:ring-accent-3 transition-all duration-300;
+  }
+  
+  /* Overlay para modales */
+  .overlay {
+    @apply fixed inset-0 bg-background bg-opacity-90 backdrop-blur-sm z-50;
+  }
+}
+
+/* Estilos base para el proyecto Salón Campeche */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-raleway antialiased;
+    min-height: 100vh;
+  }
+  
+  /* Personalización de scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent-3 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent-2;
+  }
+  
+  /* Focus states personalizados */
+  *:focus {
+    @apply outline-none ring-2 ring-accent-3 ring-opacity-50;
+  }
+}
+
+@layer components {
+  /* Botones principales */
+  .btn-primary {
+    @apply bg-accent-3 hover:bg-accent-2 text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-accent-3 focus:ring-opacity-50;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-accent-3 text-accent-3 hover:bg-accent-3 hover:text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-foreground hover:bg-foreground hover:bg-opacity-10 font-raleway font-medium px-4 py-2 rounded-lg transition-all duration-300;
+  }
+  
+  /* Cards y containers */
+  .card {
+    @apply bg-gray-900 bg-opacity-50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 transition-all duration-300 hover:border-accent-3 hover:shadow-accent-glow;
+  }
+  
+  .container-section {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Efectos de gradiente */
+  .gradient-accent {
+    background: linear-gradient(135deg, #ec842f 0%, #de8052 50%, #cf7b75 100%);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, #f2b98d 0%, #ec842f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Animaciones personalizadas */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+  
+  /* Efectos de texto brillante */
+  .text-glow {
+    text-shadow: 0 0 10px rgba(236, 132, 47, 0.5);
+  }
+  
+  /* Separadores decorativos */
+  .divider {
+    @apply w-24 h-1 bg-gradient-to-r from-accent-3 to-accent-2 mx-auto my-8 rounded-full;
+  }
+  
+  /* Inputs personalizados */
+  .input-custom {
+    @apply bg-gray-900 bg-opacity-50 border border-gray-700 text-foreground placeholder-gray-400 px-4 py-3 rounded-lg focus:border-accent-3 focus:ring-1 focus:ring-accent-3 transition-all duration-300;
+  }
+  
+  /* Overlay para modales */
+  .overlay {
+    @apply fixed inset-0 bg-background bg-opacity-90 backdrop-blur-sm z-50;
+  }
 }
