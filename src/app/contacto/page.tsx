@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <MainLayout>
-      <Section size="xl" centered>
+      <Section size='xl' centered>
         <SectionHeader
-          subtitle="Próximamente"
-          title="Página de Contacto"
-          description="Esta página estará disponible en la Fase 6 del desarrollo"
+          subtitle='Próximamente'
+          title='Página de Contacto'
+          description='Esta página estará disponible en la Fase 6 del desarrollo'
         />
       </Section>
     </MainLayout>

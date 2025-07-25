@@ -11,28 +11,24 @@ interface MainLayoutProps {
   whatsAppMessage?: string
 }
 
-export default function MainLayout({ 
-  children, 
+export default function MainLayout({
+  children,
   showWhatsApp = true,
-  whatsAppMessage 
+  whatsAppMessage,
 }: MainLayoutProps) {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className='min-h-screen bg-background flex flex-col'>
       {/* Header */}
       <Header />
-      
+
       {/* Main Content */}
-      <main className="flex-1 pt-16 lg:pt-20">
-        {children}
-      </main>
-      
+      <main className='flex-1 pt-16 lg:pt-20'>{children}</main>
+
       {/* Footer */}
       <Footer />
-      
+
       {/* WhatsApp Button */}
-      {showWhatsApp && (
-        <WhatsAppButton message={whatsAppMessage} />
-      )}
+      {showWhatsApp && <WhatsAppButton message={whatsAppMessage} />}
     </div>
   )
 }

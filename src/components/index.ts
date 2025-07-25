@@ -5,7 +5,14 @@ export { default as Footer } from './layout/Footer'
 
 // UI components
 export { default as Button } from './ui/Button'
-export { default as Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './ui/Card'
+export {
+  default as Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from './ui/Card'
 export { default as Section, SectionHeader } from './ui/Section'
 export { default as Loading, Skeleton, QuoteLoading } from './ui/Loading'
 export { default as WhatsAppButton } from './ui/WhatsAppButton'
@@ -23,3 +30,11 @@ export { default as ServiceCard, ServiceCategory } from './services/ServiceCard'
 export { default as AdditionalServices } from './services/AdditionalServices'
 export { default as PopularPackages } from './services/PopularPackages'
 export { default as ServiceNavigation } from './services/ServiceNavigation'
+
+// Packages components
+export { default as QuoteCalculator } from './packages/QuoteCalculator'
+export { default as ServiceSelector } from './packages/ServiceSelector'
+export { default as PDFGenerator } from './packages/PDFGenerator'
+export { default as QuoteSummary } from './packages/QuoteSummary'
+export { default as PackageComparison } from './packages/PackageComparison'
+export { default as TipsPanel } from './packages/TipsPanel'

@@ -29,7 +29,7 @@ const config: Config = {
           700: '#404040',
           800: '#262626',
           900: '#171717',
-        }
+        },
       },
       fontFamily: {
         // Configuración de fuentes usando next/font
@@ -71,11 +71,11 @@ const config: Config = {
         },
       },
       boxShadow: {
-        'elegant': '0 10px 30px rgba(242, 185, 141, 0.1)',
+        elegant: '0 10px 30px rgba(242, 185, 141, 0.1)',
         'accent-glow': '0 0 20px rgba(236, 132, 47, 0.3)',
       },
       screens: {
-        'xs': '475px',
+        xs: '475px',
       },
     },
   },

@@ -9,7 +9,7 @@ export const services: Service[] = [
     description: 'Capacidad para máximo 150 personas',
     price: 4000,
     category: 'venue',
-    isOptional: false
+    isOptional: false,
   },
   {
     id: 'salon-ambos-pisos',
@@ -17,18 +17,19 @@ export const services: Service[] = [
     description: 'Capacidad para máximo 250 personas',
     price: 6000,
     category: 'venue',
-    isOptional: false
+    isOptional: false,
   },
-  
+
   // Mobiliario
   {
     id: 'mesas-vestidas',
     name: 'Mesas Vestidas',
-    description: 'Mantel blanco + mantel de color + sillas con funda y moño (10 personas por mesa)',
+    description:
+      'Mantel blanco + mantel de color + sillas con funda y moño (10 personas por mesa)',
     price: 270,
     unit: 'mesa',
     category: 'equipment',
-    isOptional: true
+    isOptional: true,
   },
   {
     id: 'mesas-sencillas',
@@ -37,9 +38,9 @@ export const services: Service[] = [
     price: 200,
     unit: 'mesa',
     category: 'equipment',
-    isOptional: true
+    isOptional: true,
   },
-  
+
   // Entretenimiento
   {
     id: 'dj-sonido',
@@ -47,7 +48,7 @@ export const services: Service[] = [
     description: '5 horas de servicio, horario inicial a elegir',
     price: 2700,
     category: 'entertainment',
-    isOptional: true
+    isOptional: true,
   },
   {
     id: 'inflable-ninos',
@@ -55,7 +56,7 @@ export const services: Service[] = [
     description: 'Con alberca pequeña de pelotas - todo el día',
     price: 1200,
     category: 'entertainment',
-    isOptional: true
+    isOptional: true,
   },
   {
     id: 'trampolin',
@@ -63,9 +64,9 @@ export const services: Service[] = [
     description: 'Todo el día',
     price: 1000,
     category: 'entertainment',
-    isOptional: true
+    isOptional: true,
   },
-  
+
   // Decoración
   {
     id: 'adornos-sencillos',
@@ -73,7 +74,7 @@ export const services: Service[] = [
     description: 'Arco sencillo + 4 torres con globos + tul y luz en barandal',
     price: 2700,
     category: 'decoration',
-    isOptional: true
+    isOptional: true,
   },
   {
     id: 'adornos-con-luz',
@@ -81,7 +82,7 @@ export const services: Service[] = [
     description: 'Arco con luz + 4 torres con globos + tul y luz en barandal',
     price: 3200,
     category: 'decoration',
-    isOptional: true
+    isOptional: true,
   },
   {
     id: 'mesa-dulces',
@@ -89,9 +90,9 @@ export const services: Service[] = [
     description: 'Personalizable según cantidad y personalización solicitada',
     price: 3500,
     category: 'food',
-    isOptional: true
+    isOptional: true,
   },
-  
+
   // Personal y servicio
   {
     id: 'meseros',
@@ -100,7 +101,7 @@ export const services: Service[] = [
     price: 400,
     unit: 'mesero',
     category: 'staff',
-    isOptional: true
+    isOptional: true,
   },
   {
     id: 'vajilla',
@@ -109,9 +110,9 @@ export const services: Service[] = [
     price: 25,
     unit: 'persona',
     category: 'equipment',
-    isOptional: true
+    isOptional: true,
   },
-  
+
   // Bebidas
   {
     id: 'cerveza-corona',
@@ -120,7 +121,7 @@ export const services: Service[] = [
     price: 400,
     unit: 'cartón',
     category: 'food',
-    isOptional: true
+    isOptional: true,
   },
   {
     id: 'cerveza-indio',
@@ -129,7 +130,7 @@ export const services: Service[] = [
     price: 300,
     unit: 'cartón',
     category: 'food',
-    isOptional: true
+    isOptional: true,
   },
   {
     id: 'cerveza-xx',
@@ -138,8 +139,8 @@ export const services: Service[] = [
     price: 320,
     unit: 'cartón',
     category: 'food',
-    isOptional: true
-  }
+    isOptional: true,
+  },
 ]
 
 // Funciones auxiliares para cálculos
@@ -155,7 +156,9 @@ export const calculateMinimumStaff = (guestCount: number): number => {
   return 7
 }
 
-export const getVenueRecommendation = (guestCount: number): 'primer-piso' | 'ambos-pisos' => {
+export const getVenueRecommendation = (
+  guestCount: number
+): 'primer-piso' | 'ambos-pisos' => {
   return guestCount <= 150 ? 'primer-piso' : 'ambos-pisos'
 }
 
@@ -169,10 +172,10 @@ export const popularPackages = [
     includedServices: [
       'salon-primer-piso',
       'mesas-sencillas', // 15 mesas
-      'meseros' // 3 meseros
+      'meseros', // 3 meseros
     ],
     basePrice: 8200,
-    popular: false
+    popular: false,
   },
   {
     id: 'completo-150',
@@ -184,10 +187,10 @@ export const popularPackages = [
       'mesas-vestidas', // 15 mesas
       'dj-sonido',
       'adornos-sencillos',
-      'meseros' // 3 meseros
+      'meseros', // 3 meseros
     ],
     basePrice: 14650,
-    popular: true
+    popular: true,
   },
   {
     id: 'premium-250',
@@ -201,9 +204,9 @@ export const popularPackages = [
       'adornos-con-luz',
       'mesa-dulces',
       'trampolin',
-      'meseros' // 5 meseros
+      'meseros', // 5 meseros
     ],
     basePrice: 25950,
-    popular: false
-  }
+    popular: false,
+  },
 ]

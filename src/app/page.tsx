@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     'cumpleanos salon de fiestas',
     'salon eventos ixtapaluca',
     'fiestas ampliacion san francisco',
-    'salon campeche ixtapaluca'
+    'salon campeche ixtapaluca',
   ],
   openGraph: {
     title: `${businessInfo.name} - El mejor salón de fiestas en Ixtapaluca`,
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <MainLayout whatsAppMessage="¡Hola! Me interesa conocer más sobre sus servicios para mi evento. ¿Podrían brindarme información y precios?">
+    <MainLayout whatsAppMessage='¡Hola! Me interesa conocer más sobre sus servicios para mi evento. ¿Podrían brindarme información y precios?'>
       {/* Hero Section - Sección principal de bienvenida */}
       <HeroSection />
 
