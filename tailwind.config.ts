@@ -43,6 +43,7 @@ const config: Config = {
         'scale-in': 'scaleIn 0.5s ease-out',
         'bounce-subtle': 'bounceSubtle 2s infinite',
         'pulse-soft': 'pulseSoft 2s infinite',
+        'spin-slow': 'spin 3s linear infinite',
       },
       keyframes: {
         fadeIn: {

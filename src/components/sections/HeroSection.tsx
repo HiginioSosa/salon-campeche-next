@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-// import Image from 'next/image'
+import Image from 'next/image'
 import { Play, Calendar, Users, Star } from 'lucide-react'
 import { Button } from '@/components'
 import { businessInfo } from '@/lib/brand'
@@ -163,9 +163,14 @@ export default function HeroSection() {
                 <div className='w-48 h-48 lg:w-64 lg:h-64 mx-auto relative animate-float'>
                   <div className='absolute inset-0 bg-accent-3 rounded-full opacity-20 animate-pulse'></div>
                   <div className='absolute inset-4 bg-gradient-to-br from-accent-3 to-accent-2 rounded-full flex items-center justify-center shadow-accent-glow'>
-                    <span className='text-background font-caveat font-bold text-6xl lg:text-8xl'>
-                      SC
-                    </span>
+                    <Image
+                      src='/icon-animated.svg'
+                      alt='Salón Campeche'
+                      width={256}
+                      height={256}
+                      className='h-48 w-auto lg:h-64'
+                      priority
+                    />
                   </div>
                 </div>
 
@@ -230,7 +235,7 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll indicator */}
-      <div className='absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce'>
+      <div className='absolute bottom-20 transform -translate-x-1/2 animate-bounce'>
         <div className='w-6 h-10 border-2 border-accent-3 rounded-full flex justify-center'>
           <div className='w-1 h-3 bg-accent-3 rounded-full mt-2 animate-pulse'></div>
         </div>

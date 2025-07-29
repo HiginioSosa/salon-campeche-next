@@ -3,7 +3,8 @@ import { businessInfo } from '@/lib/brand'
 
 export const metadata: Metadata = {
   title: `Preguntas Frecuentes - ${businessInfo.name}`,
-  description: 'Encuentra respuestas a las preguntas más comunes sobre nuestros servicios, precios, políticas de cancelación, horarios y equipamiento. Resuelve todas tus dudas sobre eventos en nuestro salón.',
+  description:
+    'Encuentra respuestas a las preguntas más comunes sobre nuestros servicios, precios, políticas de cancelación, horarios y equipamiento. Resuelve todas tus dudas sobre eventos en nuestro salón.',
   keywords: [
     'preguntas frecuentes salon campeche',
     'faq salon de fiestas ixtapaluca',
@@ -16,7 +17,8 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: `FAQ - Resuelve todas tus dudas - ${businessInfo.name}`,
-    description: 'Respuestas a las preguntas más frecuentes sobre servicios, precios, políticas y horarios de nuestro salón de fiestas.',
+    description:
+      'Respuestas a las preguntas más frecuentes sobre servicios, precios, políticas y horarios de nuestro salón de fiestas.',
     url: 'https://saloncampeche.com/faq',
     images: [
       {
@@ -32,7 +34,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: `Preguntas Frecuentes - ${businessInfo.name}`,
-    description: 'Todas las respuestas sobre servicios, precios y políticas de nuestro salón de fiestas en Ixtapaluca.',
+    description:
+      'Todas las respuestas sobre servicios, precios y políticas de nuestro salón de fiestas en Ixtapaluca.',
     images: ['/og-faq.jpg'],
   },
   alternates: {
@@ -40,10 +43,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function FAQLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function FAQLayout({ children }: { children: React.ReactNode }) {
   return children
 }

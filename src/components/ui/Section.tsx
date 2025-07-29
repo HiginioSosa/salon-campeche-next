@@ -93,7 +93,9 @@ export const SectionHeader = forwardRef<
       <div className={`divider ${!centered ? 'mx-0' : ''}`}></div>
 
       {description && (
-        <p className="font-raleway text-gray-300 text-base lg:text-lg max-w-3xl ${centered ? 'mx-auto' : ''} leading-relaxed">
+        <p
+          className={`font-raleway text-gray-300 text-base lg:text-lg max-w-3xl ${centered ? 'mx-auto' : ''} leading-relaxed`}
+        >
           {description}
         </p>
       )}

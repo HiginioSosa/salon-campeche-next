@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { MapPin, Phone, Mail, Facebook, Instagram, Clock } from 'lucide-react'
 import { businessInfo } from '@/lib/brand'
+import Image from 'next/image'
 
 const footerNavigation = {
   servicios: [
@@ -37,21 +38,16 @@ export default function Footer() {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12'>
             {/* Información de la empresa */}
             <div className='lg:col-span-1'>
-              <div className='flex items-center space-x-3 mb-6'>
+              <div className='flex justify-center items-center mb-6'>
                 {/* Logo vertical del salón */}
-                <div className='w-12 h-12 bg-accent-3 rounded-lg flex items-center justify-center'>
-                  <span className='text-background font-caveat font-bold text-xl'>
-                    SC
-                  </span>
-                </div>
-                <div>
-                  <h3 className='font-caveat font-bold text-xl text-foreground'>
-                    {businessInfo.name}
-                  </h3>
-                  <p className='font-raleway text-sm text-accent-3'>
-                    {businessInfo.slogan}
-                  </p>
-                </div>
+                <Image
+                  src='/logo-vertical.svg'
+                  alt='Salón Campeche'
+                  width={144}
+                  height={144}
+                  className='h-32 w-auto lg:h-36'
+                  priority
+                />
               </div>
 
               <p className='text-gray-300 font-raleway text-sm mb-6 leading-relaxed'>

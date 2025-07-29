@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X, Phone } from 'lucide-react'
 import { businessInfo } from '@/lib/brand'
 
@@ -44,21 +45,15 @@ export default function Header() {
         <div className='flex items-center justify-between h-16 lg:h-20'>
           {/* Logo */}
           <Link href='/' className='flex-shrink-0'>
-            <div className='flex items-center space-x-3'>
-              {/* Logo horizontal del salón - búho minimalista en hexágono chocolate con texto al lado */}
-              <div className='w-10 h-10 lg:w-12 lg:h-12 bg-accent-3 rounded-lg flex items-center justify-center'>
-                <span className='text-background font-caveat font-bold text-lg lg:text-xl'>
-                  SC
-                </span>
-              </div>
-              <div className='hidden sm:block'>
-                <h1 className='font-caveat font-bold text-xl lg:text-2xl text-foreground'>
-                  {businessInfo.name}
-                </h1>
-                <p className='font-raleway text-xs lg:text-sm text-accent-3 -mt-1'>
-                  {businessInfo.slogan}
-                </p>
-              </div>
+            <div className='hover:scale-105 transition-transform duration-200'>
+              <Image
+                src='/logo-horizontal.png'
+                alt='Salón Campeche'
+                width={150}
+                height={50}
+                className='h-7 w-auto lg:h-14'
+                priority
+              />
             </div>
           </Link>
 

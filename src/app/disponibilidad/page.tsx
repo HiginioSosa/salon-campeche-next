@@ -4,18 +4,37 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { 
-  Calendar as CalendarIcon, ChevronLeft, ChevronRight, X, 
-  CheckCircle, AlertCircle, MessageCircle, Phone, Clock, Users
+import {
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  CheckCircle,
+  AlertCircle,
+  MessageCircle,
+  Phone,
+  Clock,
+  Users,
 } from 'lucide-react'
-import { MainLayout, Section, SectionHeader, Button, Card, CardContent } from '@/components'
+import {
+  MainLayout,
+  Section,
+  SectionHeader,
+  Button,
+  Card,
+  CardContent,
+} from '@/components'
 import { businessInfo } from '@/lib/brand'
 
 // Simulación de fechas ocupadas (en un caso real vendría de una API/base de datos)
 const unavailableDates = [
   { date: '2025-02-14', reason: 'Boda San Valentín', eventType: 'Boda' },
   { date: '2025-02-22', reason: 'XV Años María', eventType: 'XV Años' },
-  { date: '2025-03-08', reason: 'Evento Corporativo', eventType: 'Corporativo' },
+  {
+    date: '2025-03-08',
+    reason: 'Evento Corporativo',
+    eventType: 'Corporativo',
+  },
   { date: '2025-03-15', reason: 'Cumpleaños 50 años', eventType: 'Cumpleaños' },
   { date: '2025-03-22', reason: 'Boda Primavera', eventType: 'Boda' },
   { date: '2025-04-12', reason: 'XV Años Abril', eventType: 'XV Años' },
@@ -25,8 +44,18 @@ const unavailableDates = [
 ]
 
 const monthNames = [
-  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
 ]
 
 const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
@@ -82,12 +111,12 @@ export default function AvailabilityPage() {
     const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
     const unavailable = isDateUnavailable(dateStr)
     const isPast = isPastDate(currentYear, currentMonth, day)
-    
+
     setDateInfo({
       date: dateStr,
       isAvailable: !unavailable && !isPast,
       reason: unavailable?.reason,
-      eventType: unavailable?.eventType
+      eventType: unavailable?.eventType,
     })
     setShowModal(true)
   }
@@ -107,7 +136,10 @@ export default function AvailabilityPage() {
       const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
       const unavailable = isDateUnavailable(dateStr)
       const isPast = isPastDate(currentYear, currentMonth, day)
-      const isToday = today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear
+      const isToday =
+        today.getDate() === day &&
+        today.getMonth() === currentMonth &&
+        today.getFullYear() === currentYear
 
       days.push(
         <button
@@ -117,11 +149,9 @@ export default function AvailabilityPage() {
             isPast
               ? 'text-gray-500 cursor-not-allowed'
               : unavailable
-              ? 'bg-red-500 bg-opacity-20 text-red-400 hover:bg-red-500 hover:bg-opacity-30'
-              : 'text-foreground hover:bg-accent-3 hover:text-background'
-          } ${
-            isToday ? 'ring-2 ring-accent-3' : ''
-          }`}
+                ? 'bg-red-500 bg-opacity-20 text-red-400 hover:bg-red-500 hover:bg-opacity-30'
+                : 'text-foreground hover:bg-accent-3 hover:text-background'
+          } ${isToday ? 'ring-2 ring-accent-3' : ''}`}
           disabled={isPast}
         >
           {day}
@@ -140,11 +170,11 @@ export default function AvailabilityPage() {
 
   const formatDateForDisplay = (dateStr: string) => {
     const date = new Date(dateStr)
-    return date.toLocaleDateString('es-MX', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return date.toLocaleDateString('es-MX', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     })
   }
 
@@ -162,23 +192,42 @@ export default function AvailabilityPage() {
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-8'>
           <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-green-500 mb-2'>
-              {getDaysInMonth(currentYear, currentMonth) - unavailableDates.filter(d => d.date.startsWith(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`)).length}
+              {getDaysInMonth(currentYear, currentMonth) -
+                unavailableDates.filter(d =>
+                  d.date.startsWith(
+                    `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`
+                  )
+                ).length}
             </div>
-            <p className='font-raleway text-gray-300 text-sm'>Días Disponibles</p>
+            <p className='font-raleway text-gray-300 text-sm'>
+              Días Disponibles
+            </p>
           </div>
           <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-red-500 mb-2'>
-              {unavailableDates.filter(d => d.date.startsWith(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`)).length}
+              {
+                unavailableDates.filter(d =>
+                  d.date.startsWith(
+                    `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`
+                  )
+                ).length
+              }
             </div>
             <p className='font-raleway text-gray-300 text-sm'>Días Ocupados</p>
           </div>
           <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
-            <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>2AM</div>
+            <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
+              2AM
+            </div>
             <p className='font-raleway text-gray-300 text-sm'>Horario Límite</p>
           </div>
           <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
-            <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>24/7</div>
-            <p className='font-raleway text-gray-300 text-sm'>Reservas WhatsApp</p>
+            <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
+              24/7
+            </div>
+            <p className='font-raleway text-gray-300 text-sm'>
+              Reservas WhatsApp
+            </p>
           </div>
         </div>
       </Section>
@@ -214,7 +263,10 @@ export default function AvailabilityPage() {
               {/* Días de la semana */}
               <div className='grid grid-cols-7 gap-2 mb-4'>
                 {dayNames.map(day => (
-                  <div key={day} className='h-10 flex items-center justify-center font-raleway font-semibold text-gray-400 text-sm'>
+                  <div
+                    key={day}
+                    className='h-10 flex items-center justify-center font-raleway font-semibold text-gray-400 text-sm'
+                  >
                     {day}
                   </div>
                 ))}
@@ -239,7 +291,9 @@ export default function AvailabilityPage() {
                 </div>
                 <div className='flex items-center space-x-2'>
                   <div className='w-4 h-4 bg-gray-600 rounded'></div>
-                  <span className='font-raleway text-gray-300'>Fecha pasada</span>
+                  <span className='font-raleway text-gray-300'>
+                    Fecha pasada
+                  </span>
                 </div>
                 <div className='flex items-center space-x-2'>
                   <div className='w-4 h-4 bg-accent-3 bg-opacity-20 rounded border-2 border-accent-3'></div>
@@ -268,10 +322,15 @@ export default function AvailabilityPage() {
                   </div>
                   <div>
                     <p className='font-raleway font-semibold text-foreground'>
-                      {new Date(event.date).toLocaleDateString('es-MX', { day: 'numeric', month: 'short' })}
+                      {new Date(event.date).toLocaleDateString('es-MX', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}
                     </p>
                     <p className='font-raleway text-gray-400 text-xs'>
-                      {new Date(event.date).toLocaleDateString('es-MX', { weekday: 'long' })}
+                      {new Date(event.date).toLocaleDateString('es-MX', {
+                        weekday: 'long',
+                      })}
                     </p>
                   </div>
                 </div>
@@ -304,23 +363,33 @@ export default function AvailabilityPage() {
               <CardContent>
                 <div className='flex items-center space-x-3 mb-4'>
                   <Clock className='w-6 h-6 text-accent-3' />
-                  <h3 className='font-raleway font-bold text-foreground'>Proceso de Reserva</h3>
+                  <h3 className='font-raleway font-bold text-foreground'>
+                    Proceso de Reserva
+                  </h3>
                 </div>
                 <div className='space-y-3 text-sm font-raleway text-gray-300'>
                   <div className='flex items-start space-x-2'>
-                    <div className='w-5 h-5 bg-accent-3 rounded-full flex items-center justify-center text-background text-xs font-bold mt-0.5'>1</div>
+                    <div className='w-5 h-5 bg-accent-3 rounded-full flex items-center justify-center text-background text-xs font-bold mt-0.5'>
+                      1
+                    </div>
                     <p>Verifica disponibilidad en el calendario</p>
                   </div>
                   <div className='flex items-start space-x-2'>
-                    <div className='w-5 h-5 bg-accent-3 rounded-full flex items-center justify-center text-background text-xs font-bold mt-0.5'>2</div>
+                    <div className='w-5 h-5 bg-accent-3 rounded-full flex items-center justify-center text-background text-xs font-bold mt-0.5'>
+                      2
+                    </div>
                     <p>Contacta por WhatsApp o teléfono</p>
                   </div>
                   <div className='flex items-start space-x-2'>
-                    <div className='w-5 h-5 bg-accent-3 rounded-full flex items-center justify-center text-background text-xs font-bold mt-0.5'>3</div>
+                    <div className='w-5 h-5 bg-accent-3 rounded-full flex items-center justify-center text-background text-xs font-bold mt-0.5'>
+                      3
+                    </div>
                     <p>Firma contrato y paga 50% de anticipo</p>
                   </div>
                   <div className='flex items-start space-x-2'>
-                    <div className='w-5 h-5 bg-accent-3 rounded-full flex items-center justify-center text-background text-xs font-bold mt-0.5'>4</div>
+                    <div className='w-5 h-5 bg-accent-3 rounded-full flex items-center justify-center text-background text-xs font-bold mt-0.5'>
+                      4
+                    </div>
                     <p>¡Tu fecha queda reservada!</p>
                   </div>
                 </div>
@@ -331,14 +400,29 @@ export default function AvailabilityPage() {
               <CardContent>
                 <div className='flex items-center space-x-3 mb-4'>
                   <Users className='w-6 h-6 text-accent-3' />
-                  <h3 className='font-raleway font-bold text-foreground'>Políticas de Reserva</h3>
+                  <h3 className='font-raleway font-bold text-foreground'>
+                    Políticas de Reserva
+                  </h3>
                 </div>
                 <div className='space-y-3 text-sm font-raleway text-gray-300'>
-                  <p>• <strong>Anticipo:</strong> 50% del total para apartar fecha</p>
-                  <p>• <strong>Pago final:</strong> Hasta un día antes del evento</p>
-                  <p>• <strong>Cancelación:</strong> Políticas flexibles según anticipación</p>
-                  <p>• <strong>Modificaciones:</strong> Cambios de fecha sujetos a disponibilidad</p>
-                  <p>• <strong>Acceso:</strong> Desde la hora que necesites</p>
+                  <p>
+                    • <strong>Anticipo:</strong> 50% del total para apartar
+                    fecha
+                  </p>
+                  <p>
+                    • <strong>Pago final:</strong> Hasta un día antes del evento
+                  </p>
+                  <p>
+                    • <strong>Cancelación:</strong> Políticas flexibles según
+                    anticipación
+                  </p>
+                  <p>
+                    • <strong>Modificaciones:</strong> Cambios de fecha sujetos
+                    a disponibilidad
+                  </p>
+                  <p>
+                    • <strong>Acceso:</strong> Desde la hora que necesites
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -353,9 +437,10 @@ export default function AvailabilityPage() {
             ¿Encontraste tu fecha perfecta?
           </h2>
           <p className='font-raleway text-gray-300 text-lg mb-8 max-w-2xl mx-auto'>
-            No dejes que se te escape. Las mejores fechas se reservan rápidamente.
+            No dejes que se te escape. Las mejores fechas se reservan
+            rápidamente.
           </p>
-          
+
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
             <a
               href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
@@ -366,13 +451,17 @@ export default function AvailabilityPage() {
                 Reservar por WhatsApp
               </Button>
             </a>
-            
+
             <a href={`tel:${businessInfo.contact.phone}`}>
-              <Button variant='secondary' size='lg' icon={<Phone className='w-5 h-5' />}>
+              <Button
+                variant='secondary'
+                size='lg'
+                icon={<Phone className='w-5 h-5' />}
+              >
                 Llamar para Reservar
               </Button>
             </a>
-            
+
             <Link href='/paquetes'>
               <Button variant='ghost' size='lg'>
                 Ver Paquetes y Precios
@@ -403,16 +492,20 @@ export default function AvailabilityPage() {
                 <p className='font-raleway text-gray-300 mb-2'>
                   {formatDateForDisplay(dateInfo.date)}
                 </p>
-                
+
                 {dateInfo.isAvailable ? (
                   <div className='flex items-center justify-center space-x-2 text-green-500'>
                     <CheckCircle className='w-6 h-6' />
-                    <span className='font-raleway font-semibold'>Fecha Disponible</span>
+                    <span className='font-raleway font-semibold'>
+                      Fecha Disponible
+                    </span>
                   </div>
                 ) : (
                   <div className='flex items-center justify-center space-x-2 text-red-500'>
                     <AlertCircle className='w-6 h-6' />
-                    <span className='font-raleway font-semibold'>Fecha No Disponible</span>
+                    <span className='font-raleway font-semibold'>
+                      Fecha No Disponible
+                    </span>
                   </div>
                 )}
               </div>
@@ -455,11 +548,12 @@ export default function AvailabilityPage() {
                     </div>
                   )}
                   <p className='font-raleway text-gray-300 text-center text-sm'>
-                    Esta fecha ya está reservada. Te sugerimos elegir otra fecha disponible.
+                    Esta fecha ya está reservada. Te sugerimos elegir otra fecha
+                    disponible.
                   </p>
-                  <Button 
-                    variant='secondary' 
-                    className='w-full' 
+                  <Button
+                    variant='secondary'
+                    className='w-full'
                     onClick={() => setShowModal(false)}
                   >
                     Elegir Otra Fecha
