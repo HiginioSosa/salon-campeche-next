@@ -21,6 +21,7 @@ import {
 } from '@/components'
 import QuoteCalculator from '@/components/packages/QuoteCalculator'
 import ServiceSelector from '@/components/packages/ServiceSelector'
+import QuoteDisplay from '@/components/packages/QuoteDisplay'
 import TipsPanel from '@/components/packages/TipsPanel'
 import { businessInfo } from '@/lib/brand'
 import type { Quote } from '@/types'
@@ -91,12 +92,15 @@ export default function PackagesPage() {
           </div>
         </Section>
 
-        {/* Calculadora principal */}
+        {/* Calculadora principal (solo datos iniciales y recomendaciones) */}
         <Section variant='default' size='lg'>
-          <QuoteCalculator onDataChange={handleDataChange} />
+          <QuoteCalculator
+            onDataChange={handleDataChange}
+            selectedServicesExternal={calculatorData.selectedServices}
+          />
         </Section>
 
-        {/* Selector de servicios adicionales */}
+        {/* Selector de servicios adicionales ANTES de mostrar la cotización total */}
         {calculatorData.guestCount > 0 && calculatorData.venueType && (
           <Section variant='dark' size='lg'>
             <ServiceSelector
@@ -106,12 +110,38 @@ export default function PackagesPage() {
                   ...prev,
                   selectedServices: {
                     ...prev.selectedServices,
-                    [serviceId]: quantity,
+                    [serviceId]: Math.max(0, quantity),
                   },
                 }))
               }}
               guestCount={calculatorData.guestCount}
               venueType={calculatorData.venueType}
+            />
+          </Section>
+        )}
+
+        {/* Cotización final - aparece siempre que haya datos básicos */}
+        {calculatorData.currentQuote && (
+          <Section variant='default' size='lg'>
+            <QuoteDisplay
+              quote={calculatorData.currentQuote}
+              eventType={calculatorData.eventType}
+              clientName={calculatorData.clientName}
+              guestCount={calculatorData.guestCount}
+              eventDate={calculatorData.currentQuote.eventDate || ''}
+              notes={calculatorData.currentQuote.notes || ''}
+              onNotesChange={(notes) => {
+                // Actualizar las notas en la cotización
+                if (calculatorData.currentQuote) {
+                  setCalculatorData(prev => ({
+                    ...prev,
+                    currentQuote: {
+                      ...prev.currentQuote!,
+                      notes,
+                    },
+                  }))
+                }
+              }}
             />
           </Section>
         )}

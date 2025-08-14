@@ -34,6 +34,7 @@ export { default as ServiceNavigation } from './services/ServiceNavigation'
 // Packages components
 export { default as QuoteCalculator } from './packages/QuoteCalculator'
 export { default as ServiceSelector } from './packages/ServiceSelector'
+export { default as QuoteDisplay } from './packages/QuoteDisplay'
 export { default as PDFGenerator } from './packages/PDFGenerator'
 export { default as QuoteSummary } from './packages/QuoteSummary'
 export { default as PackageComparison } from './packages/PackageComparison'

@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useId } from 'react'
 import { Calendar, Users, AlertCircle, CheckCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components'
-import PDFGenerator from './PDFGenerator'
 import { services, calculateTablesNeeded } from '@/lib/services'
 import {
   validateQuoteForm,
@@ -31,6 +30,8 @@ interface QuoteCalculatorProps {
     eventType: string
     clientName: string
   }) => void
+  /** Estado externo de servicios seleccionados (ServiceSelector) */
+  selectedServicesExternal?: { [serviceId: string]: number }
 }
 
 const eventTypes = [
@@ -46,6 +47,7 @@ const eventTypes = [
 
 export default function QuoteCalculator({
   onDataChange,
+  selectedServicesExternal,
 }: QuoteCalculatorProps) {
   const quoteId = useId()
 
@@ -63,12 +65,36 @@ export default function QuoteCalculator({
   const [currentQuote, setCurrentQuote] = useState<Quote | null>(null)
   const [errors, setErrors] = useState<string[]>([])
   const [recommendations, setRecommendations] = useState<string[]>([])
+  // Control interno para habilitar el cálculo (cuando el usuario terminó datos básicos)
+  const [basicInfoCompleted, setBasicInfoCompleted] = useState(false)
+
+  // Usar servicios externos si están disponibles, sino usar estado interno
+  const effectiveSelectedServices = selectedServicesExternal || state.selectedServices
+
+  // Solo sincronizar servicios externos si realmente han cambiado
+  useEffect(() => {
+    if (selectedServicesExternal) {
+      const currentKeys = Object.keys(state.selectedServices).sort()
+      const externalKeys = Object.keys(selectedServicesExternal).sort()
+      const keysChanged = currentKeys.join(',') !== externalKeys.join(',')
+      const valuesChanged = Object.entries(selectedServicesExternal).some(
+        ([key, value]) => state.selectedServices[key] !== value
+      )
+      
+      if (keysChanged || valuesChanged) {
+        setState(prev => ({
+          ...prev,
+          selectedServices: selectedServicesExternal,
+        }))
+      }
+    }
+  }, [selectedServicesExternal, state.selectedServices])
 
   // Notificar cambios al componente padre
   useEffect(() => {
     if (onDataChange) {
       onDataChange({
-        selectedServices: state.selectedServices,
+        selectedServices: effectiveSelectedServices,
         guestCount: state.guestCount,
         venueType: state.venueType,
         currentQuote,
@@ -76,7 +102,7 @@ export default function QuoteCalculator({
         clientName: state.clientName,
       })
     }
-  }, [state, currentQuote, onDataChange])
+  }, [effectiveSelectedServices, state.guestCount, state.venueType, currentQuote, state.eventType, state.clientName, onDataChange])
 
   const updateState = (updates: Partial<QuoteCalculatorState>) => {
     setState(prev => ({ ...prev, ...updates }))
@@ -107,11 +133,11 @@ export default function QuoteCalculator({
         notes: state.notes,
         clientName: state.clientName,
       },
-      state.selectedServices
+      effectiveSelectedServices
     )
 
     setRecommendations(smartRecs)
-  }, [state])
+  }, [state, effectiveSelectedServices])
 
   const calculateQuote = useCallback(() => {
     const validationErrors = validateInputs()
@@ -169,7 +195,7 @@ export default function QuoteCalculator({
     }
 
     // Agregar servicios adicionales seleccionados
-    Object.entries(state.selectedServices).forEach(([serviceId, quantity]) => {
+    Object.entries(effectiveSelectedServices).forEach(([serviceId, quantity]) => {
       if (quantity > 0) {
         const service = services.find(s => s.id === serviceId)
         if (service) {
@@ -202,11 +228,13 @@ export default function QuoteCalculator({
     }
 
     setCurrentQuote(quote)
-  }, [state, validateInputs, quoteId])
-
-  // Calcular cotización automáticamente cuando cambian los datos
+  }, [state, validateInputs, quoteId, effectiveSelectedServices])  // Calcular cotización automáticamente cuando cambian los datos
   useEffect(() => {
-    if (state.guestCount > 0 && state.venueType) {
+    const ready = state.guestCount > 0 && !!state.venueType && !!state.eventType
+    if (ready && !basicInfoCompleted) {
+      setBasicInfoCompleted(true)
+    }
+    if (ready) {
       calculateQuote()
       generateRecommendations()
     } else {
@@ -217,9 +245,10 @@ export default function QuoteCalculator({
     state.venueType,
     state.eventType,
     state.tableType,
-    state.selectedServices,
+    effectiveSelectedServices,
     calculateQuote,
     generateRecommendations,
+    basicInfoCompleted,
   ])
 
   return (
@@ -331,11 +360,30 @@ export default function QuoteCalculator({
           {state.guestCount > 0 && (
             <div className='mt-6'>
               <label className='block text-sm font-raleway font-medium text-gray-300 mb-3'>
-                Tipo de mesas (calculamos{' '}
+                Mesas y sillas (opcional - calculamos{' '}
                 {calculateTablesNeeded(state.guestCount)} mesas para{' '}
                 {state.guestCount} personas)
               </label>
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                <button
+                  onClick={() => updateState({ tableType: '' })}
+                  className={`p-4 rounded-lg border-2 transition-all duration-300 text-left ${
+                    state.tableType === ''
+                      ? 'border-accent-3 bg-accent-3 bg-opacity-10'
+                      : 'border-gray-700 hover:border-accent-3'
+                  }`}
+                >
+                  <h4 className='font-raleway font-semibold text-foreground mb-1'>
+                    Sin mesas
+                  </h4>
+                  <p className='text-gray-300 text-sm mb-2'>
+                    Solo renta del salón
+                  </p>
+                  <p className='text-accent-3 font-raleway font-bold'>
+                    $0 adicional
+                  </p>
+                </button>
+
                 <button
                   onClick={() => updateState({ tableType: 'sencillas' })}
                   className={`p-4 rounded-lg border-2 transition-all duration-300 text-left ${
@@ -405,11 +453,17 @@ export default function QuoteCalculator({
 
       {/* Errores y recomendaciones */}
       {(errors.length > 0 || recommendations.length > 0) && (
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+        <div
+          className={
+            errors.length > 0 && recommendations.length > 0
+              ? 'grid grid-cols-1 lg:grid-cols-2 gap-4'
+              : 'max-w-3xl mx-auto'
+          }
+        >
           {errors.length > 0 && (
             <Card
               variant='outlined'
-              className='border-red-500 border-opacity-50'
+              className='border-red-500 border-opacity-50 mb-4'
             >
               <CardContent>
                 <div className='flex items-center space-x-2 mb-3'>
@@ -458,143 +512,6 @@ export default function QuoteCalculator({
             </Card>
           )}
         </div>
-      )}
-
-      {/* Cotización actual */}
-      {currentQuote && (
-        <Card variant='elevated'>
-          <CardContent>
-            <div className='flex items-center justify-between mb-6'>
-              <h3 className='font-caveat font-bold text-2xl lg:text-3xl text-foreground'>
-                Tu Cotización
-              </h3>
-              <PDFGenerator
-                quote={currentQuote}
-                eventType={state.eventType}
-                clientName={state.clientName || 'Cliente'}
-              />
-            </div>
-
-            {/* Información del evento */}
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-900 bg-opacity-30 rounded-lg'>
-              <div>
-                <p className='text-gray-400 font-raleway text-sm'>
-                  Tipo de evento
-                </p>
-                <p className='text-foreground font-raleway font-semibold'>
-                  {state.eventType}
-                </p>
-              </div>
-              <div>
-                <p className='text-gray-400 font-raleway text-sm'>
-                  Número de invitados
-                </p>
-                <p className='text-foreground font-raleway font-semibold'>
-                  {state.guestCount} personas
-                </p>
-              </div>
-              <div>
-                <p className='text-gray-400 font-raleway text-sm'>
-                  Fecha del evento
-                </p>
-                <p className='text-foreground font-raleway font-semibold'>
-                  {state.eventDate || 'Por definir'}
-                </p>
-              </div>
-            </div>
-
-            {/* Tabla de cotización */}
-            <div className='overflow-x-auto'>
-              <table className='w-full'>
-                <thead>
-                  <tr className='border-b border-gray-700'>
-                    <th className='text-left py-3 px-2 font-raleway font-semibold text-gray-300 text-sm'>
-                      Concepto
-                    </th>
-                    <th className='text-center py-3 px-2 font-raleway font-semibold text-gray-300 text-sm'>
-                      Cantidad
-                    </th>
-                    <th className='text-right py-3 px-2 font-raleway font-semibold text-gray-300 text-sm'>
-                      Precio Unitario
-                    </th>
-                    <th className='text-right py-3 px-2 font-raleway font-semibold text-gray-300 text-sm'>
-                      Total
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentQuote.items.map((item, index) => (
-                    <tr key={index} className='border-b border-gray-800'>
-                      <td className='py-3 px-2'>
-                        <div>
-                          <p className='font-raleway font-medium text-foreground text-sm'>
-                            {item.serviceName}
-                          </p>
-                          {item.description && (
-                            <p className='font-raleway text-gray-400 text-xs mt-1'>
-                              {item.description}
-                            </p>
-                          )}
-                        </div>
-                      </td>
-                      <td className='text-center py-3 px-2 font-raleway text-foreground text-sm'>
-                        {item.quantity}
-                      </td>
-                      <td className='text-right py-3 px-2 font-raleway text-foreground text-sm'>
-                        ${item.unitPrice.toLocaleString()}
-                      </td>
-                      <td className='text-right py-3 px-2 font-raleway font-semibold text-foreground text-sm'>
-                        ${item.total.toLocaleString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr className='border-t-2 border-accent-3'>
-                    <td
-                      colSpan={3}
-                      className='py-4 px-2 font-raleway font-bold text-foreground text-lg'
-                    >
-                      Total del Paquete
-                    </td>
-                    <td className='text-right py-4 px-2 font-caveat font-bold text-accent-3 text-2xl'>
-                      ${currentQuote.total.toLocaleString()}
-                    </td>
-                  </tr>
-                  <tr className='border-t border-gray-700'>
-                    <td
-                      colSpan={3}
-                      className='py-2 px-2 font-raleway font-semibold text-gray-300'
-                    >
-                      Anticipo para reservar (50%)
-                    </td>
-                    <td className='text-right py-2 px-2 font-raleway font-bold text-accent-3 text-lg'>
-                      ${currentQuote.advancePayment.toLocaleString()}
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-
-            {/* Notas adicionales */}
-            <div className='mt-6'>
-              <label
-                htmlFor='notes'
-                className='block text-sm font-raleway font-medium text-gray-300 mb-2'
-              >
-                Notas adicionales
-              </label>
-              <textarea
-                id='notes'
-                value={state.notes}
-                onChange={e => updateState({ notes: e.target.value })}
-                rows={3}
-                className='input-custom w-full resize-none'
-                placeholder='Servicios especiales, colores específicos, observaciones...'
-              />
-            </div>
-          </CardContent>
-        </Card>
       )}
     </div>
   )

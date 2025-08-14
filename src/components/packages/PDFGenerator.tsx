@@ -125,63 +125,72 @@ export const generateQuotePDF = ({
 
   // Filas de servicios
   quote.items.forEach((item, index) => {
-    // Fondo alternado
+    // Verificar si necesitamos nueva página antes de dibujar la fila completa
+    if (yPosition > 250) {
+      doc.addPage()
+      yPosition = 20
+      // Repetir encabezados de tabla en nueva página
+      addColoredText('DETALLE DE SERVICIOS (cont.)', 20, yPosition, primaryColor, 12, 'bold')
+      yPosition += 6
+      doc.setFillColor(236, 132, 47)
+      doc.rect(20, yPosition, 170, 8, 'F')
+      addColoredText('Concepto', 22, yPosition + 6, '#ffffff', 10, 'bold')
+      addColoredText('Cant.', 120, yPosition + 6, '#ffffff', 10, 'bold')
+      addColoredText('Precio Unit.', 140, yPosition + 6, '#ffffff', 10, 'bold')
+      addColoredText('Total', 170, yPosition + 6, '#ffffff', 10, 'bold')
+      yPosition += 12
+    }
+
+    // Fondo alternado para filas
     if (index % 2 === 0) {
       doc.setFillColor(250, 250, 250)
       doc.rect(20, yPosition - 2, 170, 8, 'F')
     }
 
-    // Verificar si necesitamos nueva página
-    if (yPosition > 250) {
-      doc.addPage()
-      yPosition = 20
-    }
-
-    // Nombre del servicio (truncar si es muy largo)
-    const serviceName =
-      item.serviceName.length > 40
-        ? item.serviceName.substring(0, 37) + '...'
-        : item.serviceName
+    const serviceName = item.serviceName.length > 40 ? item.serviceName.substring(0, 37) + '...' : item.serviceName
 
     addColoredText(serviceName, 22, yPosition + 4, darkColor, 9)
     addColoredText(item.quantity.toString(), 125, yPosition + 4, darkColor, 9)
-    addColoredText(
-      `$${item.unitPrice.toLocaleString()}`,
-      145,
-      yPosition + 4,
-      darkColor,
-      9
-    )
-    addColoredText(
-      `$${item.total.toLocaleString()}`,
-      175,
-      yPosition + 4,
-      darkColor,
-      9,
-      'bold'
-    )
+    addColoredText(`$${item.unitPrice.toLocaleString()}`, 145, yPosition + 4, darkColor, 9)
+    addColoredText(`$${item.total.toLocaleString()}`, 175, yPosition + 4, darkColor, 9, 'bold')
 
-    // Descripción si existe y hay espacio
+    // Descripción multilinea controlada
     if (item.description && item.description !== item.serviceName) {
-      yPosition += 5
-      const description =
-        item.description.length > 60
-          ? item.description.substring(0, 57) + '...'
-          : item.description
-      addColoredText(description, 25, yPosition + 4, grayColor, 8)
+      const maxCharsPerLine = 65
+      const rawDesc = item.description.trim()
+      const descLines: string[] = []
+      let buffer = ''
+      rawDesc.split(' ').forEach(word => {
+        if ((buffer + ' ' + word).trim().length <= maxCharsPerLine) {
+          buffer = (buffer + ' ' + word).trim()
+        } else {
+          descLines.push(buffer)
+          buffer = word
+        }
+      })
+      if (buffer) descLines.push(buffer)
+
+      descLines.slice(0, 2).forEach(line => {
+        yPosition += 5
+        addColoredText(line, 25, yPosition + 4, grayColor, 8)
+      })
+      if (descLines.length > 2) {
+        yPosition += 5
+        addColoredText('...', 25, yPosition + 4, grayColor, 8)
+      }
     }
 
     yPosition += 10
   })
 
   // Total
-  yPosition += 5
+  yPosition += 10
   doc.setDrawColor(236, 132, 47)
   doc.setLineWidth(1)
   doc.line(120, yPosition, 190, yPosition)
 
-  yPosition += 8
-  addColoredText('SUBTOTAL:', 130, yPosition, darkColor, 12, 'bold')
+  yPosition += 10
+  addColoredText('SUBTOTAL:', 125, yPosition, darkColor, 12, 'bold')
   addColoredText(
     `$${quote.subtotal.toLocaleString()}`,
     175,
@@ -191,8 +200,8 @@ export const generateQuotePDF = ({
     'bold'
   )
 
-  yPosition += 8
-  addColoredText('TOTAL DEL PAQUETE:', 130, yPosition, primaryColor, 14, 'bold')
+  yPosition += 10
+  addColoredText('TOTAL DEL PAQUETE:', 125, yPosition, primaryColor, 14, 'bold')
   addColoredText(
     `$${quote.total.toLocaleString()}`,
     175,
@@ -202,8 +211,8 @@ export const generateQuotePDF = ({
     'bold'
   )
 
-  yPosition += 10
-  addColoredText('Anticipo para reservar (50%):', 130, yPosition, grayColor, 10)
+  yPosition += 8
+  addColoredText('Anticipo para reservar (50%):', 125, yPosition, grayColor, 10)
   addColoredText(
     `$${quote.advancePayment.toLocaleString()}`,
     175,
