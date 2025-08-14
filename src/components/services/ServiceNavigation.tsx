@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ChevronRight, Menu, X } from 'lucide-react'
 
 interface NavigationItem {
@@ -24,25 +24,76 @@ export default function ServiceNavigation() {
   const [activeSection, setActiveSection] = useState<string>('salon')
   const [isOpen, setIsOpen] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navigationItems.map(item => item.id)
-      const scrollPosition = window.scrollY + 100
+  const handleScroll = useCallback(() => {
+    const sections = navigationItems.map(item => item.id)
+    const viewportHeight = window.innerHeight
+    const scrollPosition = window.scrollY
+    const documentHeight = document.documentElement.scrollHeight
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const element = document.getElementById(sections[i])
-        if (element && element.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i])
-          break
-        }
+    // Check if we're at the bottom of the page
+    const isAtBottom = scrollPosition + viewportHeight >= documentHeight - 10
+
+    if (isAtBottom) {
+      // If at bottom, keep the last section active
+      setActiveSection(sections[sections.length - 1])
+      return
+    }
+
+    // Find the section that's most visible in the viewport
+    let currentSection = sections[0]
+    let maxVisibility = 0
+    let foundActiveSection = false
+
+    for (const sectionId of sections) {
+      const element = document.getElementById(sectionId)
+      if (!element) continue
+
+      const rect = element.getBoundingClientRect()
+      const elementTop = rect.top
+      const elementBottom = rect.bottom
+      const elementHeight = rect.height
+
+      // Calculate how much of the element is visible
+      const visibleTop = Math.max(0, -elementTop)
+      const visibleBottom = Math.max(0, elementBottom - viewportHeight)
+      const visibleHeight = elementHeight - visibleTop - visibleBottom
+      const visibilityRatio = Math.max(0, visibleHeight / elementHeight)
+
+      // Consider section active if it's in the upper half of viewport
+      const isInUpperHalf =
+        elementTop < viewportHeight * 0.5 && elementBottom > 0
+
+      if (isInUpperHalf && visibilityRatio > maxVisibility) {
+        maxVisibility = visibilityRatio
+        currentSection = sectionId
+        foundActiveSection = true
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    // Only update if we found an active section, otherwise keep current
+    if (foundActiveSection) {
+      setActiveSection(currentSection)
+    }
+  }, [])
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+
+    const throttledHandleScroll = () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        requestAnimationFrame(handleScroll)
+      }, 100)
+    }
+
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true })
     handleScroll() // Check initial position
 
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    return () => {
+      window.removeEventListener('scroll', throttledHandleScroll)
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [handleScroll])
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href)
@@ -75,6 +126,7 @@ export default function ServiceNavigation() {
                     ? 'bg-accent-3 text-background'
                     : 'text-gray-300 hover:text-accent-3 hover:bg-accent-3 hover:bg-opacity-10'
                 }`}
+                aria-current={activeSection === item.id ? 'true' : 'false'}
               >
                 <span className='font-raleway text-sm'>{item.label}</span>
                 <ChevronRight
@@ -126,6 +178,7 @@ export default function ServiceNavigation() {
                         ? 'bg-accent-3 text-background'
                         : 'text-gray-300 hover:text-accent-3 hover:bg-accent-3 hover:bg-opacity-10'
                     }`}
+                    aria-current={activeSection === item.id ? 'true' : 'false'}
                   >
                     <span className='font-raleway text-sm'>{item.label}</span>
                   </button>

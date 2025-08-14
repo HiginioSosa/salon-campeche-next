@@ -172,7 +172,7 @@ export default function GalleryPreview() {
       <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-12'>
         <div className='text-center p-6 bg-gray-900 bg-opacity-30 rounded-xl backdrop-blur-sm'>
           <div className='font-caveat font-bold text-3xl md:text-4xl text-accent-3 mb-2'>
-            500+
+            200+
           </div>
           <p className='font-raleway text-gray-300 text-sm'>
             Eventos Fotografiados
@@ -190,7 +190,7 @@ export default function GalleryPreview() {
 
         <div className='text-center p-6 bg-gray-900 bg-opacity-30 rounded-xl backdrop-blur-sm'>
           <div className='font-caveat font-bold text-3xl md:text-4xl text-accent-3 mb-2'>
-            12
+            72
           </div>
           <p className='font-raleway text-gray-300 text-sm'>Meses Activos</p>
         </div>
@@ -217,12 +217,12 @@ export default function GalleryPreview() {
 
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'>
           {[
-            { name: 'Bodas', icon: '💒', count: '150+' },
-            { name: 'XV Años', icon: '👑', count: '120+' },
-            { name: 'Cumpleaños', icon: '🎂', count: '200+' },
-            { name: 'Baby Shower', icon: '👶', count: '80+' },
-            { name: 'Aniversarios', icon: '💕', count: '60+' },
-            { name: 'Corporativos', icon: '🏢', count: '40+' },
+            { name: 'Bodas', icon: '💒', count: '50+' },
+            { name: 'XV Años', icon: '👑', count: '60+' },
+            { name: 'Cumpleaños', icon: '🎂', count: '50+' },
+            { name: 'Baby Shower', icon: '👶', count: '20+' },
+            { name: 'Aniversarios', icon: '💕', count: '30+' },
+            { name: 'Corporativos', icon: '🏢', count: '10+' },
           ].map((eventType, index) => (
             <div
               key={index}

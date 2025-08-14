@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useId } from 'react'
 import { Calendar, Users, AlertCircle, CheckCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components'
 import PDFGenerator from './PDFGenerator'
@@ -47,6 +47,8 @@ const eventTypes = [
 export default function QuoteCalculator({
   onDataChange,
 }: QuoteCalculatorProps) {
+  const quoteId = useId()
+
   const [state, setState] = useState<QuoteCalculatorState>({
     guestCount: 0,
     eventDate: '',
@@ -188,7 +190,7 @@ export default function QuoteCalculator({
     })
 
     const quote: Quote = {
-      id: `quote-${Date.now()}`,
+      id: `quote-${quoteId.replace(/:/g, '-')}`,
       items: quoteItems,
       subtotal,
       total: subtotal,
@@ -200,7 +202,7 @@ export default function QuoteCalculator({
     }
 
     setCurrentQuote(quote)
-  }, [state, validateInputs])
+  }, [state, validateInputs, quoteId])
 
   // Calcular cotización automáticamente cuando cambian los datos
   useEffect(() => {

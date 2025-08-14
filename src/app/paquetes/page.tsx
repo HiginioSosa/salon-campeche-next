@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import {
   Calculator,
@@ -45,6 +45,18 @@ export default function PackagesPage() {
     clientName: '',
   })
 
+  // Memoizar la función onDataChange para evitar re-renders innecesarios
+  const handleDataChange = useCallback((data: {
+    selectedServices: { [serviceId: string]: number }
+    guestCount: number
+    venueType: string
+    currentQuote: Quote | null
+    eventType: string
+    clientName: string
+  }) => {
+    setCalculatorData(data)
+  }, [])
+
   if (currentStep === 'calculator') {
     return (
       <MainLayout whatsAppMessage='¡Hola! Estoy usando su cotizador y me gustaría recibir más información personalizada sobre mi evento.'>
@@ -81,7 +93,7 @@ export default function PackagesPage() {
 
         {/* Calculadora principal */}
         <Section variant='default' size='lg'>
-          <QuoteCalculator onDataChange={data => setCalculatorData(data)} />
+          <QuoteCalculator onDataChange={handleDataChange} />
         </Section>
 
         {/* Selector de servicios adicionales */}

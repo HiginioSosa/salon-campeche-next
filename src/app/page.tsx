@@ -1,5 +1,3 @@
-// src/app/page.tsx
-
 import type { Metadata } from 'next'
 import { MainLayout } from '@/components'
 import HeroSection from '@/components/sections/HeroSection'

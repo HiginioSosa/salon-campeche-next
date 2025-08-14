@@ -45,15 +45,41 @@ export default function HeroSection() {
         <div className='w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative'>
           {/* Efecto de partículas flotantes */}
           <div className='absolute inset-0 opacity-20'>
-            {[...Array(50)].map((_, i) => (
+            {[
+              { left: 15.2, top: 23.8, delay: 0.5, duration: 3.2 },
+              { left: 78.4, top: 67.1, delay: 1.8, duration: 4.1 },
+              { left: 42.7, top: 12.5, delay: 2.3, duration: 3.7 },
+              { left: 89.1, top: 45.9, delay: 0.9, duration: 4.5 },
+              { left: 23.6, top: 78.3, delay: 1.4, duration: 3.9 },
+              { left: 67.8, top: 34.2, delay: 2.7, duration: 3.4 },
+              { left: 91.3, top: 89.7, delay: 0.3, duration: 4.8 },
+              { left: 8.9, top: 56.4, delay: 1.9, duration: 3.6 },
+              { left: 54.2, top: 91.8, delay: 2.1, duration: 4.2 },
+              { left: 76.5, top: 18.7, delay: 0.7, duration: 3.8 },
+              { left: 31.8, top: 73.2, delay: 1.6, duration: 4.3 },
+              { left: 95.4, top: 42.6, delay: 2.5, duration: 3.5 },
+              { left: 12.7, top: 85.9, delay: 0.8, duration: 4.7 },
+              { left: 58.3, top: 29.4, delay: 1.2, duration: 3.3 },
+              { left: 83.6, top: 64.8, delay: 2.9, duration: 4.6 },
+              { left: 27.9, top: 7.3, delay: 0.4, duration: 3.9 },
+              { left: 71.2, top: 52.7, delay: 1.7, duration: 4.1 },
+              { left: 46.8, top: 96.1, delay: 2.2, duration: 3.7 },
+              { left: 93.5, top: 31.5, delay: 0.6, duration: 4.4 },
+              { left: 19.4, top: 68.9, delay: 1.5, duration: 3.6 },
+              { left: 64.7, top: 14.2, delay: 2.8, duration: 4.9 },
+              { left: 87.1, top: 79.6, delay: 0.2, duration: 3.2 },
+              { left: 35.3, top: 48.3, delay: 1.3, duration: 4.8 },
+              { left: 79.8, top: 83.7, delay: 2.4, duration: 3.4 },
+              { left: 52.6, top: 26.1, delay: 0.9, duration: 4.2 },
+            ].map((particle, i) => (
               <div
                 key={i}
                 className='absolute w-2 h-2 bg-accent-3 rounded-full animate-float'
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 3}s`,
-                  animationDuration: `${3 + Math.random() * 2}s`,
+                  left: `${particle.left}%`,
+                  top: `${particle.top}%`,
+                  animationDelay: `${particle.delay}s`,
+                  animationDuration: `${particle.duration}s`,
                 }}
               />
             ))}
@@ -112,7 +138,7 @@ export default function HeroSection() {
               <div className='bg-gray-900 bg-opacity-50 rounded-lg px-4 py-3 backdrop-blur-sm'>
                 <div className='flex items-center justify-center space-x-2 text-accent-3'>
                   <Calendar className='w-5 h-5' />
-                  <span className='font-raleway font-bold text-lg'>500+</span>
+                  <span className='font-raleway font-bold text-lg'>200+</span>
                 </div>
                 <p className='text-gray-300 text-sm font-raleway'>Eventos</p>
               </div>
@@ -209,9 +235,9 @@ export default function HeroSection() {
                 </div>
 
                 <div className='bg-gray-900 bg-opacity-30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
-                  <div className='text-accent-3 text-2xl mb-2'>⏰</div>
+                  <div className='text-accent-3 text-2xl mb-2'>🏰</div>
                   <p className='text-gray-300 font-raleway text-sm'>
-                    Hasta las 2:00 AM
+                    Lugar cómodo y espacioso
                   </p>
                 </div>
               </div>

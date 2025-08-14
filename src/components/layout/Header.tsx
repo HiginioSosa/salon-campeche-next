@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { Menu, X, Phone } from 'lucide-react'
 import { businessInfo } from '@/lib/brand'
 
@@ -19,6 +20,7 @@ const navigation = [
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,16 +61,27 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className='hidden lg:flex items-center space-x-8'>
-            {navigation.map(item => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className='font-raleway font-medium text-foreground hover:text-accent-3 transition-colors duration-200 relative group'
-              >
-                {item.name}
-                <span className='absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-3 transition-all duration-300 group-hover:w-full'></span>
-              </Link>
-            ))}
+            {navigation.map(item => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`font-raleway font-medium transition-colors duration-200 relative group ${
+                    isActive
+                      ? 'text-accent-3'
+                      : 'text-foreground hover:text-accent-3'
+                  }`}
+                >
+                  {item.name}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-accent-3 transition-all duration-300 ${
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  ></span>
+                </Link>
+              )
+            })}
           </div>
 
           {/* CTA Button - Desktop */}
@@ -107,16 +120,26 @@ export default function Header() {
           }`}
         >
           <div className='py-4 space-y-1 bg-background/95 backdrop-blur-lg rounded-lg mt-2 border border-gray-800'>
-            {navigation.map(item => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className='block px-4 py-3 font-raleway text-foreground hover:text-accent-3 hover:bg-foreground hover:bg-opacity-5 transition-all duration-200'
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map(item => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`block px-4 py-3 font-raleway transition-all duration-200 relative ${
+                    isActive
+                      ? 'text-accent-3 bg-accent-3 bg-opacity-10'
+                      : 'text-foreground hover:text-accent-3 hover:bg-foreground hover:bg-opacity-5'
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                  {isActive && (
+                    <span className='absolute left-0 top-0 bottom-0 w-1 bg-accent-3'></span>
+                  )}
+                </Link>
+              )
+            })}
             <div className='px-4 py-3'>
               <a
                 href={`tel:${businessInfo.contact.phone}`}

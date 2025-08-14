@@ -179,6 +179,7 @@ export default function PopularPackages() {
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
             <Link href='/paquetes'>
               <Button
+                variant='inverse'
                 size='lg'
                 className='bg-background text-accent-3 hover:bg-gray-100 w-full sm:w-auto'
                 icon={<Calendar className='w-5 h-5' />}
@@ -188,7 +189,7 @@ export default function PopularPackages() {
             </Link>
             <Link href='/disponibilidad'>
               <Button
-                variant='outline'
+                variant='inverse'
                 size='lg'
                 className='border-background text-background hover:bg-background hover:text-accent-3 w-full sm:w-auto'
               >

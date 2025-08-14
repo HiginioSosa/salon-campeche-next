@@ -141,7 +141,7 @@ export default function ContactCTA() {
 
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-12'>
           {/* Formulario de contacto rápido */}
-          <Card variant='glass' padding='lg'>
+          <Card variant='default' padding='lg'>
             <CardContent>
               <h3 className='font-caveat font-bold text-2xl text-foreground mb-6'>
                 Cotización Rápida

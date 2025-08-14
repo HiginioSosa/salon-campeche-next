@@ -92,7 +92,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
   }
 
   return (
-    <div className='space-y-8'>
+    <div className='space-y-12'>
       <div className='text-center'>
         <h2 className='font-caveat font-bold text-3xl lg:text-4xl text-foreground mb-4'>
           Compara Nuestros Paquetes
@@ -112,15 +112,15 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
       </div>
 
       {/* Tabla de comparación */}
-      <div className='overflow-x-auto'>
-        <div className='min-w-full'>
+      <div className='overflow-x-auto p-5'>
+        <div className='min-w-[1000px]'>
           {/* Headers de paquetes */}
-          <div className='grid grid-cols-4 gap-4 mb-8'>
-            <div className='p-4'>
-              <h3 className='font-raleway font-bold text-foreground text-lg'>
+          <div className='flex gap-4 lg:gap-6 mb-8'>
+            <div className='flex-shrink-0 w-48 p-2 lg:p-4'>
+              <h3 className='font-raleway font-bold text-foreground text-base lg:text-lg'>
                 Características
               </h3>
-              <p className='font-raleway text-gray-400 text-sm'>
+              <p className='font-raleway text-gray-400 text-xs lg:text-sm'>
                 Comparación detallada
               </p>
             </div>
@@ -133,7 +133,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
               return (
                 <Card
                   key={pkg.id}
-                  className={`relative transition-all duration-300 ${
+                  className={`relative flex-1 min-w-0 transition-all duration-300 ${
                     pkg.popular
                       ? 'ring-2 ring-accent-3 ring-opacity-50 scale-105'
                       : ''
@@ -164,25 +164,25 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
                     </div>
                   )}
 
-                  <CardContent className='text-center pt-6'>
-                    <h3 className='font-caveat font-bold text-xl lg:text-2xl text-foreground mb-2'>
+                  <CardContent className='text-center pt-4 lg:pt-6 px-2 lg:px-4'>
+                    <h3 className='font-caveat font-bold text-lg lg:text-xl text-foreground mb-1 lg:mb-2'>
                       {pkg.name}
                     </h3>
 
-                    <div className='font-caveat font-bold text-3xl lg:text-4xl text-accent-3 mb-2'>
+                    <div className='font-caveat font-bold text-2xl lg:text-3xl text-accent-3 mb-1 lg:mb-2'>
                       {formatPrice(pkg.basePrice)}
                     </div>
 
-                    <div className='flex items-center justify-center space-x-2 text-gray-300 mb-4'>
-                      <Users className='w-4 h-4' />
-                      <span className='font-raleway text-sm'>
+                    <div className='flex items-center justify-center space-x-1 lg:space-x-2 text-gray-300 mb-2 lg:mb-4'>
+                      <Users className='w-3 h-3 lg:w-4 lg:h-4' />
+                      <span className='font-raleway text-xs lg:text-sm'>
                         Hasta {pkg.maxGuests}
                       </span>
                     </div>
 
                     {recommendation && (
                       <div
-                        className={`text-xs font-raleway font-semibold mb-4 px-2 py-1 rounded-full ${
+                        className={`text-xs font-raleway font-semibold mb-2 lg:mb-4 px-1 lg:px-2 py-1 rounded-full ${
                           recommendation.includes('insuficiente')
                             ? 'bg-red-500 bg-opacity-20 text-red-400'
                             : 'bg-green-500 bg-opacity-20 text-green-400'
@@ -192,13 +192,13 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
                       </div>
                     )}
 
-                    <div className='space-y-2'>
+                    <div className='space-y-1 lg:space-y-2'>
                       <Button
                         size='sm'
                         variant={pkg.popular ? 'primary' : 'secondary'}
-                        className='w-full'
+                        className='w-full text-xs lg:text-sm py-1 lg:py-2'
                         onClick={() => onSelectPackage?.(pkg.id)}
-                        icon={<Calculator className='w-4 h-4' />}
+                        icon={<Calculator className='w-3 h-3 lg:w-4 lg:h-4' />}
                       >
                         Personalizar
                       </Button>
@@ -206,11 +206,11 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
                       <Button
                         variant='ghost'
                         size='sm'
-                        className='w-full'
+                        className='w-full text-xs lg:text-sm py-1 lg:py-2'
                         onClick={() => handleWhatsAppInquiry(pkg)}
                       >
                         Consultar
-                        <ArrowRight className='w-4 h-4 ml-1' />
+                        <ArrowRight className='w-3 h-3 lg:w-4 lg:h-4 ml-1' />
                       </Button>
                     </div>
                   </CardContent>
@@ -220,15 +220,15 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
           </div>
 
           {/* Filas de características */}
-          <div className='space-y-2'>
+          <div className='space-y-1 lg:space-y-2'>
             {allFeatures.map(feature => (
               <div
                 key={feature.id}
-                className='grid grid-cols-4 gap-4 py-3 px-4 rounded-lg hover:bg-gray-900 hover:bg-opacity-30 transition-colors duration-200'
+                className='flex gap-4 lg:gap-6 py-2 lg:py-3 px-2 lg:px-4 rounded-lg hover:bg-gray-900 hover:bg-opacity-30 transition-colors duration-200'
               >
-                <div className='flex items-center space-x-3'>
-                  <span className='text-xl'>{feature.icon}</span>
-                  <span className='font-raleway text-foreground text-sm'>
+                <div className='flex-shrink-0 w-48 flex items-center space-x-2 lg:space-x-3'>
+                  <span className='text-lg lg:text-xl'>{feature.icon}</span>
+                  <span className='font-raleway text-foreground text-xs lg:text-sm'>
                     {feature.name}
                   </span>
                 </div>
@@ -239,7 +239,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
                   return (
                     <div
                       key={`${pkg.id}-${feature.id}`}
-                      className='flex justify-center'
+                      className='flex-1 flex justify-center'
                     >
                       {status === 'included' && (
                         <div className='w-6 h-6 bg-green-500 rounded-full flex items-center justify-center'>
@@ -300,6 +300,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
             modificar servicios según tus necesidades.
           </p>
           <Button
+            variant='inverse'
             size='lg'
             className='bg-background text-accent-3 hover:bg-gray-100'
             onClick={() => onSelectPackage?.('custom')}

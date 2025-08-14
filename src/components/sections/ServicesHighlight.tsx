@@ -135,30 +135,23 @@ export default function ServicesHighlight() {
 
       {/* Call to action */}
       <div className='text-center mt-16'>
-        <div className='bg-gradient-to-r from-accent-3 to-accent-2 rounded-2xl p-8 md:p-12'>
+        <div className='bg-gradient-to-r from-accent-3 to-accent-2 rounded-2xl p-8 md:p-12 shadow-2xl'>
           <h3 className='font-caveat font-bold text-3xl md:text-4xl text-background mb-4'>
             ¿Necesitas un paquete personalizado?
           </h3>
-          <p className='text-background text-opacity-90 font-raleway text-lg mb-8 max-w-2xl mx-auto'>
+          <p className='text-background text-opacity-90 font-raleway text-lg mb-8 max-w-2xl mx-auto leading-relaxed'>
             Combina nuestros servicios y crea el paquete perfecto para tu
             evento. Obtén una cotización instantánea y personalizada.
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
             <Link href='/paquetes'>
-              <Button
-                size='lg'
-                className='bg-background text-accent-3 hover:bg-gray-100 w-full sm:w-auto'
-              >
+              <Button variant='inverse' size='lg' className='w-full sm:w-auto'>
                 Cotizar Paquete
               </Button>
             </Link>
             <Link href='/servicios'>
-              <Button
-                variant='outline'
-                size='lg'
-                className='border-background text-background hover:bg-background hover:text-accent-3 w-full sm:w-auto'
-              >
+              <Button variant='inverse' size='lg' className='w-full sm:w-auto'>
                 Ver Todos los Servicios
               </Button>
             </Link>
