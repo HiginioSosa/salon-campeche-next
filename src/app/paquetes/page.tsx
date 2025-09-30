@@ -47,16 +47,19 @@ export default function PackagesPage() {
   })
 
   // Memoizar la función onDataChange para evitar re-renders innecesarios
-  const handleDataChange = useCallback((data: {
-    selectedServices: { [serviceId: string]: number }
-    guestCount: number
-    venueType: string
-    currentQuote: Quote | null
-    eventType: string
-    clientName: string
-  }) => {
-    setCalculatorData(data)
-  }, [])
+  const handleDataChange = useCallback(
+    (data: {
+      selectedServices: { [serviceId: string]: number }
+      guestCount: number
+      venueType: string
+      currentQuote: Quote | null
+      eventType: string
+      clientName: string
+    }) => {
+      setCalculatorData(data)
+    },
+    []
+  )
 
   if (currentStep === 'calculator') {
     return (
@@ -130,7 +133,7 @@ export default function PackagesPage() {
               guestCount={calculatorData.guestCount}
               eventDate={calculatorData.currentQuote.eventDate || ''}
               notes={calculatorData.currentQuote.notes || ''}
-              onNotesChange={(notes) => {
+              onNotesChange={notes => {
                 // Actualizar las notas en la cotización
                 if (calculatorData.currentQuote) {
                   setCalculatorData(prev => ({

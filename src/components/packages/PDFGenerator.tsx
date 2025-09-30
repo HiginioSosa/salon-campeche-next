@@ -130,7 +130,14 @@ export const generateQuotePDF = ({
       doc.addPage()
       yPosition = 20
       // Repetir encabezados de tabla en nueva página
-      addColoredText('DETALLE DE SERVICIOS (cont.)', 20, yPosition, primaryColor, 12, 'bold')
+      addColoredText(
+        'DETALLE DE SERVICIOS (cont.)',
+        20,
+        yPosition,
+        primaryColor,
+        12,
+        'bold'
+      )
       yPosition += 6
       doc.setFillColor(236, 132, 47)
       doc.rect(20, yPosition, 170, 8, 'F')
@@ -147,12 +154,28 @@ export const generateQuotePDF = ({
       doc.rect(20, yPosition - 2, 170, 8, 'F')
     }
 
-    const serviceName = item.serviceName.length > 40 ? item.serviceName.substring(0, 37) + '...' : item.serviceName
+    const serviceName =
+      item.serviceName.length > 40
+        ? item.serviceName.substring(0, 37) + '...'
+        : item.serviceName
 
     addColoredText(serviceName, 22, yPosition + 4, darkColor, 9)
     addColoredText(item.quantity.toString(), 125, yPosition + 4, darkColor, 9)
-    addColoredText(`$${item.unitPrice.toLocaleString()}`, 145, yPosition + 4, darkColor, 9)
-    addColoredText(`$${item.total.toLocaleString()}`, 175, yPosition + 4, darkColor, 9, 'bold')
+    addColoredText(
+      `$${item.unitPrice.toLocaleString()}`,
+      145,
+      yPosition + 4,
+      darkColor,
+      9
+    )
+    addColoredText(
+      `$${item.total.toLocaleString()}`,
+      175,
+      yPosition + 4,
+      darkColor,
+      9,
+      'bold'
+    )
 
     // Descripción multilinea controlada
     if (item.description && item.description !== item.serviceName) {

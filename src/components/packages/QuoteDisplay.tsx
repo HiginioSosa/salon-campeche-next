@@ -44,9 +44,7 @@ export default function QuoteDisplay({
         {/* Información del evento */}
         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-900 bg-opacity-30 rounded-lg'>
           <div>
-            <p className='text-gray-400 font-raleway text-sm'>
-              Tipo de evento
-            </p>
+            <p className='text-gray-400 font-raleway text-sm'>Tipo de evento</p>
             <p className='text-foreground font-raleway font-semibold'>
               {eventType}
             </p>

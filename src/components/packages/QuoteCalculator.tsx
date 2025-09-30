@@ -69,7 +69,8 @@ export default function QuoteCalculator({
   const [basicInfoCompleted, setBasicInfoCompleted] = useState(false)
 
   // Usar servicios externos si están disponibles, sino usar estado interno
-  const effectiveSelectedServices = selectedServicesExternal || state.selectedServices
+  const effectiveSelectedServices =
+    selectedServicesExternal || state.selectedServices
 
   // Solo sincronizar servicios externos si realmente han cambiado
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function QuoteCalculator({
       const valuesChanged = Object.entries(selectedServicesExternal).some(
         ([key, value]) => state.selectedServices[key] !== value
       )
-      
+
       if (keysChanged || valuesChanged) {
         setState(prev => ({
           ...prev,
@@ -102,7 +103,15 @@ export default function QuoteCalculator({
         clientName: state.clientName,
       })
     }
-  }, [effectiveSelectedServices, state.guestCount, state.venueType, currentQuote, state.eventType, state.clientName, onDataChange])
+  }, [
+    effectiveSelectedServices,
+    state.guestCount,
+    state.venueType,
+    currentQuote,
+    state.eventType,
+    state.clientName,
+    onDataChange,
+  ])
 
   const updateState = (updates: Partial<QuoteCalculatorState>) => {
     setState(prev => ({ ...prev, ...updates }))
@@ -195,25 +204,27 @@ export default function QuoteCalculator({
     }
 
     // Agregar servicios adicionales seleccionados
-    Object.entries(effectiveSelectedServices).forEach(([serviceId, quantity]) => {
-      if (quantity > 0) {
-        const service = services.find(s => s.id === serviceId)
-        if (service) {
-          const total = service.price * quantity
-          quoteItems.push({
-            serviceId: service.id,
-            serviceName: service.name,
-            quantity,
-            unitPrice: service.price,
-            total,
-            description: service.unit
-              ? `${service.description} (${service.unit})`
-              : service.description,
-          })
-          subtotal += total
+    Object.entries(effectiveSelectedServices).forEach(
+      ([serviceId, quantity]) => {
+        if (quantity > 0) {
+          const service = services.find(s => s.id === serviceId)
+          if (service) {
+            const total = service.price * quantity
+            quoteItems.push({
+              serviceId: service.id,
+              serviceName: service.name,
+              quantity,
+              unitPrice: service.price,
+              total,
+              description: service.unit
+                ? `${service.description} (${service.unit})`
+                : service.description,
+            })
+            subtotal += total
+          }
         }
       }
-    })
+    )
 
     const quote: Quote = {
       id: `quote-${quoteId.replace(/:/g, '-')}`,
@@ -228,7 +239,7 @@ export default function QuoteCalculator({
     }
 
     setCurrentQuote(quote)
-  }, [state, validateInputs, quoteId, effectiveSelectedServices])  // Calcular cotización automáticamente cuando cambian los datos
+  }, [state, validateInputs, quoteId, effectiveSelectedServices]) // Calcular cotización automáticamente cuando cambian los datos
   useEffect(() => {
     const ready = state.guestCount > 0 && !!state.venueType && !!state.eventType
     if (ready && !basicInfoCompleted) {
