@@ -62,24 +62,24 @@ export default function WhatsAppButton({
           {/* Tooltip informativo */}
           {showTooltip && (
             <div className='absolute bottom-16 right-0 mb-2 animate-slide-up'>
-              <div className='bg-white rounded-lg shadow-xl p-4 max-w-xs relative'>
+              <div className='bg-gray-900 bg-opacity-95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl p-4 max-w-xs relative'>
                 <button
                   onClick={handleTooltipClose}
-                  className='absolute top-2 right-2 text-gray-400 hover:text-gray-600 transition-colors duration-200'
+                  className='absolute top-2 right-2 text-gray-400 hover:text-foreground transition-colors duration-200'
                   aria-label='Cerrar mensaje'
                 >
                   <X className='w-4 h-4' />
                 </button>
                 <div className='pr-6'>
-                  <h4 className='font-raleway font-semibold text-gray-800 text-sm mb-1'>
+                  <h4 className='font-raleway font-bold text-accent-3 text-sm mb-1'>
                     ¡Cotiza tu evento!
                   </h4>
-                  <p className='font-raleway text-gray-600 text-xs leading-relaxed'>
+                  <p className='font-raleway text-gray-300 text-xs leading-relaxed'>
                     Escríbenos por WhatsApp para recibir atención personalizada
                   </p>
                 </div>
                 {/* Flecha del tooltip */}
-                <div className='absolute bottom-0 right-6 transform translate-y-1/2 rotate-45 w-3 h-3 bg-white border-r border-b border-gray-200'></div>
+                <div className='absolute bottom-0 right-6 transform translate-y-1/2 rotate-45 w-3 h-3 bg-gray-900 border-r border-b border-gray-800'></div>
               </div>
             </div>
           )}

@@ -197,7 +197,7 @@ export default function TestimonialsSection() {
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mt-16'>
           <div className='text-center'>
             <div className='font-caveat font-bold text-4xl md:text-5xl text-accent-3 mb-2'>
-              200+
+              150+
             </div>
             <p className='font-raleway text-gray-300 text-sm'>
               Eventos Realizados
@@ -224,7 +224,7 @@ export default function TestimonialsSection() {
 
           <div className='text-center'>
             <div className='font-caveat font-bold text-4xl md:text-5xl text-accent-3 mb-2'>
-              3
+              5
             </div>
             <p className='font-raleway text-gray-300 text-sm'>
               Años de Experiencia

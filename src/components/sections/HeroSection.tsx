@@ -138,7 +138,7 @@ export default function HeroSection() {
               <div className='bg-gray-900 bg-opacity-50 rounded-lg px-4 py-3 backdrop-blur-sm'>
                 <div className='flex items-center justify-center space-x-2 text-accent-3'>
                   <Calendar className='w-5 h-5' />
-                  <span className='font-raleway font-bold text-lg'>200+</span>
+                  <span className='font-raleway font-bold text-lg'>150+</span>
                 </div>
                 <p className='text-gray-300 text-sm font-raleway'>Eventos</p>
               </div>

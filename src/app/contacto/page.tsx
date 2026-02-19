@@ -52,7 +52,7 @@ const whyChooseUs = [
     icon: <Shield className='w-6 h-6' />,
     title: 'Confianza Garantizada',
     description:
-      '500+ eventos exitosos y testimonios reales de clientes satisfechos',
+      '150+ eventos exitosos y testimonios reales de clientes satisfechos',
   },
   {
     icon: <Award className='w-6 h-6' />,
@@ -553,9 +553,9 @@ ${formData.message}
                   </p>
                 </div>
 
-                <div className='aspect-video rounded-lg overflow-hidden'>
+                <div className='aspect-video rounded-lg overflow-hidden bg-gray-900'>
                   <iframe
-                    src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.8889234567!2d-98.8833!3d19.3167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDE5JzAwLjEiTiA5OMKwNTMnMDAuMCJX!5e0!3m2!1ses!2smx!4v1234567890'
+                    src='https://maps.google.com/maps?q=Calle%20Campeche%20Mz%2022%20Lt%20626b,%20Ampliación%20San%20Francisco,%20Ixtapaluca,%20Estado%20de%20México&t=&z=16&ie=UTF8&iwloc=&output=embed'
                     width='100%'
                     height='100%'
                     style={{ border: 0 }}
@@ -641,7 +641,7 @@ ${formData.message}
         <Section variant='dark' size='lg'>
           <SectionHeader
             title='¿Por qué elegir Salón Campeche?'
-            description='Más de 500 eventos exitosos nos respaldan. Conoce las razones por las que somos la mejor opción para tu celebración.'
+            description='Más de 150 eventos exitosos nos respaldan. Conoce las razones por las que somos la mejor opción para tu celebración.'
           />
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
@@ -669,7 +669,7 @@ ${formData.message}
           <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mt-12'>
             <div className='text-center'>
               <div className='font-caveat font-bold text-4xl text-accent-3 mb-2'>
-                500+
+                150+
               </div>
               <p className='font-raleway text-gray-300 text-sm'>
                 Eventos Realizados

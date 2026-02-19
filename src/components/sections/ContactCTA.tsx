@@ -376,7 +376,7 @@ export default function ContactCTA() {
                     },
                     {
                       icon: <CheckCircle className='w-4 h-4' />,
-                      text: '3 años de experiencia comprobada',
+                      text: '5 años de experiencia comprobada',
                     },
                     {
                       icon: <Phone className='w-4 h-4' />,

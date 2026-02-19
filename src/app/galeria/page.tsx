@@ -224,14 +224,14 @@ export default function GalleryPage() {
         <SectionHeader
           subtitle='Galería de Eventos'
           title='Momentos únicos capturados para siempre'
-          description='Explora más de 500 eventos realizados y descubre cómo transformamos cada celebración en una experiencia inolvidable'
+          description='Explora más de 150 eventos realizados y descubre cómo transformamos cada celebración en una experiencia inolvidable'
         />
 
         {/* Estadísticas destacadas */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-8'>
           <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
-              500+
+              150+
             </div>
             <p className='font-raleway text-gray-300 text-sm'>
               Eventos Realizados
