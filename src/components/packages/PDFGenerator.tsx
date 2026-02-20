@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { jsPDF } from 'jspdf'
 import type { Quote } from '@/types'
 import { businessInfo } from '@/lib/brand'
@@ -10,7 +11,7 @@ interface PDFGeneratorProps {
   clientName?: string
 }
 
-export const generateQuotePDF = ({
+export const generateQuotePDF = async ({
   quote,
   eventType,
   clientName = 'Cliente',
@@ -29,7 +30,8 @@ export const generateQuotePDF = ({
     y: number,
     color = darkColor,
     fontSize = 12,
-    style = 'normal'
+    style = 'normal',
+    align = 'left'
   ) => {
     doc.setTextColor(color)
     doc.setFontSize(fontSize)
@@ -38,45 +40,64 @@ export const generateQuotePDF = ({
     } else {
       doc.setFont('helvetica', 'normal')
     }
-    doc.text(text, x, y)
+    doc.text(text, x, y, {
+      align: align as 'left' | 'center' | 'right' | 'justify',
+    })
   }
 
   // Header con logo y información del salón
-  doc.setFillColor(236, 132, 47) // accent-3
-  doc.rect(0, 0, 210, 40, 'F')
+  doc.setFillColor(0, 0, 0) // fondo oscuro como el sitio
+  doc.rect(0, 0, 210, 25, 'F')
 
-  // Logo placeholder (aquí iría el logo real)
-  doc.setFillColor(255, 255, 255)
-  doc.circle(30, 20, 12, 'F')
-  addColoredText('SC', 25, 25, darkColor, 16, 'bold')
+  try {
+    const img = new Image()
+    img.src = '/logo-horizontal.png'
+    await new Promise((resolve, reject) => {
+      img.onload = resolve
+      img.onerror = reject
+    })
+    
+    const canvas = document.createElement('canvas')
+    canvas.width = img.width
+    canvas.height = img.height
+    const ctx = canvas.getContext('2d')
+    if (ctx) {
+      ctx.drawImage(img, 0, 0)
+      const dataUrl = canvas.toDataURL('image/png')
+      const ratio = img.width / img.height
+      const pdfHeight = 14
+      const pdfWidth = pdfHeight * ratio
+      doc.addImage(dataUrl, 'PNG', 20, 5, pdfWidth, pdfHeight)
+    }
+  } catch {
+    // Fallback si falla cargar el logo
+    doc.setFillColor(255, 255, 255)
+    doc.circle(28, 12, 8, 'F')
+    addColoredText('SC', 25, 14, darkColor, 10, 'bold')
+    addColoredText(businessInfo.name, 45, 10, '#ffffff', 16, 'bold')
+    addColoredText(businessInfo.slogan, 45, 16, '#ffffff', 10)
+  }
 
-  // Información del salón
-  addColoredText(businessInfo.name, 50, 15, '#ffffff', 20, 'bold')
-  addColoredText(businessInfo.slogan, 50, 25, '#ffffff', 12)
-  addColoredText(
-    `${businessInfo.contact.phone} | ${businessInfo.contact.email}`,
-    50,
-    32,
-    '#ffffff',
-    10
-  )
+  // Información de contacto alineada a la derecha
+  addColoredText(businessInfo.contact.phone, 190, 10, '#ffffff', 9, 'normal', 'right')
+  addColoredText(businessInfo.contact.email, 190, 16, '#ffffff', 9, 'normal', 'right')
 
   // Título del documento
-  addColoredText('COTIZACIÓN DE EVENTO', 20, 55, primaryColor, 18, 'bold')
+  addColoredText('COTIZACIÓN DE EVENTO', 20, 40, primaryColor, 18, 'bold')
 
   // Línea separadora
   doc.setDrawColor(236, 132, 47)
   doc.setLineWidth(1)
-  doc.line(20, 60, 190, 60)
+  doc.line(20, 45, 190, 45)
 
   // Información del cliente y evento
-  let yPosition = 75
+  let yPosition = 60
 
   // Cuadro de información del evento
   doc.setFillColor(245, 245, 245)
-  doc.rect(20, yPosition - 5, 170, 35, 'F')
+  doc.rect(20, yPosition - 5, 170, 50, 'F')
   doc.setDrawColor(200, 200, 200)
-  doc.rect(20, yPosition - 5, 170, 35, 'S')
+  doc.rect(20, yPosition - 5, 170, 50, 'S')
 
   addColoredText(
     'INFORMACIÓN DEL EVENTO',
@@ -96,10 +117,10 @@ export const generateQuotePDF = ({
   ]
 
   eventInfo.forEach((info, index) => {
-    addColoredText(info, 25, yPosition + 15 + index * 5, grayColor, 10)
+    addColoredText(info, 25, yPosition + 15 + index * 6, grayColor, 10)
   })
 
-  yPosition += 45
+  yPosition += 55
 
   // Tabla de servicios
   addColoredText(
@@ -210,39 +231,42 @@ export const generateQuotePDF = ({
   yPosition += 10
   doc.setDrawColor(236, 132, 47)
   doc.setLineWidth(1)
-  doc.line(120, yPosition, 190, yPosition)
+  doc.line(100, yPosition, 190, yPosition)
 
   yPosition += 10
-  addColoredText('SUBTOTAL:', 125, yPosition, darkColor, 12, 'bold')
+  addColoredText('SUBTOTAL:', 105, yPosition, darkColor, 12, 'bold')
   addColoredText(
     `$${quote.subtotal.toLocaleString()}`,
-    175,
+    185,
     yPosition,
     darkColor,
     12,
-    'bold'
+    'bold',
+    'right'
   )
 
   yPosition += 10
-  addColoredText('TOTAL DEL PAQUETE:', 125, yPosition, primaryColor, 14, 'bold')
+  addColoredText('TOTAL DEL PAQUETE:', 105, yPosition, primaryColor, 14, 'bold')
   addColoredText(
     `$${quote.total.toLocaleString()}`,
-    175,
+    185,
     yPosition,
     primaryColor,
     14,
-    'bold'
+    'bold',
+    'right'
   )
 
   yPosition += 8
-  addColoredText('Anticipo para reservar (50%):', 125, yPosition, grayColor, 10)
+  addColoredText('Anticipo para reservar (50%):', 105, yPosition, grayColor, 10)
   addColoredText(
     `$${quote.advancePayment.toLocaleString()}`,
-    175,
+    185,
     yPosition,
     primaryColor,
     12,
-    'bold'
+    'bold',
+    'right'
   )
 
   // Notas adicionales
@@ -355,29 +379,46 @@ export default function PDFGenerator({
   eventType,
   clientName,
 }: PDFGeneratorProps) {
-  const handleGeneratePDF = () => {
-    generateQuotePDF({ quote, eventType, clientName })
+  const [isGenerating, setIsGenerating] = useState(false)
+
+  const handleGeneratePDF = async () => {
+    setIsGenerating(true)
+    try {
+      await generateQuotePDF({ quote, eventType, clientName })
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   return (
     <button
       onClick={handleGeneratePDF}
-      className='inline-flex items-center space-x-2 bg-accent-3 hover:bg-accent-2 text-background px-3 py-2 rounded-lg font-raleway font-semibold transition-all duration-300 transform hover:scale-105 text-xs'
+      disabled={isGenerating}
+      className='inline-flex items-center space-x-2 bg-accent-3 hover:bg-accent-2 text-background px-3 py-2 rounded-lg font-raleway font-semibold transition-all duration-300 transform hover:scale-105 text-xs disabled:opacity-50 disabled:cursor-not-allowed'
     >
       <svg
-        className='w-4 h-4'
+        className={`w-4 h-4 ${isGenerating ? 'animate-spin' : ''}`}
         fill='none'
         stroke='currentColor'
         viewBox='0 0 24 24'
       >
-        <path
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          strokeWidth={2}
-          d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-        />
+        {isGenerating ? (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          />
+        ) : (
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth={2}
+            d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+          />
+        )}
       </svg>
-      <span>PDF</span>
+      <span>{isGenerating ? 'Generando...' : 'PDF'}</span>
     </button>
   )
 }

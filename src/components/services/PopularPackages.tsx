@@ -49,7 +49,7 @@ export default function PopularPackages() {
             key={pkg.id}
             className={`relative transition-all duration-300 ${
               pkg.popular
-                ? 'ring-2 ring-accent-3 ring-opacity-50 scale-105 lg:scale-110'
+                ? 'ring-2 ring-accent-3 ring-opacity-50 scale-105'
                 : 'hover:scale-105'
             }`}
             variant={pkg.popular ? 'elevated' : 'default'}
