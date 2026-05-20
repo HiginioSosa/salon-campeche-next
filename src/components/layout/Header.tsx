@@ -46,7 +46,7 @@ export default function Header() {
       <nav className='container-section'>
         <div className='flex items-center justify-between h-16 lg:h-20'>
           {/* Logo */}
-          <Link href='/' className='flex-shrink-0'>
+          <Link href='/' className='shrink-0'>
             <div className='hover:scale-105 transition-transform duration-200'>
               <Image
                 src='/logo-horizontal.png'

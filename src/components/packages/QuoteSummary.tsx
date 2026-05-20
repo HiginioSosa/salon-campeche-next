@@ -60,10 +60,7 @@ ${quote.notes ? `Notas adicionales: ${quote.notes}` : ''}
 
   return (
     <div className='fixed bottom-4 right-4 z-40 max-w-sm w-full'>
-      <Card
-        variant='elevated'
-        className='shadow-2xl border-accent-3/50'
-      >
+      <Card variant='elevated' className='shadow-2xl border-accent-3/50'>
         <CardContent className='p-4'>
           {/* Header colapsible */}
           <div

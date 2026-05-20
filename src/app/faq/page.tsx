@@ -307,7 +307,7 @@ export default function FAQPage() {
               <Card key={faq.id} variant='outlined' padding='md' hover>
                 <CardContent>
                   <div className='flex items-start space-x-3'>
-                    <div className='w-8 h-8 bg-accent-3/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1'>
+                    <div className='w-8 h-8 bg-accent-3/20 rounded-full flex items-center justify-center shrink-0 mt-1'>
                       <span className='text-accent-3 text-sm font-bold'>?</span>
                     </div>
                     <div className='flex-1'>
@@ -387,7 +387,7 @@ export default function FAQPage() {
                 >
                   <div className='flex items-start space-x-4 flex-1'>
                     {faq.popular && (
-                      <div className='bg-accent-3 text-background px-2 py-1 rounded-full text-xs font-raleway font-bold flex-shrink-0'>
+                      <div className='bg-accent-3 text-background px-2 py-1 rounded-full text-xs font-raleway font-bold shrink-0'>
                         POPULAR
                       </div>
                     )}
@@ -396,7 +396,7 @@ export default function FAQPage() {
                     </h3>
                   </div>
                   <ChevronDown
-                    className={`w-5 h-5 text-accent-3 transition-transform duration-300 flex-shrink-0 ml-4 ${
+                    className={`w-5 h-5 text-accent-3 transition-transform duration-300 shrink-0 ml-4 ${
                       openFAQ === faq.id ? 'rotate-180' : ''
                     }`}
                   />

@@ -200,7 +200,7 @@ export default function GalleryPreview() {
       </div>
 
       {/* Tipos de eventos disponibles */}
-      <div className='bg-gradient-to-r from-accent-3 to-accent-2 rounded-2xl p-8 md:p-12 mb-12'>
+      <div className='bg-linear-to-r from-accent-3 to-accent-2 rounded-2xl p-8 md:p-12 mb-12'>
         <div className='text-center mb-8'>
           <h3 className='font-caveat font-bold text-3xl md:text-4xl text-background mb-4'>
             Especializados en todo tipo de eventos

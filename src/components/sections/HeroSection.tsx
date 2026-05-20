@@ -195,7 +195,7 @@ export default function HeroSection() {
               <div className='relative mx-auto'>
                 <div className='w-48 h-48 lg:w-64 lg:h-64 mx-auto relative animate-float'>
                   <div className='absolute inset-0 bg-accent-3 rounded-full opacity-20 animate-pulse'></div>
-                  <div className='absolute inset-4 bg-gradient-to-br from-accent-3 to-accent-2 rounded-full flex items-center justify-center shadow-accent-glow'>
+                  <div className='absolute inset-4 bg-linear-to-r from-accent-3 to-accent-2 rounded-full flex items-center justify-center shadow-accent-glow'>
                     <Image
                       src='/icon-animated.svg'
                       alt='Salón Campeche'

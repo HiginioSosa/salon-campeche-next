@@ -134,7 +134,7 @@ export default function ServiceSelector({
               }`}
             >
               <div
-                className={`w-8 h-8 mx-auto mb-2 flex items-center justify-center rounded-lg bg-gradient-to-r ${category.color} ${
+                className={`w-8 h-8 mx-auto mb-2 flex items-center justify-center rounded-lg bg-linear-to-r ${category.color} ${
                   activeCategory === category.id ? 'text-white' : 'text-white'
                 }`}
               >
@@ -285,10 +285,7 @@ export default function ServiceSelector({
         {Object.entries(selectedServices).filter(([, quantity]) => quantity > 0)
           .length > 0 && (
           <div className='mt-8'>
-            <Card
-              variant='elevated'
-              className='border-accent-3/30'
-            >
+            <Card variant='elevated' className='border-accent-3/30'>
               <CardContent>
                 <div className='flex items-center justify-between mb-4'>
                   <div className='flex items-center space-x-3'>
@@ -403,7 +400,7 @@ export default function ServiceSelector({
                             </div>
 
                             {/* Precio total del servicio */}
-                            <div className='text-right min-w-[100px]'>
+                            <div className='text-right min-w-25'>
                               <p className='font-raleway text-gray-400 text-xs'>
                                 Subtotal
                               </p>

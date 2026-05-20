@@ -113,10 +113,10 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
 
       {/* Tabla de comparación */}
       <div className='overflow-x-auto p-5'>
-        <div className='min-w-[1000px]'>
+        <div className='min-w-250'>
           {/* Headers de paquetes */}
           <div className='flex gap-4 lg:gap-6 mb-8'>
-            <div className='flex-shrink-0 w-48 p-2 lg:p-4'>
+            <div className='shrink-0 w-48 p-2 lg:p-4'>
               <h3 className='font-raleway font-bold text-foreground text-base lg:text-lg'>
                 Características
               </h3>
@@ -134,14 +134,10 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
                 <Card
                   key={pkg.id}
                   className={`relative flex-1 min-w-0 transition-all duration-300 ${
-                    pkg.popular
-                      ? 'ring-2 ring-accent-3/50 scale-105'
-                      : ''
+                    pkg.popular ? 'ring-2 ring-accent-3/50 scale-105' : ''
                   } ${
                     highlightedPackage === pkg.id ? 'shadow-accent-glow' : ''
-                  } ${
-                    isRecommended ? 'border-green-500/50' : ''
-                  }`}
+                  } ${isRecommended ? 'border-green-500/50' : ''}`}
                   onMouseEnter={() => setHighlightedPackage(pkg.id)}
                   onMouseLeave={() => setHighlightedPackage(null)}
                 >
@@ -226,7 +222,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
                 key={feature.id}
                 className='flex gap-4 lg:gap-6 py-2 lg:py-3 px-2 lg:px-4 rounded-lg hover:bg-gray-900/30 transition-colors duration-200'
               >
-                <div className='flex-shrink-0 w-48 flex items-center space-x-2 lg:space-x-3'>
+                <div className='shrink-0 w-48 flex items-center space-x-2 lg:space-x-3'>
                   <span className='text-lg lg:text-xl'>{feature.icon}</span>
                   <span className='font-raleway text-foreground text-xs lg:text-sm'>
                     {feature.name}
@@ -291,7 +287,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
 
       {/* Nota sobre personalización */}
       <div className='text-center'>
-        <div className='bg-gradient-to-r from-accent-3 to-accent-2 rounded-xl p-6'>
+        <div className='bg-linear-to-r from-accent-3 to-accent-2 rounded-xl p-6'>
           <h3 className='font-caveat font-bold text-2xl text-background mb-3'>
             ¿Necesitas algo diferente?
           </h3>

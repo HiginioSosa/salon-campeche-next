@@ -140,7 +140,7 @@ export default function Footer() {
 
               <div className='space-y-4'>
                 <div className='flex items-start space-x-3'>
-                  <MapPin className='w-5 h-5 text-accent-3 mt-0.5 flex-shrink-0' />
+                  <MapPin className='w-5 h-5 text-accent-3 mt-0.5 shrink-0' />
                   <div>
                     <p className='text-gray-300 font-raleway text-sm leading-relaxed'>
                       {businessInfo.contact.address.full}
@@ -149,7 +149,7 @@ export default function Footer() {
                 </div>
 
                 <div className='flex items-center space-x-3'>
-                  <Phone className='w-5 h-5 text-accent-3 flex-shrink-0' />
+                  <Phone className='w-5 h-5 text-accent-3 shrink-0' />
                   <a
                     href={`tel:${businessInfo.contact.phone}`}
                     className='text-gray-300 hover:text-accent-3 font-raleway text-sm transition-colors duration-200'
@@ -159,7 +159,7 @@ export default function Footer() {
                 </div>
 
                 <div className='flex items-center space-x-3'>
-                  <Mail className='w-5 h-5 text-accent-3 flex-shrink-0' />
+                  <Mail className='w-5 h-5 text-accent-3 shrink-0' />
                   <a
                     href={`mailto:${businessInfo.contact.email}`}
                     className='text-gray-300 hover:text-accent-3 font-raleway text-sm transition-colors duration-200'
@@ -169,7 +169,7 @@ export default function Footer() {
                 </div>
 
                 <div className='flex items-start space-x-3'>
-                  <Clock className='w-5 h-5 text-accent-3 mt-0.5 flex-shrink-0' />
+                  <Clock className='w-5 h-5 text-accent-3 mt-0.5 shrink-0' />
                   <div className='text-gray-300 font-raleway text-sm'>
                     <p>Eventos hasta las 2:00 AM</p>
                     <p>Horas extras: $250/hora</p>

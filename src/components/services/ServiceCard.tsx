@@ -110,7 +110,7 @@ export default function ServiceCard({
                   key={index}
                   className='flex items-center space-x-2 text-gray-300 font-raleway text-sm'
                 >
-                  <Check className='w-4 h-4 text-accent-3 flex-shrink-0' />
+                  <Check className='w-4 h-4 text-accent-3 shrink-0' />
                   <span>{feature}</span>
                 </li>
               ))}

@@ -307,7 +307,7 @@ export default function GalleryPage() {
       {/* Grid de imágenes */}
       <Section variant='default' size='xl'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-          {filteredImages.map((image) => (
+          {filteredImages.map(image => (
             <Card
               key={image.id}
               className={`group cursor-pointer transition-all duration-300 hover:scale-105 ${
@@ -448,7 +448,7 @@ export default function GalleryPage() {
           <div className='relative max-w-4xl w-full'>
             {/* Botón cerrar */}
             <button
-               onClick={closeModal}
+              onClick={closeModal}
               className='absolute top-4 right-4 z-10 w-10 h-10 bg-background/80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
             >
               <X className='w-5 h-5' />

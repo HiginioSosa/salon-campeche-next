@@ -102,7 +102,7 @@ export default function ServicesHighlight() {
               </div>
 
               {/* Descripción */}
-              <p className='text-gray-300 font-raleway text-sm mb-4 leading-relaxed flex-grow'>
+              <p className='text-gray-300 font-raleway text-sm mb-4 leading-relaxed grow'>
                 {service.description}
               </p>
 
@@ -113,7 +113,7 @@ export default function ServicesHighlight() {
                     key={idx}
                     className='flex items-center text-gray-400 font-raleway text-sm'
                   >
-                    <span className='w-2 h-2 bg-accent-3 rounded-full mr-3 flex-shrink-0'></span>
+                    <span className='w-2 h-2 bg-accent-3 rounded-full mr-3 shrink-0'></span>
                     {feature}
                   </li>
                 ))}
@@ -135,7 +135,7 @@ export default function ServicesHighlight() {
 
       {/* Call to action */}
       <div className='text-center mt-16'>
-        <div className='bg-gradient-to-r from-accent-3 to-accent-2 rounded-2xl p-8 md:p-12 shadow-2xl'>
+        <div className='bg-linear-to-r from-accent-3 to-accent-2 rounded-2xl p-8 md:p-12 shadow-2xl'>
           <h3 className='font-caveat font-bold text-3xl md:text-4xl text-background mb-4'>
             ¿Necesitas un paquete personalizado?
           </h3>

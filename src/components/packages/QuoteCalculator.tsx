@@ -449,10 +449,7 @@ export default function QuoteCalculator({
           }
         >
           {errors.length > 0 && (
-            <Card
-              variant='outlined'
-              className='border-red-500/50 mb-4'
-            >
+            <Card variant='outlined' className='border-red-500/50 mb-4'>
               <CardContent>
                 <div className='flex items-center space-x-2 mb-3'>
                   <AlertCircle className='w-5 h-5 text-red-500' />
@@ -475,10 +472,7 @@ export default function QuoteCalculator({
           )}
 
           {recommendations.length > 0 && (
-            <Card
-              variant='outlined'
-              className='border-accent-3/50'
-            >
+            <Card variant='outlined' className='border-accent-3/50'>
               <CardContent>
                 <div className='flex items-center space-x-2 mb-3'>
                   <CheckCircle className='w-5 h-5 text-accent-3' />

@@ -105,7 +105,7 @@ export default function PopularPackages() {
                         key={serviceIndex}
                         className='flex items-center space-x-2'
                       >
-                        <Check className='w-4 h-4 text-accent-3 flex-shrink-0' />
+                        <Check className='w-4 h-4 text-accent-3 shrink-0' />
                         <span className='font-raleway text-gray-300 text-sm'>
                           {service}
                         </span>
@@ -167,7 +167,7 @@ export default function PopularPackages() {
 
       {/* CTA para paquetes personalizados */}
       <div className='text-center mt-12'>
-        <div className='bg-gradient-to-r from-accent-3 to-accent-2 rounded-2xl p-8 md:p-12'>
+        <div className='bg-linear-to-r from-accent-3 to-accent-2 rounded-2xl p-8 md:p-12'>
           <h3 className='font-caveat font-bold text-3xl md:text-4xl text-background mb-4'>
             ¿Necesitas algo diferente?
           </h3>

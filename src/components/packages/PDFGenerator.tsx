@@ -56,7 +56,7 @@ export const generateQuotePDF = async ({
       img.onload = resolve
       img.onerror = reject
     })
-    
+
     const canvas = document.createElement('canvas')
     canvas.width = img.width
     canvas.height = img.height
@@ -79,8 +79,24 @@ export const generateQuotePDF = async ({
   }
 
   // Información de contacto alineada a la derecha
-  addColoredText(businessInfo.contact.phone, 190, 10, '#ffffff', 9, 'normal', 'right')
-  addColoredText(businessInfo.contact.email, 190, 16, '#ffffff', 9, 'normal', 'right')
+  addColoredText(
+    businessInfo.contact.phone,
+    190,
+    10,
+    '#ffffff',
+    9,
+    'normal',
+    'right'
+  )
+  addColoredText(
+    businessInfo.contact.email,
+    190,
+    16,
+    '#ffffff',
+    9,
+    'normal',
+    'right'
+  )
 
   // Título del documento
   addColoredText('COTIZACIÓN DE EVENTO', 20, 40, primaryColor, 18, 'bold')
@@ -404,10 +420,10 @@ export default function PDFGenerator({
       >
         {isGenerating ? (
           <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            strokeLinecap='round'
+            strokeLinejoin='round'
             strokeWidth={2}
-            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
           />
         ) : (
           <path
