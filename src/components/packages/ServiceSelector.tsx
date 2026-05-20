@@ -130,7 +130,7 @@ export default function ServiceSelector({
               className={`p-4 rounded-xl transition-all duration-300 text-center group ${
                 activeCategory === category.id
                   ? 'bg-accent-3 text-background shadow-accent-glow'
-                  : 'bg-gray-900 bg-opacity-30 text-gray-300 hover:bg-accent-3 hover:bg-opacity-20'
+                  : 'bg-gray-900/30 text-gray-300 hover:bg-accent-3/20'
               }`}
             >
               <div
@@ -163,7 +163,7 @@ export default function ServiceSelector({
                 variant='outlined'
                 className={`transition-all duration-300 ${
                   quantity > 0 ? 'border-accent-3 shadow-accent-glow' : ''
-                } ${isPopular ? 'ring-1 ring-accent-3 ring-opacity-30' : ''}`}
+                } ${isPopular ? 'ring-1 ring-accent-3/30' : ''}`}
               >
                 <CardContent className='py-4'>
                   <div className='flex items-center justify-between'>
@@ -174,7 +174,7 @@ export default function ServiceSelector({
                           className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
                             quantity > 0
                               ? 'bg-accent-3 text-background'
-                              : 'bg-accent-3 bg-opacity-20 text-accent-3'
+                              : 'bg-accent-3/20 text-accent-3'
                           }`}
                         >
                           {getServiceIcon(service.category, service.id)}
@@ -287,12 +287,12 @@ export default function ServiceSelector({
           <div className='mt-8'>
             <Card
               variant='elevated'
-              className='border-accent-3 border-opacity-30'
+              className='border-accent-3/30'
             >
               <CardContent>
                 <div className='flex items-center justify-between mb-4'>
                   <div className='flex items-center space-x-3'>
-                    <div className='w-10 h-10 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center'>
+                    <div className='w-10 h-10 bg-accent-3/20 rounded-full flex items-center justify-center'>
                       <Package className='w-5 h-5 text-accent-3' />
                     </div>
                     <div>
@@ -342,10 +342,10 @@ export default function ServiceSelector({
                       return (
                         <div
                           key={serviceId}
-                          className='flex items-center justify-between p-4 bg-gray-900 bg-opacity-30 rounded-lg border border-gray-700 hover:border-accent-3 transition-all duration-300'
+                          className='flex items-center justify-between p-4 bg-gray-900/30 rounded-lg border border-gray-700 hover:border-accent-3 transition-all duration-300'
                         >
                           <div className='flex items-center space-x-4 flex-1'>
-                            <div className='w-8 h-8 bg-accent-3 bg-opacity-20 rounded-lg flex items-center justify-center'>
+                            <div className='w-8 h-8 bg-accent-3/20 rounded-lg flex items-center justify-center'>
                               {getServiceIcon(service.category, service.id)}
                             </div>
 

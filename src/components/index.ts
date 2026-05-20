@@ -39,3 +39,6 @@ export { default as PDFGenerator } from './packages/PDFGenerator'
 export { default as QuoteSummary } from './packages/QuoteSummary'
 export { default as PackageComparison } from './packages/PackageComparison'
 export { default as TipsPanel } from './packages/TipsPanel'
+
+// Custom SVG Icons
+export { Facebook, Instagram } from './ui/Icons'

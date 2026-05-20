@@ -268,7 +268,7 @@ export default function AdditionalServices() {
                   selectedServices.includes(service.id)
                     ? 'border-accent-3 shadow-accent-glow'
                     : ''
-                } ${service.popular ? 'ring-1 ring-accent-3 ring-opacity-30' : ''}`}
+                } ${service.popular ? 'ring-1 ring-accent-3/30' : ''}`}
               >
                 <CardContent>
                   {/* Header con badge popular */}
@@ -317,7 +317,7 @@ export default function AdditionalServices() {
 
                   {/* Información expandida */}
                   {expandedService === service.id && service.examples && (
-                    <div className='mb-4 p-3 bg-gray-900 bg-opacity-30 rounded-lg'>
+                    <div className='mb-4 p-3 bg-gray-900/30 rounded-lg'>
                       <h5 className='font-raleway font-semibold text-foreground text-sm mb-2'>
                         Incluye:
                       </h5>
@@ -375,7 +375,7 @@ export default function AdditionalServices() {
                   <h4 className='font-raleway font-bold text-background mb-1'>
                     Servicios Adicionales Seleccionados
                   </h4>
-                  <p className='font-raleway text-background text-opacity-90 text-sm'>
+                  <p className='font-raleway text-background/90 text-sm'>
                     {selectedServices.length} servicio
                     {selectedServices.length > 1 ? 's' : ''} agregado
                     {selectedServices.length > 1 ? 's' : ''} para cotización
@@ -386,7 +386,7 @@ export default function AdditionalServices() {
                     variant='ghost'
                     size='sm'
                     onClick={() => setSelectedServices([])}
-                    className='text-background hover:bg-background hover:bg-opacity-20'
+                    className='text-background hover:bg-background/20'
                   >
                     Limpiar
                   </Button>
@@ -404,7 +404,7 @@ export default function AdditionalServices() {
       )}
 
       {/* Información importante */}
-      <div className='bg-gray-900 bg-opacity-30 rounded-xl p-6 backdrop-blur-sm'>
+      <div className='bg-gray-900/30 rounded-xl p-6 backdrop-blur-sm'>
         <h4 className='font-raleway font-bold text-foreground mb-4 flex items-center'>
           <Info className='w-5 h-5 text-accent-3 mr-2' />
           Información Importante sobre Servicios Adicionales

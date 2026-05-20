@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Eye,
   Heart,
@@ -34,6 +35,7 @@ const galleryImages = [
     category: 'boda',
     featured: true,
     location: 'Ambos pisos',
+    imageSrc: '/images/events/boda.png',
   },
   {
     id: 2,
@@ -46,6 +48,7 @@ const galleryImages = [
     category: 'xv-anos',
     featured: true,
     location: 'Primer piso',
+    imageSrc: '/images/events/xv-anos.png',
   },
   {
     id: 3,
@@ -58,6 +61,7 @@ const galleryImages = [
     category: 'cumpleanos',
     featured: false,
     location: 'Primer piso',
+    imageSrc: '/images/events/cumpleanos.png',
   },
   {
     id: 4,
@@ -70,6 +74,7 @@ const galleryImages = [
     category: 'baby-shower',
     featured: false,
     location: 'Primer piso',
+    imageSrc: '/images/events/baby-shower.png',
   },
   {
     id: 5,
@@ -82,6 +87,7 @@ const galleryImages = [
     category: 'aniversario',
     featured: true,
     location: 'Ambos pisos',
+    imageSrc: '/images/events/aniversario.png',
   },
   {
     id: 6,
@@ -94,6 +100,7 @@ const galleryImages = [
     category: 'graduacion',
     featured: false,
     location: 'Ambos pisos',
+    imageSrc: '/images/events/graduacion.png',
   },
   {
     id: 7,
@@ -106,6 +113,7 @@ const galleryImages = [
     category: 'boda',
     featured: false,
     location: 'Ambos pisos',
+    imageSrc: '/images/events/boda-garden.png',
   },
   {
     id: 8,
@@ -118,6 +126,7 @@ const galleryImages = [
     category: 'xv-anos',
     featured: false,
     location: 'Primer piso',
+    imageSrc: '/images/events/xv-anos-vintage.png',
   },
   {
     id: 9,
@@ -130,6 +139,7 @@ const galleryImages = [
     category: 'corporativo',
     featured: false,
     location: 'Primer piso',
+    imageSrc: '/images/events/corporativo.png',
   },
 ]
 
@@ -229,7 +239,7 @@ export default function GalleryPage() {
 
         {/* Estadísticas destacadas */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-8'>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               150+
             </div>
@@ -237,13 +247,13 @@ export default function GalleryPage() {
               Eventos Realizados
             </p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               98%
             </div>
             <p className='font-raleway text-gray-300 text-sm'>Satisfacción</p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               8
             </div>
@@ -251,7 +261,7 @@ export default function GalleryPage() {
               Tipos de Eventos
             </p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               3
             </div>
@@ -297,34 +307,25 @@ export default function GalleryPage() {
       {/* Grid de imágenes */}
       <Section variant='default' size='xl'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-          {filteredImages.map((image, index) => (
+          {filteredImages.map((image) => (
             <Card
               key={image.id}
               className={`group cursor-pointer transition-all duration-300 hover:scale-105 ${
-                image.featured ? 'ring-2 ring-accent-3 ring-opacity-50' : ''
+                image.featured ? 'ring-2 ring-accent-3/50' : ''
               }`}
               onClick={() => openModal(image)}
             >
               <CardContent className='p-0 relative overflow-hidden rounded-xl'>
-                {/* Placeholder para imagen del evento */}
-                {/* Aquí iría la imagen real: {image.title} - {image.description} */}
-                <div
-                  className={`aspect-square bg-gradient-to-br transition-all duration-700 group-hover:scale-110 ${
-                    index % 6 === 0
-                      ? 'from-accent-3 to-accent-2'
-                      : index % 6 === 1
-                        ? 'from-accent-2 to-accent-1'
-                        : index % 6 === 2
-                          ? 'from-accent-1 to-accent-3'
-                          : index % 6 === 3
-                            ? 'from-gray-700 to-accent-3'
-                            : index % 6 === 4
-                              ? 'from-accent-3 to-gray-700'
-                              : 'from-accent-2 to-gray-600'
-                  }`}
-                >
-                  {/* Patrón decorativo */}
-                  <div className='absolute inset-0 opacity-20 bg-gradient-to-br from-transparent via-white to-transparent'></div>
+                <div className='aspect-square relative overflow-hidden transition-all duration-700 group-hover:scale-110'>
+                  <Image
+                    src={image.imageSrc}
+                    alt={image.title}
+                    fill
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    className='object-cover'
+                    priority={image.featured}
+                  />
+                  <div className='absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300' />
                 </div>
 
                 {/* Badge de evento destacado */}
@@ -337,7 +338,7 @@ export default function GalleryPage() {
                 )}
 
                 {/* Overlay con información */}
-                <div className='absolute inset-0 bg-background bg-opacity-80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-6'>
+                <div className='absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-6'>
                   <div className='transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300'>
                     <h3 className='font-caveat font-bold text-2xl text-foreground mb-2'>
                       {image.title}
@@ -443,12 +444,12 @@ export default function GalleryPage() {
 
       {/* Modal de imagen */}
       {selectedImage && (
-        <div className='fixed inset-0 bg-background bg-opacity-90 backdrop-blur-sm z-50 flex items-center justify-center p-4'>
+        <div className='fixed inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center p-4'>
           <div className='relative max-w-4xl w-full'>
             {/* Botón cerrar */}
             <button
-              onClick={closeModal}
-              className='absolute top-4 right-4 z-10 w-10 h-10 bg-background bg-opacity-80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
+               onClick={closeModal}
+              className='absolute top-4 right-4 z-10 w-10 h-10 bg-background/80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
             >
               <X className='w-5 h-5' />
             </button>
@@ -456,14 +457,14 @@ export default function GalleryPage() {
             {/* Navegación */}
             <button
               onClick={() => navigateImage('prev')}
-              className='absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-background bg-opacity-80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
+              className='absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-background/80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
             >
               <ChevronLeft className='w-6 h-6' />
             </button>
 
             <button
               onClick={() => navigateImage('next')}
-              className='absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-background bg-opacity-80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
+              className='absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-background/80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
             >
               <ChevronRight className='w-6 h-6' />
             </button>
@@ -471,9 +472,15 @@ export default function GalleryPage() {
             {/* Contenido del modal */}
             <div className='bg-gray-900 rounded-2xl overflow-hidden'>
               {/* Imagen principal */}
-              {/* Aquí iría la imagen real: {selectedImage.title} - Vista ampliada de {selectedImage.description} */}
-              <div className='aspect-video bg-gradient-to-br from-accent-3 to-accent-2 relative'>
-                <div className='absolute inset-0 opacity-20 bg-gradient-to-br from-transparent via-white to-transparent'></div>
+              <div className='aspect-video relative w-full overflow-hidden'>
+                <Image
+                  src={selectedImage.imageSrc}
+                  alt={selectedImage.title}
+                  fill
+                  sizes='(max-width: 1200px) 100vw, 1200px'
+                  className='object-cover'
+                  priority
+                />
               </div>
 
               {/* Información del evento */}

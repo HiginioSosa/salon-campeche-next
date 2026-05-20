@@ -41,53 +41,60 @@ export default function HeroSection() {
     <section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
       {/* Background Image with Overlay */}
       <div className='absolute inset-0'>
-        {/* Placeholder para imagen principal del salón - Vista panorámica del interior elegante */}
-        <div className='w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative'>
-          {/* Efecto de partículas flotantes */}
-          <div className='absolute inset-0 opacity-20'>
-            {[
-              { left: 15.2, top: 23.8, delay: 0.5, duration: 3.2 },
-              { left: 78.4, top: 67.1, delay: 1.8, duration: 4.1 },
-              { left: 42.7, top: 12.5, delay: 2.3, duration: 3.7 },
-              { left: 89.1, top: 45.9, delay: 0.9, duration: 4.5 },
-              { left: 23.6, top: 78.3, delay: 1.4, duration: 3.9 },
-              { left: 67.8, top: 34.2, delay: 2.7, duration: 3.4 },
-              { left: 91.3, top: 89.7, delay: 0.3, duration: 4.8 },
-              { left: 8.9, top: 56.4, delay: 1.9, duration: 3.6 },
-              { left: 54.2, top: 91.8, delay: 2.1, duration: 4.2 },
-              { left: 76.5, top: 18.7, delay: 0.7, duration: 3.8 },
-              { left: 31.8, top: 73.2, delay: 1.6, duration: 4.3 },
-              { left: 95.4, top: 42.6, delay: 2.5, duration: 3.5 },
-              { left: 12.7, top: 85.9, delay: 0.8, duration: 4.7 },
-              { left: 58.3, top: 29.4, delay: 1.2, duration: 3.3 },
-              { left: 83.6, top: 64.8, delay: 2.9, duration: 4.6 },
-              { left: 27.9, top: 7.3, delay: 0.4, duration: 3.9 },
-              { left: 71.2, top: 52.7, delay: 1.7, duration: 4.1 },
-              { left: 46.8, top: 96.1, delay: 2.2, duration: 3.7 },
-              { left: 93.5, top: 31.5, delay: 0.6, duration: 4.4 },
-              { left: 19.4, top: 68.9, delay: 1.5, duration: 3.6 },
-              { left: 64.7, top: 14.2, delay: 2.8, duration: 4.9 },
-              { left: 87.1, top: 79.6, delay: 0.2, duration: 3.2 },
-              { left: 35.3, top: 48.3, delay: 1.3, duration: 4.8 },
-              { left: 79.8, top: 83.7, delay: 2.4, duration: 3.4 },
-              { left: 52.6, top: 26.1, delay: 0.9, duration: 4.2 },
-            ].map((particle, i) => (
-              <div
-                key={i}
-                className='absolute w-2 h-2 bg-accent-3 rounded-full animate-float'
-                style={{
-                  left: `${particle.left}%`,
-                  top: `${particle.top}%`,
-                  animationDelay: `${particle.delay}s`,
-                  animationDuration: `${particle.duration}s`,
-                }}
-              />
-            ))}
-          </div>
+        {/* Imagen de fondo real del salón */}
+        <Image
+          src='/images/hero_bg.png'
+          alt='Salón Campeche'
+          fill
+          sizes='100vw'
+          priority
+          className='object-cover opacity-50'
+        />
+
+        {/* Efecto de partículas flotantes sobre la imagen */}
+        <div className='absolute inset-0 opacity-20'>
+          {[
+            { left: 15.2, top: 23.8, delay: 0.5, duration: 3.2 },
+            { left: 78.4, top: 67.1, delay: 1.8, duration: 4.1 },
+            { left: 42.7, top: 12.5, delay: 2.3, duration: 3.7 },
+            { left: 89.1, top: 45.9, delay: 0.9, duration: 4.5 },
+            { left: 23.6, top: 78.3, delay: 1.4, duration: 3.9 },
+            { left: 67.8, top: 34.2, delay: 2.7, duration: 3.4 },
+            { left: 91.3, top: 89.7, delay: 0.3, duration: 4.8 },
+            { left: 8.9, top: 56.4, delay: 1.9, duration: 3.6 },
+            { left: 54.2, top: 91.8, delay: 2.1, duration: 4.2 },
+            { left: 76.5, top: 18.7, delay: 0.7, duration: 3.8 },
+            { left: 31.8, top: 73.2, delay: 1.6, duration: 4.3 },
+            { left: 95.4, top: 42.6, delay: 2.5, duration: 3.5 },
+            { left: 12.7, top: 85.9, delay: 0.8, duration: 4.7 },
+            { left: 58.3, top: 29.4, delay: 1.2, duration: 3.3 },
+            { left: 83.6, top: 64.8, delay: 2.9, duration: 4.6 },
+            { left: 27.9, top: 7.3, delay: 0.4, duration: 3.9 },
+            { left: 71.2, top: 52.7, delay: 1.7, duration: 4.1 },
+            { left: 46.8, top: 96.1, delay: 2.2, duration: 3.7 },
+            { left: 93.5, top: 31.5, delay: 0.6, duration: 4.4 },
+            { left: 19.4, top: 68.9, delay: 1.5, duration: 3.6 },
+            { left: 64.7, top: 14.2, delay: 2.8, duration: 4.9 },
+            { left: 87.1, top: 79.6, delay: 0.2, duration: 3.2 },
+            { left: 35.3, top: 48.3, delay: 1.3, duration: 4.8 },
+            { left: 79.8, top: 83.7, delay: 2.4, duration: 3.4 },
+            { left: 52.6, top: 26.1, delay: 0.9, duration: 4.2 },
+          ].map((particle, i) => (
+            <div
+              key={i}
+              className='absolute w-2 h-2 bg-accent-3 rounded-full animate-float'
+              style={{
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animationDelay: `${particle.delay}s`,
+                animationDuration: `${particle.duration}s`,
+              }}
+            />
+          ))}
         </div>
 
-        {/* Overlay oscuro */}
-        <div className='absolute inset-0 bg-background bg-opacity-70' />
+        {/* Overlay oscuro para lectura del texto */}
+        <div className='absolute inset-0 bg-background/70' />
       </div>
 
       <div className='container-section relative z-10'>
@@ -95,7 +102,7 @@ export default function HeroSection() {
           {/* Contenido principal */}
           <div className='text-center lg:text-left space-y-8 animate-slide-up'>
             {/* Badge de ubicación */}
-            <div className='inline-flex items-center px-4 py-2 bg-accent-3 bg-opacity-20 rounded-full backdrop-blur-sm border border-accent-3 border-opacity-30'>
+            <div className='inline-flex items-center px-4 py-2 bg-accent-3/20 rounded-full backdrop-blur-sm border border-accent-3/30'>
               <span className='text-accent-3 font-raleway font-semibold text-sm'>
                 📍 Ixtapaluca, Estado de México
               </span>
@@ -117,7 +124,7 @@ export default function HeroSection() {
 
             {/* Estadísticas rápidas */}
             <div className='flex flex-wrap justify-center lg:justify-start gap-6 text-center'>
-              <div className='bg-gray-900 bg-opacity-50 rounded-lg px-4 py-3 backdrop-blur-sm'>
+              <div className='bg-gray-900/50 rounded-lg px-4 py-3 backdrop-blur-sm'>
                 <div className='flex items-center justify-center space-x-2 text-accent-3'>
                   <Users className='w-5 h-5' />
                   <span className='font-raleway font-bold text-lg'>250</span>
@@ -125,7 +132,7 @@ export default function HeroSection() {
                 <p className='text-gray-300 text-sm font-raleway'>Personas</p>
               </div>
 
-              <div className='bg-gray-900 bg-opacity-50 rounded-lg px-4 py-3 backdrop-blur-sm'>
+              <div className='bg-gray-900/50 rounded-lg px-4 py-3 backdrop-blur-sm'>
                 <div className='flex items-center justify-center space-x-2 text-accent-3'>
                   <Star className='w-5 h-5' />
                   <span className='font-raleway font-bold text-lg'>5.0</span>
@@ -135,7 +142,7 @@ export default function HeroSection() {
                 </p>
               </div>
 
-              <div className='bg-gray-900 bg-opacity-50 rounded-lg px-4 py-3 backdrop-blur-sm'>
+              <div className='bg-gray-900/50 rounded-lg px-4 py-3 backdrop-blur-sm'>
                 <div className='flex items-center justify-center space-x-2 text-accent-3'>
                   <Calendar className='w-5 h-5' />
                   <span className='font-raleway font-bold text-lg'>150+</span>
@@ -213,28 +220,28 @@ export default function HeroSection() {
 
               {/* Características destacadas */}
               <div className='grid grid-cols-2 gap-4 max-w-sm mx-auto'>
-                <div className='bg-gray-900 bg-opacity-30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
+                <div className='bg-gray-900/30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
                   <div className='text-accent-3 text-2xl mb-2'>🎵</div>
                   <p className='text-gray-300 font-raleway text-sm'>
                     DJ & Sonido Profesional
                   </p>
                 </div>
 
-                <div className='bg-gray-900 bg-opacity-30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
+                <div className='bg-gray-900/30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
                   <div className='text-accent-3 text-2xl mb-2'>🎊</div>
                   <p className='text-gray-300 font-raleway text-sm'>
                     Decoración Incluida
                   </p>
                 </div>
 
-                <div className='bg-gray-900 bg-opacity-30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
+                <div className='bg-gray-900/30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
                   <div className='text-accent-3 text-2xl mb-2'>🚗</div>
                   <p className='text-gray-300 font-raleway text-sm'>
                     Estacionamiento Gratis
                   </p>
                 </div>
 
-                <div className='bg-gray-900 bg-opacity-30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
+                <div className='bg-gray-900/30 rounded-lg p-4 backdrop-blur-sm border border-gray-700'>
                   <div className='text-accent-3 text-2xl mb-2'>🏰</div>
                   <p className='text-gray-300 font-raleway text-sm'>
                     Lugar cómodo y espacioso
@@ -261,7 +268,7 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll indicator */}
-      <div className='absolute bottom-20 transform -translate-x-1/2 animate-bounce'>
+      <div className='absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce'>
         <div className='w-6 h-10 border-2 border-accent-3 rounded-full flex justify-center'>
           <div className='w-1 h-3 bg-accent-3 rounded-full mt-2 animate-pulse'></div>
         </div>

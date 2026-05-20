@@ -62,7 +62,7 @@ ${quote.notes ? `Notas adicionales: ${quote.notes}` : ''}
     <div className='fixed bottom-4 right-4 z-40 max-w-sm w-full'>
       <Card
         variant='elevated'
-        className='shadow-2xl border-accent-3 border-opacity-50'
+        className='shadow-2xl border-accent-3/50'
       >
         <CardContent className='p-4'>
           {/* Header colapsible */}
@@ -71,7 +71,7 @@ ${quote.notes ? `Notas adicionales: ${quote.notes}` : ''}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             <div className='flex items-center space-x-3'>
-              <div className='w-10 h-10 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center'>
+              <div className='w-10 h-10 bg-accent-3/20 rounded-full flex items-center justify-center'>
                 <Calculator className='w-5 h-5 text-accent-3' />
               </div>
               <div>

@@ -300,7 +300,7 @@ export default function ContactCTA() {
                     href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='flex items-center space-x-4 p-4 bg-green-500 bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all duration-300 group'
+                    className='flex items-center space-x-4 p-4 bg-green-500/20 rounded-lg hover:bg-green-500/30 transition-all duration-300 group'
                   >
                     <div className='w-12 h-12 bg-green-500 rounded-full flex items-center justify-center'>
                       <MessageCircle className='w-6 h-6 text-white' />
@@ -320,7 +320,7 @@ export default function ContactCTA() {
 
                   <a
                     href={`tel:${businessInfo.contact.phone}`}
-                    className='flex items-center space-x-4 p-4 bg-accent-3 bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all duration-300 group'
+                    className='flex items-center space-x-4 p-4 bg-accent-3/20 rounded-lg hover:bg-accent-3/30 transition-all duration-300 group'
                   >
                     <div className='w-12 h-12 bg-accent-3 rounded-full flex items-center justify-center'>
                       <Phone className='w-6 h-6 text-background' />
@@ -338,7 +338,7 @@ export default function ContactCTA() {
 
                   <a
                     href={`mailto:${businessInfo.contact.email}`}
-                    className='flex items-center space-x-4 p-4 bg-blue-500 bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all duration-300 group'
+                    className='flex items-center space-x-4 p-4 bg-blue-500/20 rounded-lg hover:bg-blue-500/30 transition-all duration-300 group'
                   >
                     <div className='w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center'>
                       <Mail className='w-6 h-6 text-white' />

@@ -99,7 +99,7 @@ export default function Header() {
           <div className='lg:hidden'>
             <button
               onClick={toggleMenu}
-              className='p-2 rounded-lg text-foreground hover:text-accent-3 hover:bg-foreground hover:bg-opacity-10 transition-all duration-200'
+              className='p-2 rounded-lg text-foreground hover:text-accent-3 hover:bg-foreground/10 transition-all duration-200'
               aria-label='Abrir menú'
             >
               {isOpen ? (
@@ -128,8 +128,8 @@ export default function Header() {
                   href={item.href}
                   className={`block px-4 py-3 font-raleway transition-all duration-200 relative ${
                     isActive
-                      ? 'text-accent-3 bg-accent-3 bg-opacity-10'
-                      : 'text-foreground hover:text-accent-3 hover:bg-foreground hover:bg-opacity-5'
+                      ? 'text-accent-3 bg-accent-3/10'
+                      : 'text-foreground hover:text-accent-3 hover:bg-foreground/5'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >

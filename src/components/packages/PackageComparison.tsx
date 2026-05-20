@@ -102,7 +102,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
           Todos incluyen lo esencial para una celebración exitosa.
         </p>
         {selectedGuestCount > 0 && (
-          <div className='mt-4 inline-flex items-center space-x-2 bg-accent-3 bg-opacity-20 rounded-full px-4 py-2'>
+          <div className='mt-4 inline-flex items-center space-x-2 bg-accent-3/20 rounded-full px-4 py-2'>
             <Users className='w-4 h-4 text-accent-3' />
             <span className='font-raleway font-semibold text-accent-3'>
               Para {selectedGuestCount} invitados
@@ -135,12 +135,12 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
                   key={pkg.id}
                   className={`relative flex-1 min-w-0 transition-all duration-300 ${
                     pkg.popular
-                      ? 'ring-2 ring-accent-3 ring-opacity-50 scale-105'
+                      ? 'ring-2 ring-accent-3/50 scale-105'
                       : ''
                   } ${
                     highlightedPackage === pkg.id ? 'shadow-accent-glow' : ''
                   } ${
-                    isRecommended ? 'border-green-500 border-opacity-50' : ''
+                    isRecommended ? 'border-green-500/50' : ''
                   }`}
                   onMouseEnter={() => setHighlightedPackage(pkg.id)}
                   onMouseLeave={() => setHighlightedPackage(null)}
@@ -184,8 +184,8 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
                       <div
                         className={`text-xs font-raleway font-semibold mb-2 lg:mb-4 px-1 lg:px-2 py-1 rounded-full ${
                           recommendation.includes('insuficiente')
-                            ? 'bg-red-500 bg-opacity-20 text-red-400'
-                            : 'bg-green-500 bg-opacity-20 text-green-400'
+                            ? 'bg-red-500/20 text-red-400'
+                            : 'bg-green-500/20 text-green-400'
                         }`}
                       >
                         {recommendation}
@@ -224,7 +224,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
             {allFeatures.map(feature => (
               <div
                 key={feature.id}
-                className='flex gap-4 lg:gap-6 py-2 lg:py-3 px-2 lg:px-4 rounded-lg hover:bg-gray-900 hover:bg-opacity-30 transition-colors duration-200'
+                className='flex gap-4 lg:gap-6 py-2 lg:py-3 px-2 lg:px-4 rounded-lg hover:bg-gray-900/30 transition-colors duration-200'
               >
                 <div className='flex-shrink-0 w-48 flex items-center space-x-2 lg:space-x-3'>
                   <span className='text-lg lg:text-xl'>{feature.icon}</span>
@@ -295,7 +295,7 @@ ${selectedGuestCount > 0 ? `- Mis invitados: ${selectedGuestCount} personas` : '
           <h3 className='font-caveat font-bold text-2xl text-background mb-3'>
             ¿Necesitas algo diferente?
           </h3>
-          <p className='text-background text-opacity-90 font-raleway mb-4'>
+          <p className='text-background/90 font-raleway mb-4'>
             Todos los paquetes son personalizables. Puedes agregar, quitar o
             modificar servicios según tus necesidades.
           </p>

@@ -8,8 +8,6 @@ import {
   Mail,
   MapPin,
   Clock,
-  Facebook,
-  Instagram,
   CheckCircle,
   Send,
   User,
@@ -27,6 +25,8 @@ import {
   Button,
   Card,
   CardContent,
+  Facebook,
+  Instagram,
 } from '@/components'
 import { businessInfo } from '@/lib/brand'
 
@@ -229,7 +229,7 @@ ${formData.message}
             <Card variant='elevated' padding='lg'>
               <CardContent>
                 <div className='flex items-center space-x-3 mb-6'>
-                  <div className='w-12 h-12 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center'>
+                  <div className='w-12 h-12 bg-accent-3/20 rounded-xl flex items-center justify-center'>
                     <MessageSquare className='w-6 h-6 text-accent-3' />
                   </div>
                   <div>
@@ -451,7 +451,7 @@ ${formData.message}
                     href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='flex items-center space-x-4 p-4 bg-green-500 bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all duration-300 group'
+                    className='flex items-center space-x-4 p-4 bg-green-500/20 rounded-lg hover:bg-green-500/30 transition-all duration-300 group'
                   >
                     <div className='w-12 h-12 bg-green-500 rounded-full flex items-center justify-center'>
                       <MessageCircle className='w-6 h-6 text-white' />
@@ -471,7 +471,7 @@ ${formData.message}
 
                   <a
                     href={`tel:${businessInfo.contact.phone}`}
-                    className='flex items-center space-x-4 p-4 bg-accent-3 bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all duration-300 group'
+                    className='flex items-center space-x-4 p-4 bg-accent-3/20 rounded-lg hover:bg-accent-3/30 transition-all duration-300 group'
                   >
                     <div className='w-12 h-12 bg-accent-3 rounded-full flex items-center justify-center'>
                       <Phone className='w-6 h-6 text-background' />
@@ -491,7 +491,7 @@ ${formData.message}
 
                   <a
                     href={`mailto:${businessInfo.contact.email}`}
-                    className='flex items-center space-x-4 p-4 bg-blue-500 bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all duration-300 group'
+                    className='flex items-center space-x-4 p-4 bg-blue-500/20 rounded-lg hover:bg-blue-500/30 transition-all duration-300 group'
                   >
                     <div className='w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center'>
                       <Mail className='w-6 h-6 text-white' />
@@ -648,7 +648,7 @@ ${formData.message}
             {whyChooseUs.map((reason, index) => (
               <Card key={index} hover className='text-center group'>
                 <CardContent>
-                  <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-accent-3 group-hover:text-background transition-all duration-300'>
+                  <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-accent-3 group-hover:text-background transition-all duration-300'>
                     <div className='text-accent-3 group-hover:text-background'>
                       {reason.icon}
                     </div>

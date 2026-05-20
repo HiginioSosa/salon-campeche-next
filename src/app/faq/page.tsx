@@ -248,7 +248,7 @@ export default function FAQPage() {
 
         {/* Estadísticas rápidas */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-8'>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               {faqs.length}
             </div>
@@ -256,13 +256,13 @@ export default function FAQPage() {
               Preguntas Respondidas
             </p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               6
             </div>
             <p className='font-raleway text-gray-300 text-sm'>Categorías</p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               24/7
             </div>
@@ -270,7 +270,7 @@ export default function FAQPage() {
               Soporte WhatsApp
             </p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               &lt;15min
             </div>
@@ -307,7 +307,7 @@ export default function FAQPage() {
               <Card key={faq.id} variant='outlined' padding='md' hover>
                 <CardContent>
                   <div className='flex items-start space-x-3'>
-                    <div className='w-8 h-8 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center flex-shrink-0 mt-1'>
+                    <div className='w-8 h-8 bg-accent-3/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1'>
                       <span className='text-accent-3 text-sm font-bold'>?</span>
                     </div>
                     <div className='flex-1'>
@@ -354,7 +354,7 @@ export default function FAQPage() {
               className={`p-4 rounded-xl transition-all duration-300 text-center ${
                 selectedCategory === category.id
                   ? 'bg-accent-3 text-background shadow-lg'
-                  : 'bg-gray-900 bg-opacity-30 text-gray-300 hover:bg-accent-3 hover:bg-opacity-20'
+                  : 'bg-gray-900/30 text-gray-300 hover:bg-accent-3/20'
               }`}
             >
               <div className='flex justify-center mb-2'>{category.icon}</div>
@@ -376,7 +376,7 @@ export default function FAQPage() {
               variant='outlined'
               className={`transition-all duration-300 ${
                 openFAQ === faq.id ? 'border-accent-3 shadow-accent-glow' : ''
-              } ${faq.popular ? 'ring-1 ring-accent-3 ring-opacity-30' : ''}`}
+              } ${faq.popular ? 'ring-1 ring-accent-3/30' : ''}`}
               padding='md'
             >
               <CardContent>
@@ -460,7 +460,7 @@ export default function FAQPage() {
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
             <Card variant='glass' padding='lg' className='text-center'>
               <CardContent>
-                <div className='w-16 h-16 bg-green-500 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <div className='w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <MessageCircle className='w-8 h-8 text-green-500' />
                 </div>
                 <h3 className='font-raleway font-bold text-foreground mb-2'>
@@ -481,7 +481,7 @@ export default function FAQPage() {
 
             <Card variant='glass' padding='lg' className='text-center'>
               <CardContent>
-                <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <div className='w-16 h-16 bg-accent-3/20 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <Phone className='w-8 h-8 text-accent-3' />
                 </div>
                 <h3 className='font-raleway font-bold text-foreground mb-2'>
@@ -500,7 +500,7 @@ export default function FAQPage() {
 
             <Card variant='glass' padding='lg' className='text-center'>
               <CardContent>
-                <div className='w-16 h-16 bg-blue-500 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <div className='w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4'>
                   <MapPin className='w-8 h-8 text-blue-500' />
                 </div>
                 <h3 className='font-raleway font-bold text-foreground mb-2'>

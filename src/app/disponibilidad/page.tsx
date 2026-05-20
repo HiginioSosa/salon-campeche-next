@@ -149,7 +149,7 @@ export default function AvailabilityPage() {
             isPast
               ? 'text-gray-500 cursor-not-allowed'
               : unavailable
-                ? 'bg-red-500 bg-opacity-20 text-red-400 hover:bg-red-500 hover:bg-opacity-30'
+                ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
                 : 'text-foreground hover:bg-accent-3 hover:text-background'
           } ${isToday ? 'ring-2 ring-accent-3' : ''}`}
           disabled={isPast}
@@ -190,7 +190,7 @@ export default function AvailabilityPage() {
 
         {/* Estadísticas del calendario */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-8'>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-green-500 mb-2'>
               {getDaysInMonth(currentYear, currentMonth) -
                 unavailableDates.filter(d =>
@@ -203,7 +203,7 @@ export default function AvailabilityPage() {
               Días Disponibles
             </p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-red-500 mb-2'>
               {
                 unavailableDates.filter(d =>
@@ -215,13 +215,13 @@ export default function AvailabilityPage() {
             </div>
             <p className='font-raleway text-gray-300 text-sm'>Días Ocupados</p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               2AM
             </div>
             <p className='font-raleway text-gray-300 text-sm'>Horario Límite</p>
           </div>
-          <div className='text-center p-4 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='text-center p-4 bg-background/50 rounded-xl backdrop-blur-sm'>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-2'>
               24/7
             </div>
@@ -280,11 +280,11 @@ export default function AvailabilityPage() {
               {/* Leyenda */}
               <div className='mt-8 flex flex-wrap justify-center gap-6 text-sm'>
                 <div className='flex items-center space-x-2'>
-                  <div className='w-4 h-4 bg-green-500 bg-opacity-20 rounded border border-green-500'></div>
+                  <div className='w-4 h-4 bg-green-500/20 rounded border border-green-500'></div>
                   <span className='font-raleway text-gray-300'>Disponible</span>
                 </div>
                 <div className='flex items-center space-x-2'>
-                  <div className='w-4 h-4 bg-red-500 bg-opacity-20 rounded border border-red-500 relative'>
+                  <div className='w-4 h-4 bg-red-500/20 rounded border border-red-500 relative'>
                     <div className='absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full'></div>
                   </div>
                   <span className='font-raleway text-gray-300'>Ocupado</span>
@@ -296,7 +296,7 @@ export default function AvailabilityPage() {
                   </span>
                 </div>
                 <div className='flex items-center space-x-2'>
-                  <div className='w-4 h-4 bg-accent-3 bg-opacity-20 rounded border-2 border-accent-3'></div>
+                  <div className='w-4 h-4 bg-accent-3/20 rounded border-2 border-accent-3'></div>
                   <span className='font-raleway text-gray-300'>Hoy</span>
                 </div>
               </div>
@@ -317,7 +317,7 @@ export default function AvailabilityPage() {
             <Card key={index} variant='outlined' padding='md'>
               <CardContent>
                 <div className='flex items-center space-x-3 mb-3'>
-                  <div className='w-10 h-10 bg-red-500 bg-opacity-20 rounded-full flex items-center justify-center'>
+                  <div className='w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center'>
                     <CalendarIcon className='w-5 h-5 text-red-500' />
                   </div>
                   <div>
@@ -473,7 +473,7 @@ export default function AvailabilityPage() {
 
       {/* Modal de información de fecha */}
       {showModal && dateInfo && (
-        <div className='fixed inset-0 bg-background bg-opacity-90 backdrop-blur-sm z-50 flex items-center justify-center p-4'>
+        <div className='fixed inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center p-4'>
           <Card variant='elevated' className='max-w-md w-full'>
             <CardContent className='p-6'>
               <div className='flex items-center justify-between mb-6'>
@@ -536,7 +536,7 @@ export default function AvailabilityPage() {
               ) : (
                 <div className='space-y-4'>
                   {dateInfo.reason && (
-                    <div className='bg-red-500 bg-opacity-10 border border-red-500 border-opacity-30 rounded-lg p-4'>
+                    <div className='bg-red-500/10 border border-red-500/30 rounded-lg p-4'>
                       <p className='font-raleway text-red-400 text-sm text-center'>
                         <strong>Motivo:</strong> {dateInfo.reason}
                       </p>

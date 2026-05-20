@@ -1,8 +1,67 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss";
 
-/* Estilos base para el proyecto Salón Campeche */
+@theme {
+  --color-background: #000000;
+  --color-foreground: #f2b98d;
+  
+  --color-accent-1: #cf7b75;
+  --color-accent-2: #de8052;
+  --color-accent-3: #ec842f;
+
+  --color-white: #ffffff;
+  
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+
+  --font-caveat: var(--font-caveat);
+  --font-raleway: var(--font-raleway);
+
+  --animate-fade-in: fadeIn 0.6s ease-in-out;
+  --animate-slide-up: slideUp 0.8s ease-out;
+  --animate-slide-down: slideDown 0.8s ease-out;
+  --animate-scale-in: scaleIn 0.5s ease-out;
+  --animate-bounce-subtle: bounceSubtle 2s infinite;
+  --animate-pulse-soft: pulseSoft 2s infinite;
+  --animate-spin-slow: spin 3s linear infinite;
+
+  --shadow-elegant: 0 10px 30px rgba(242, 185, 141, 0.1);
+  --shadow-accent-glow: 0 0 20px rgba(236, 132, 47, 0.3);
+
+  --breakpoint-xs: 475px;
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slideUp {
+    0% { transform: translateY(30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes slideDown {
+    0% { transform: translateY(-30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes scaleIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes bounceSubtle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -32,77 +91,68 @@
 
   /* Focus states personalizados */
   *:focus {
-    @apply outline-none ring-2 ring-accent-3 ring-opacity-50;
+    @apply outline-none ring-2 ring-accent-3/50;
   }
 }
 
-@layer components {
-  /* Botones principales */
-  .btn-primary {
-    @apply bg-accent-3 hover:bg-accent-2 text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-accent-3 focus:ring-opacity-50;
-  }
+/* Clases de componentes y utilidades */
+.btn-primary {
+  @apply bg-accent-3 hover:bg-accent-2 text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-accent-3/50;
+}
 
-  .btn-secondary {
-    @apply bg-transparent border-2 border-accent-3 text-accent-3 hover:bg-accent-3 hover:text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300;
-  }
+.btn-secondary {
+  @apply bg-transparent border-2 border-accent-3 text-accent-3 hover:bg-accent-3 hover:text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300;
+}
 
-  .btn-ghost {
-    @apply bg-transparent text-foreground hover:bg-foreground hover:bg-opacity-10 font-raleway font-medium px-4 py-2 rounded-lg transition-all duration-300;
-  }
+.btn-ghost {
+  @apply bg-transparent text-foreground hover:bg-foreground/10 font-raleway font-medium px-4 py-2 rounded-lg transition-all duration-300;
+}
 
-  /* Cards y containers */
-  .card {
-    @apply bg-gray-900 bg-opacity-50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 transition-all duration-300 hover:border-accent-3 hover:shadow-accent-glow;
-  }
+.card {
+  @apply bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 transition-all duration-300 hover:border-accent-3 hover:shadow-accent-glow;
+}
 
-  .container-section {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
-  }
+.container-section {
+  @apply container mx-auto px-4 sm:px-6 lg:px-8;
+}
 
-  /* Efectos de gradiente */
-  .gradient-accent {
-    background: linear-gradient(135deg, #ec842f 0%, #de8052 50%, #cf7b75 100%);
-  }
+.gradient-accent {
+  background: linear-gradient(135deg, #ec842f 0%, #de8052 50%, #cf7b75 100%);
+}
 
-  .gradient-text {
-    background: linear-gradient(135deg, #f2b98d 0%, #ec842f 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+.gradient-text {
+  background: linear-gradient(135deg, #f2b98d 0%, #ec842f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  /* Animaciones personalizadas */
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
 
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-10px) rotate(1deg);
-    }
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
   }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
 
-  /* Efectos de texto brillante */
-  .text-glow {
-    text-shadow: 0 0 10px rgba(236, 132, 47, 0.5);
-  }
+.text-glow {
+  text-shadow: 0 0 10px rgba(236, 132, 47, 0.5);
+}
 
-  /* Separadores decorativos */
-  .divider {
-    @apply w-24 h-1 bg-gradient-to-r from-accent-3 to-accent-2 mx-auto my-8 rounded-full;
-  }
+.divider {
+  @apply w-24 h-1 bg-gradient-to-r from-accent-3 to-accent-2 mx-auto my-8 rounded-full;
+}
 
-  /* Inputs personalizados */
-  .input-custom {
-    @apply bg-gray-900 bg-opacity-50 border border-gray-700 text-foreground placeholder-gray-400 px-4 py-3 rounded-lg focus:border-accent-3 focus:ring-1 focus:ring-accent-3 transition-all duration-300;
-  }
+.input-custom {
+  @apply bg-gray-900/50 border border-gray-700 text-foreground placeholder-gray-400 px-4 py-3 rounded-lg focus:border-accent-3 focus:ring-1 focus:ring-accent-3 transition-all duration-300;
+}
 
-  /* Overlay para modales */
-  .overlay {
-    @apply fixed inset-0 bg-background bg-opacity-90 backdrop-blur-sm z-50;
-  }
+.overlay {
+  @apply fixed inset-0 bg-background/90 backdrop-blur-sm z-50;
 }

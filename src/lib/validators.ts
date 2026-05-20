@@ -266,7 +266,7 @@ export const validateSelectedServices = (
 
   // Verificar servicios de entretenimiento para eventos grandes
   if (guestCount > 100) {
-    const hasDJ = services['dj-sonido'] > 0
+    const hasDJ = (services['dj-sonido'] || 0) > 0
     const hasEntertainment = Object.keys(services).some(
       key => key.includes('inflable') || key.includes('trampolin')
     )

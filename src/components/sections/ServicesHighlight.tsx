@@ -88,7 +88,7 @@ export default function ServicesHighlight() {
             <CardContent className='h-full flex flex-col'>
               {/* Icono y título */}
               <div className='flex items-center space-x-4 mb-4'>
-                <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center text-accent-3 group-hover:bg-accent-3 group-hover:text-background transition-all duration-300'>
+                <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center text-accent-3 group-hover:bg-accent-3 group-hover:text-background transition-all duration-300'>
                   {service.icon}
                 </div>
                 <div>
@@ -139,7 +139,7 @@ export default function ServicesHighlight() {
           <h3 className='font-caveat font-bold text-3xl md:text-4xl text-background mb-4'>
             ¿Necesitas un paquete personalizado?
           </h3>
-          <p className='text-background text-opacity-90 font-raleway text-lg mb-8 max-w-2xl mx-auto leading-relaxed'>
+          <p className='text-background/90 font-raleway text-lg mb-8 max-w-2xl mx-auto leading-relaxed'>
             Combina nuestros servicios y crea el paquete perfecto para tu
             evento. Obtén una cotización instantánea y personalizada.
           </p>

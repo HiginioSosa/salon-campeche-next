@@ -207,7 +207,7 @@ export default function ServicesPage() {
         {/* Estadísticas destacadas */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-12'>
           <div className='text-center'>
-            <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-3'>
+            <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-3'>
               <Users className='w-8 h-8 text-accent-3' />
             </div>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-1'>
@@ -219,7 +219,7 @@ export default function ServicesPage() {
           </div>
 
           <div className='text-center'>
-            <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-3'>
+            <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-3'>
               <Star className='w-8 h-8 text-accent-3' />
             </div>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-1'>
@@ -231,7 +231,7 @@ export default function ServicesPage() {
           </div>
 
           <div className='text-center'>
-            <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-3'>
+            <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-3'>
               <Clock className='w-8 h-8 text-accent-3' />
             </div>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-1'>
@@ -243,7 +243,7 @@ export default function ServicesPage() {
           </div>
 
           <div className='text-center'>
-            <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-3'>
+            <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-3'>
               <Package className='w-8 h-8 text-accent-3' />
             </div>
             <div className='font-caveat font-bold text-3xl text-accent-3 mb-1'>
@@ -487,7 +487,7 @@ export default function ServicesPage() {
             </Link>
           </div>
 
-          <div className='mt-8 p-6 bg-background bg-opacity-50 rounded-xl backdrop-blur-sm'>
+          <div className='mt-8 p-6 bg-background/50 rounded-xl backdrop-blur-sm'>
             <p className='font-raleway text-gray-300 text-sm mb-2'>
               💡 <strong>Tip:</strong> Los servicios más populares son:
             </p>

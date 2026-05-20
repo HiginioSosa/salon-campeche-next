@@ -65,31 +65,9 @@ export default function QuoteCalculator({
   const [currentQuote, setCurrentQuote] = useState<Quote | null>(null)
   const [errors, setErrors] = useState<string[]>([])
   const [recommendations, setRecommendations] = useState<string[]>([])
-  // Control interno para habilitar el cálculo (cuando el usuario terminó datos básicos)
-  const [basicInfoCompleted, setBasicInfoCompleted] = useState(false)
-
   // Usar servicios externos si están disponibles, sino usar estado interno
   const effectiveSelectedServices =
     selectedServicesExternal || state.selectedServices
-
-  // Solo sincronizar servicios externos si realmente han cambiado
-  useEffect(() => {
-    if (selectedServicesExternal) {
-      const currentKeys = Object.keys(state.selectedServices).sort()
-      const externalKeys = Object.keys(selectedServicesExternal).sort()
-      const keysChanged = currentKeys.join(',') !== externalKeys.join(',')
-      const valuesChanged = Object.entries(selectedServicesExternal).some(
-        ([key, value]) => state.selectedServices[key] !== value
-      )
-
-      if (keysChanged || valuesChanged) {
-        setState(prev => ({
-          ...prev,
-          selectedServices: selectedServicesExternal,
-        }))
-      }
-    }
-  }, [selectedServicesExternal, state.selectedServices])
 
   // Notificar cambios al componente padre
   useEffect(() => {
@@ -242,15 +220,15 @@ export default function QuoteCalculator({
   }, [state, validateInputs, quoteId, effectiveSelectedServices]) // Calcular cotización automáticamente cuando cambian los datos
   useEffect(() => {
     const ready = state.guestCount > 0 && !!state.venueType && !!state.eventType
-    if (ready && !basicInfoCompleted) {
-      setBasicInfoCompleted(true)
-    }
-    if (ready) {
-      calculateQuote()
-      generateRecommendations()
-    } else {
-      setCurrentQuote(null)
-    }
+    const timer = setTimeout(() => {
+      if (ready) {
+        calculateQuote()
+        generateRecommendations()
+      } else {
+        setCurrentQuote(null)
+      }
+    }, 0)
+    return () => clearTimeout(timer)
   }, [
     state.guestCount,
     state.venueType,
@@ -259,7 +237,6 @@ export default function QuoteCalculator({
     effectiveSelectedServices,
     calculateQuote,
     generateRecommendations,
-    basicInfoCompleted,
   ])
 
   return (
@@ -380,7 +357,7 @@ export default function QuoteCalculator({
                   onClick={() => updateState({ tableType: '' })}
                   className={`p-4 rounded-lg border-2 transition-all duration-300 text-left ${
                     state.tableType === ''
-                      ? 'border-accent-3 bg-accent-3 bg-opacity-10'
+                      ? 'border-accent-3 bg-accent-3/10'
                       : 'border-gray-700 hover:border-accent-3'
                   }`}
                 >
@@ -399,7 +376,7 @@ export default function QuoteCalculator({
                   onClick={() => updateState({ tableType: 'sencillas' })}
                   className={`p-4 rounded-lg border-2 transition-all duration-300 text-left ${
                     state.tableType === 'sencillas'
-                      ? 'border-accent-3 bg-accent-3 bg-opacity-10'
+                      ? 'border-accent-3 bg-accent-3/10'
                       : 'border-gray-700 hover:border-accent-3'
                   }`}
                 >
@@ -421,7 +398,7 @@ export default function QuoteCalculator({
                   onClick={() => updateState({ tableType: 'vestidas' })}
                   className={`p-4 rounded-lg border-2 transition-all duration-300 text-left ${
                     state.tableType === 'vestidas'
-                      ? 'border-accent-3 bg-accent-3 bg-opacity-10'
+                      ? 'border-accent-3 bg-accent-3/10'
                       : 'border-gray-700 hover:border-accent-3'
                   }`}
                 >
@@ -474,7 +451,7 @@ export default function QuoteCalculator({
           {errors.length > 0 && (
             <Card
               variant='outlined'
-              className='border-red-500 border-opacity-50 mb-4'
+              className='border-red-500/50 mb-4'
             >
               <CardContent>
                 <div className='flex items-center space-x-2 mb-3'>
@@ -500,7 +477,7 @@ export default function QuoteCalculator({
           {recommendations.length > 0 && (
             <Card
               variant='outlined'
-              className='border-accent-3 border-opacity-50'
+              className='border-accent-3/50'
             >
               <CardContent>
                 <div className='flex items-center space-x-2 mb-3'>

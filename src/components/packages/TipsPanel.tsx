@@ -99,14 +99,14 @@ export default function TipsPanel({
 
   return (
     <div className='fixed bottom-4 left-4 z-30 max-w-sm'>
-      <Card variant='glass' className='border-accent-3 border-opacity-30'>
+      <Card variant='glass' className='border-accent-3/30'>
         <CardContent className='p-4'>
           {!isMinimized ? (
             <>
               {/* Header */}
               <div className='flex items-center justify-between mb-3'>
                 <div className='flex items-center space-x-2'>
-                  <div className='w-8 h-8 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center'>
+                  <div className='w-8 h-8 bg-accent-3/20 rounded-full flex items-center justify-center'>
                     <Lightbulb className='w-4 h-4 text-accent-3' />
                   </div>
                   <div>
@@ -187,7 +187,7 @@ export default function TipsPanel({
             /* Vista minimizada */
             <div className='flex items-center justify-between'>
               <div className='flex items-center space-x-2'>
-                <div className='w-6 h-6 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center'>
+                <div className='w-6 h-6 bg-accent-3/20 rounded-full flex items-center justify-center'>
                   <Lightbulb className='w-3 h-3 text-accent-3' />
                 </div>
                 <span className='font-raleway text-foreground text-sm'>

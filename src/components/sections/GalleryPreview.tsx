@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Eye, Heart, Calendar, Users } from 'lucide-react'
 import { Section, SectionHeader, Button } from '@/components'
 
@@ -14,6 +15,7 @@ const galleryImages = [
     date: 'Diciembre 2024',
     description: 'Decoración en tonos dorados con iluminación cálida',
     category: 'boda',
+    imageSrc: '/images/events/boda.png',
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ const galleryImages = [
     date: 'Noviembre 2024',
     description: 'Tema de princesa con colores rosa y dorado',
     category: 'xv-anos',
+    imageSrc: '/images/events/xv-anos.png',
   },
   {
     id: 3,
@@ -32,6 +35,7 @@ const galleryImages = [
     date: 'Octubre 2024',
     description: 'Celebración íntima con decoración temática',
     category: 'cumpleanos',
+    imageSrc: '/images/events/cumpleanos.png',
   },
   {
     id: 4,
@@ -41,6 +45,7 @@ const galleryImages = [
     date: 'Septiembre 2024',
     description: 'Ambiente profesional y elegante',
     category: 'corporativo',
+    imageSrc: '/images/events/aniversario.png', // Usamos aniversario como fallback de alta calidad
   },
   {
     id: 5,
@@ -50,6 +55,7 @@ const galleryImages = [
     date: 'Agosto 2024',
     description: 'Decoración en tonos pasteles y globos',
     category: 'baby-shower',
+    imageSrc: '/images/events/baby-shower.png',
   },
   {
     id: 6,
@@ -59,6 +65,7 @@ const galleryImages = [
     date: 'Julio 2024',
     description: '25 años de amor celebrados con estilo',
     category: 'aniversario',
+    imageSrc: '/images/events/aniversario.png',
   },
 ]
 
@@ -82,30 +89,19 @@ export default function GalleryPreview() {
             onMouseEnter={() => setHoveredImage(image.id)}
             onMouseLeave={() => setHoveredImage(null)}
           >
-            {/* Placeholder para imagen del evento */}
-            {/* Aquí iría la imagen real del evento: {image.title} - {image.description} */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-br transition-all duration-700 group-hover:scale-110 ${
-                index % 6 === 0
-                  ? 'from-accent-3 to-accent-2'
-                  : index % 6 === 1
-                    ? 'from-accent-2 to-accent-1'
-                    : index % 6 === 2
-                      ? 'from-accent-1 to-accent-3'
-                      : index % 6 === 3
-                        ? 'from-gray-700 to-accent-3'
-                        : index % 6 === 4
-                          ? 'from-accent-3 to-gray-700'
-                          : 'from-accent-2 to-gray-600'
-              }`}
-            >
-              {/* Patrón decorativo */}
-              <div className='absolute inset-0 opacity-20 bg-gradient-to-br from-transparent via-white to-transparent'></div>
-            </div>
+            {/* Imagen real del evento usando Next.js Image */}
+            <Image
+              src={image.imageSrc}
+              alt={image.title}
+              fill
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+              className='object-cover transition-all duration-700 group-hover:scale-110'
+              priority={index < 3}
+            />
 
             {/* Overlay con información */}
             <div
-              className={`absolute inset-0 bg-background bg-opacity-80 flex flex-col justify-end p-6 transition-all duration-300 ${
+              className={`absolute inset-0 bg-background/80 flex flex-col justify-end p-6 transition-all duration-300 ${
                 hoveredImage === image.id ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -148,7 +144,7 @@ export default function GalleryPreview() {
             </div>
 
             {/* Badge del tipo de evento */}
-            <div className='absolute top-4 left-4 bg-background bg-opacity-90 backdrop-blur-sm rounded-full px-3 py-1'>
+            <div className='absolute top-4 left-4 bg-background/90 backdrop-blur-sm rounded-full px-3 py-1'>
               <span className='text-accent-3 font-raleway font-semibold text-xs'>
                 {image.eventType}
               </span>
@@ -170,7 +166,7 @@ export default function GalleryPreview() {
 
       {/* Estadísticas de la galería */}
       <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-12'>
-        <div className='text-center p-6 bg-gray-900 bg-opacity-30 rounded-xl backdrop-blur-sm'>
+        <div className='text-center p-6 bg-gray-900/30 rounded-xl backdrop-blur-sm'>
           <div className='font-caveat font-bold text-3xl md:text-4xl text-accent-3 mb-2'>
             150+
           </div>
@@ -179,7 +175,7 @@ export default function GalleryPreview() {
           </p>
         </div>
 
-        <div className='text-center p-6 bg-gray-900 bg-opacity-30 rounded-xl backdrop-blur-sm'>
+        <div className='text-center p-6 bg-gray-900/30 rounded-xl backdrop-blur-sm'>
           <div className='font-caveat font-bold text-3xl md:text-4xl text-accent-3 mb-2'>
             50+
           </div>
@@ -188,14 +184,14 @@ export default function GalleryPreview() {
           </p>
         </div>
 
-        <div className='text-center p-6 bg-gray-900 bg-opacity-30 rounded-xl backdrop-blur-sm'>
+        <div className='text-center p-6 bg-gray-900/30 rounded-xl backdrop-blur-sm'>
           <div className='font-caveat font-bold text-3xl md:text-4xl text-accent-3 mb-2'>
             60
           </div>
           <p className='font-raleway text-gray-300 text-sm'>Meses Activos</p>
         </div>
 
-        <div className='text-center p-6 bg-gray-900 bg-opacity-30 rounded-xl backdrop-blur-sm'>
+        <div className='text-center p-6 bg-gray-900/30 rounded-xl backdrop-blur-sm'>
           <div className='font-caveat font-bold text-3xl md:text-4xl text-accent-3 mb-2'>
             100%
           </div>
@@ -209,7 +205,7 @@ export default function GalleryPreview() {
           <h3 className='font-caveat font-bold text-3xl md:text-4xl text-background mb-4'>
             Especializados en todo tipo de eventos
           </h3>
-          <p className='text-background text-opacity-90 font-raleway text-lg max-w-3xl mx-auto'>
+          <p className='text-background/90 font-raleway text-lg max-w-3xl mx-auto'>
             Desde íntimas celebraciones familiares hasta grandes recepciones,
             creamos el ambiente perfecto para cada ocasión especial.
           </p>
@@ -226,13 +222,13 @@ export default function GalleryPreview() {
           ].map((eventType, index) => (
             <div
               key={index}
-              className='bg-background bg-opacity-20 rounded-xl p-4 text-center backdrop-blur-sm'
+              className='bg-background/20 rounded-xl p-4 text-center backdrop-blur-sm'
             >
               <div className='text-2xl mb-2'>{eventType.icon}</div>
               <h4 className='font-raleway font-semibold text-background text-sm mb-1'>
                 {eventType.name}
               </h4>
-              <p className='text-background text-opacity-70 text-xs'>
+              <p className='text-background/70 text-xs'>
                 {eventType.count} eventos
               </p>
             </div>

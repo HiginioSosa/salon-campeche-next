@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { MapPin, Phone, Mail, Facebook, Instagram, Clock } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock } from 'lucide-react'
 import { businessInfo } from '@/lib/brand'
 import Image from 'next/image'
+import { Facebook, Instagram } from '../ui/Icons'
 
 const footerNavigation = {
   servicios: [
@@ -31,7 +32,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className='bg-gray-900 bg-opacity-50 border-t border-gray-800'>
+    <footer className='bg-gray-900/50 border-t border-gray-800'>
       <div className='container-section'>
         {/* Main Footer Content */}
         <div className='py-12 lg:py-16'>

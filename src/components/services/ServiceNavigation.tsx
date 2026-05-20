@@ -87,7 +87,7 @@ export default function ServiceNavigation() {
     }
 
     window.addEventListener('scroll', throttledHandleScroll, { passive: true })
-    handleScroll() // Check initial position
+    requestAnimationFrame(handleScroll) // Check initial position
 
     return () => {
       window.removeEventListener('scroll', throttledHandleScroll)
@@ -112,7 +112,7 @@ export default function ServiceNavigation() {
     <>
       {/* Desktop Navigation */}
       <div className='hidden lg:block fixed left-8 top-1/2 transform -translate-y-1/2 z-40'>
-        <div className='bg-background bg-opacity-90 backdrop-blur-sm rounded-xl border border-gray-800 p-4 max-w-xs'>
+        <div className='bg-background/90 backdrop-blur-sm rounded-xl border border-gray-800 p-4 max-w-xs'>
           <h3 className='font-raleway font-semibold text-foreground text-sm mb-4'>
             Navegación Rápida
           </h3>
@@ -124,7 +124,7 @@ export default function ServiceNavigation() {
                 className={`flex items-center justify-between w-full text-left px-3 py-2 rounded-lg transition-all duration-200 group ${
                   activeSection === item.id
                     ? 'bg-accent-3 text-background'
-                    : 'text-gray-300 hover:text-accent-3 hover:bg-accent-3 hover:bg-opacity-10'
+                    : 'text-gray-300 hover:text-accent-3 hover:bg-accent-3/10'
                 }`}
                 aria-current={activeSection === item.id ? 'true' : 'false'}
               >
@@ -158,13 +158,13 @@ export default function ServiceNavigation() {
         <>
           {/* Overlay */}
           <div
-            className='lg:hidden fixed inset-0 bg-background bg-opacity-70 backdrop-blur-sm z-30'
+            className='lg:hidden fixed inset-0 bg-background/70 backdrop-blur-sm z-30'
             onClick={() => setIsOpen(false)}
           />
 
           {/* Menu */}
           <div className='lg:hidden fixed bottom-36 left-4 right-4 z-40'>
-            <div className='bg-background bg-opacity-95 backdrop-blur-sm rounded-xl border border-gray-800 p-4 max-h-96 overflow-y-auto'>
+            <div className='bg-background/95 backdrop-blur-sm rounded-xl border border-gray-800 p-4 max-h-96 overflow-y-auto'>
               <h3 className='font-raleway font-semibold text-foreground text-sm mb-4'>
                 Ir a sección
               </h3>
@@ -176,7 +176,7 @@ export default function ServiceNavigation() {
                     className={`text-left px-3 py-2 rounded-lg transition-all duration-200 ${
                       activeSection === item.id
                         ? 'bg-accent-3 text-background'
-                        : 'text-gray-300 hover:text-accent-3 hover:bg-accent-3 hover:bg-opacity-10'
+                        : 'text-gray-300 hover:text-accent-3 hover:bg-accent-3/10'
                     }`}
                     aria-current={activeSection === item.id ? 'true' : 'false'}
                   >

@@ -114,7 +114,7 @@ export default function FAQSection() {
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-12'>
           <Card variant='glass' padding='md' className='text-center'>
             <CardContent>
-              <div className='w-12 h-12 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4'>
+              <div className='w-12 h-12 bg-accent-3/20 rounded-full flex items-center justify-center mx-auto mb-4'>
                 <Clock className='w-6 h-6 text-accent-3' />
               </div>
               <h4 className='font-raleway font-semibold text-foreground mb-2'>
@@ -128,7 +128,7 @@ export default function FAQSection() {
 
           <Card variant='glass' padding='md' className='text-center'>
             <CardContent>
-              <div className='w-12 h-12 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4'>
+              <div className='w-12 h-12 bg-accent-3/20 rounded-full flex items-center justify-center mx-auto mb-4'>
                 <MapPin className='w-6 h-6 text-accent-3' />
               </div>
               <h4 className='font-raleway font-semibold text-foreground mb-2'>
@@ -142,7 +142,7 @@ export default function FAQSection() {
 
           <Card variant='glass' padding='md' className='text-center'>
             <CardContent>
-              <div className='w-12 h-12 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4'>
+              <div className='w-12 h-12 bg-accent-3/20 rounded-full flex items-center justify-center mx-auto mb-4'>
                 <HelpCircle className='w-6 h-6 text-accent-3' />
               </div>
               <h4 className='font-raleway font-semibold text-foreground mb-2'>

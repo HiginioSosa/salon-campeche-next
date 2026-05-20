@@ -85,7 +85,7 @@ export default function PackagesPage() {
             </div>
 
             <div className='hidden md:block'>
-              <div className='bg-accent-3 bg-opacity-20 rounded-xl p-4 text-center'>
+              <div className='bg-accent-3/20 rounded-xl p-4 text-center'>
                 <Calculator className='w-8 h-8 text-accent-3 mx-auto mb-2' />
                 <p className='font-raleway font-semibold text-foreground text-sm'>
                   Cotización en Tiempo Real
@@ -212,7 +212,7 @@ export default function PackagesPage() {
             className='text-center group hover:scale-105 transition-all duration-300'
           >
             <CardContent className='py-8'>
-              <div className='w-20 h-20 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-3 group-hover:text-background transition-all duration-300'>
+              <div className='w-20 h-20 bg-accent-3/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-3 group-hover:text-background transition-all duration-300'>
                 <Calculator className='w-10 h-10 text-accent-3 group-hover:text-background' />
               </div>
 
@@ -270,7 +270,7 @@ export default function PackagesPage() {
             className='text-center group hover:scale-105 transition-all duration-300'
           >
             <CardContent className='py-8'>
-              <div className='w-20 h-20 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-3 group-hover:text-background transition-all duration-300'>
+              <div className='w-20 h-20 bg-accent-3/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-3 group-hover:text-background transition-all duration-300'>
                 <Sparkles className='w-10 h-10 text-accent-3 group-hover:text-background' />
               </div>
 
@@ -412,7 +412,7 @@ export default function PackagesPage() {
           ].map((item, index) => (
             <div key={index} className='text-center'>
               <div className='relative mb-6'>
-                <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-full flex items-center justify-center mx-auto'>
+                <div className='w-16 h-16 bg-accent-3/20 rounded-full flex items-center justify-center mx-auto'>
                   <div className='text-accent-3'>{item.icon}</div>
                 </div>
                 <div className='absolute -top-2 -right-2 w-8 h-8 bg-accent-3 text-background rounded-full flex items-center justify-center font-raleway font-bold text-sm'>

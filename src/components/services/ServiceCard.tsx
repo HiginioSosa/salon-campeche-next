@@ -34,7 +34,7 @@ export default function ServiceCard({
     <Card
       className={`relative group transition-all duration-300 ${
         selected ? 'border-accent-3 shadow-accent-glow' : ''
-      } ${service.popular ? 'ring-2 ring-accent-3 ring-opacity-50' : ''} ${className}`}
+      } ${service.popular ? 'ring-2 ring-accent-3/50' : ''} ${className}`}
       hover
     >
       {/* Badge de popular */}
@@ -54,7 +54,7 @@ export default function ServiceCard({
               className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-300 ${
                 service.popular
                   ? 'bg-accent-3 text-background'
-                  : 'bg-accent-3 bg-opacity-20 text-accent-3 group-hover:bg-accent-3 group-hover:text-background'
+                  : 'bg-accent-3/20 text-accent-3 group-hover:bg-accent-3 group-hover:text-background'
               }`}
             >
               {service.icon}
@@ -120,7 +120,7 @@ export default function ServiceCard({
 
         {/* Información adicional */}
         {(service.maxQuantity || service.dependencies) && (
-          <div className='mb-4 p-3 bg-gray-900 bg-opacity-30 rounded-lg'>
+          <div className='mb-4 p-3 bg-gray-900/30 rounded-lg'>
             {service.maxQuantity && (
               <p className='text-gray-400 font-raleway text-xs mb-1'>
                 Máximo: {service.maxQuantity} {service.unit || 'unidades'}
@@ -165,7 +165,7 @@ export function ServiceCategory({
     <div className='mb-16'>
       <div className='text-center mb-12'>
         {icon && (
-          <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-4'>
+          <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-4'>
             <div className='text-accent-3 text-2xl'>{icon}</div>
           </div>
         )}

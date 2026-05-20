@@ -49,7 +49,7 @@ export default function PopularPackages() {
             key={pkg.id}
             className={`relative transition-all duration-300 ${
               pkg.popular
-                ? 'ring-2 ring-accent-3 ring-opacity-50 scale-105'
+                ? 'ring-2 ring-accent-3/50 scale-105'
                 : 'hover:scale-105'
             }`}
             variant={pkg.popular ? 'elevated' : 'default'}
@@ -116,7 +116,7 @@ export default function PopularPackages() {
               </div>
 
               {/* Información adicional */}
-              <div className='mb-6 p-3 bg-gray-900 bg-opacity-30 rounded-lg'>
+              <div className='mb-6 p-3 bg-gray-900/30 rounded-lg'>
                 <div className='text-center'>
                   <div className='font-raleway text-accent-3 text-sm font-semibold mb-1'>
                     💰 Anticipo requerido
@@ -153,7 +153,7 @@ export default function PopularPackages() {
               {/* Nota especial para el paquete popular */}
               {pkg.popular && (
                 <div className='mt-4 text-center'>
-                  <div className='bg-accent-3 bg-opacity-10 rounded-lg p-3 border border-accent-3 border-opacity-30'>
+                  <div className='bg-accent-3/10 rounded-lg p-3 border border-accent-3/30'>
                     <p className='font-raleway text-accent-3 text-xs font-semibold'>
                       ⭐ Elegido por el 70% de nuestros clientes
                     </p>
@@ -171,7 +171,7 @@ export default function PopularPackages() {
           <h3 className='font-caveat font-bold text-3xl md:text-4xl text-background mb-4'>
             ¿Necesitas algo diferente?
           </h3>
-          <p className='text-background text-opacity-90 font-raleway text-lg mb-8 max-w-2xl mx-auto'>
+          <p className='text-background/90 font-raleway text-lg mb-8 max-w-2xl mx-auto'>
             Crea un paquete completamente personalizado con nuestro cotizador
             interactivo. Combina solo los servicios que necesitas.
           </p>
@@ -203,7 +203,7 @@ export default function PopularPackages() {
       {/* Beneficios de elegir un paquete */}
       <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-12'>
         <div className='text-center'>
-          <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-4'>
+          <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-4'>
             <span className='text-accent-3 text-2xl'>💰</span>
           </div>
           <h4 className='font-raleway font-semibold text-foreground mb-2'>
@@ -216,7 +216,7 @@ export default function PopularPackages() {
         </div>
 
         <div className='text-center'>
-          <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-4'>
+          <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-4'>
             <span className='text-accent-3 text-2xl'>⚡</span>
           </div>
           <h4 className='font-raleway font-semibold text-foreground mb-2'>
@@ -229,7 +229,7 @@ export default function PopularPackages() {
         </div>
 
         <div className='text-center'>
-          <div className='w-16 h-16 bg-accent-3 bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-4'>
+          <div className='w-16 h-16 bg-accent-3/20 rounded-xl flex items-center justify-center mx-auto mb-4'>
             <span className='text-accent-3 text-2xl'>🎯</span>
           </div>
           <h4 className='font-raleway font-semibold text-foreground mb-2'>
