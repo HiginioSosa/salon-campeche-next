@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { ChevronDown, HelpCircle, Clock, MapPin } from 'lucide-react'
 import { Section, SectionHeader, Card, CardContent, Button } from '@/components'
 
@@ -166,21 +165,18 @@ export default function FAQSection() {
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Link href='/faq'>
-              <Button size='lg' className='w-full sm:w-auto'>
-                Ver Todas las FAQ
-              </Button>
-            </Link>
+            <Button href='/faq' size='lg' className='w-full sm:w-auto'>
+              Ver Todas las FAQ
+            </Button>
 
-            <Link href='/contacto'>
-              <Button
-                variant='secondary'
-                size='lg'
-                className='w-full sm:w-auto'
-              >
-                Contactar por WhatsApp
-              </Button>
-            </Link>
+            <Button
+              href='/contacto'
+              variant='secondary'
+              size='lg'
+              className='w-full sm:w-auto'
+            >
+              Contactar por WhatsApp
+            </Button>
           </div>
         </div>
       </div>

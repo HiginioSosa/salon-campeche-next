@@ -15,11 +15,14 @@ export const metadata: Metadata = {
     'cotizar salon de fiestas',
     'paquetes eventos mexico',
   ],
+  alternates: {
+    canonical: '/paquetes',
+  },
   openGraph: {
     title: `Cotizador Interactivo - Paquetes desde $8,200 - ${businessInfo.name}`,
     description:
       'Crea el paquete perfecto para tu evento. Sistema inteligente de cotización con recomendaciones automáticas y descarga de PDF.',
-    url: 'https://saloncampeche.com/paquetes',
+    url: '/paquetes',
   },
 }
 

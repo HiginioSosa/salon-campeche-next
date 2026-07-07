@@ -19,15 +19,7 @@ export const metadata: Metadata = {
     title: `Galería de 500+ Eventos - ${businessInfo.name}`,
     description:
       'Inspírate con nuestra galería de eventos realizados. Bodas, XV años, cumpleaños y más celebraciones únicas e inolvidables.',
-    url: 'https://saloncampeche.com/galeria',
-    images: [
-      {
-        url: '/og-galeria.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Galería de eventos Salón Campeche',
-      },
-    ],
+    url: '/galeria',
     locale: 'es_MX',
     type: 'website',
   },
@@ -36,10 +28,9 @@ export const metadata: Metadata = {
     title: `Galería de Eventos - ${businessInfo.name}`,
     description:
       'Más de 500 eventos realizados. Inspírate con bodas, XV años, cumpleaños y celebraciones únicas.',
-    images: ['/og-galeria.jpg'],
   },
   alternates: {
-    canonical: 'https://saloncampeche.com/galeria',
+    canonical: '/galeria',
   },
 }
 

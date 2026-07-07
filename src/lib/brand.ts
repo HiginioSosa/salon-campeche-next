@@ -1,3 +1,9 @@
+// URL base del sitio. Configurable por entorno para no acoplar el dominio al código.
+// Definir NEXT_PUBLIC_SITE_URL en el entorno de despliegue (p.ej. https://tu-dominio.com).
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.saloncampeche.com'
+).replace(/\/$/, '')
+
 // Información del negocio
 export const businessInfo = {
   name: 'Salón Campeche',
@@ -24,9 +30,20 @@ export const businessInfo = {
       zipCode: '56587',
       full: 'Calle Campeche Mz 22 Lt 626b, Ampliación San Francisco, Ixtapaluca, Estado de México, CP: 56587',
     },
+    // Coordenadas exactas del salón para el pin del mapa. Con null se usa la
+    // dirección como texto (menos preciso, no coloca un pin exacto).
+    // Cómo obtenerlas: en Google Maps, clic derecho sobre el punto exacto del
+    // salón y copia el par "lat, lng" (p.ej. { lat: 19.31234, lng: -98.88765 }).
+    location: { lat: 19.350964, lng: -98.844679 } as {
+      lat: number
+      lng: number
+    } | null,
     social: {
       facebook: '@Salon Campeche',
       instagram: 'Salon Campeche',
+      // URLs de perfil. TODO: reemplazar por los enlaces reales del negocio.
+      facebookUrl: 'https://facebook.com/SalonCampeche',
+      instagramUrl: 'https://instagram.com/saloncampeche',
     },
   },
 

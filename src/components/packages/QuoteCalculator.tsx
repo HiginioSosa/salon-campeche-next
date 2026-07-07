@@ -7,6 +7,7 @@ import { services, calculateTablesNeeded } from '@/lib/services'
 import {
   validateQuoteForm,
   generateSmartRecommendations,
+  getTodayLocalISO,
 } from '@/lib/validators'
 import type { Quote, QuoteItem } from '@/types'
 
@@ -32,6 +33,13 @@ interface QuoteCalculatorProps {
   }) => void
   /** Estado externo de servicios seleccionados (ServiceSelector) */
   selectedServicesExternal?: { [serviceId: string]: number }
+  /** Valores iniciales para precargar (p.ej. al elegir un paquete predefinido) */
+  initialValues?: {
+    guestCount?: number
+    eventType?: string
+    venueType?: QuoteCalculatorState['venueType']
+    tableType?: QuoteCalculatorState['tableType']
+  }
 }
 
 const eventTypes = [
@@ -48,16 +56,17 @@ const eventTypes = [
 export default function QuoteCalculator({
   onDataChange,
   selectedServicesExternal,
+  initialValues,
 }: QuoteCalculatorProps) {
   const quoteId = useId()
 
   const [state, setState] = useState<QuoteCalculatorState>({
-    guestCount: 0,
+    guestCount: initialValues?.guestCount ?? 0,
     eventDate: '',
-    eventType: '',
+    eventType: initialValues?.eventType ?? '',
     selectedServices: {},
-    venueType: '',
-    tableType: '',
+    venueType: initialValues?.venueType ?? '',
+    tableType: initialValues?.tableType ?? '',
     notes: '',
     clientName: '',
   })
@@ -290,7 +299,7 @@ export default function QuoteCalculator({
                   value={state.eventDate}
                   onChange={e => updateState({ eventDate: e.target.value })}
                   className='input-custom w-full pl-10'
-                  min={new Date().toISOString().split('T')[0]}
+                  min={getTodayLocalISO()}
                 />
               </div>
             </div>

@@ -1,7 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react'
+import {
+  Star,
+  Quote,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+} from 'lucide-react'
 import { Section, SectionHeader, Card, CardContent, Button } from '@/components'
 
 const testimonials = [
@@ -75,10 +82,13 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
-  const [isPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(true)
 
   useEffect(() => {
-    if (!isPlaying) return
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!isPlaying || prefersReduced) return
 
     const timer = setInterval(() => {
       setCurrentTestimonial(prev => (prev + 1) % testimonials.length)
@@ -166,18 +176,23 @@ export default function TestimonialsSection() {
             </Button>
 
             {/* Indicadores */}
-            <div className='flex space-x-2'>
+            <div className='flex space-x-1'>
               {testimonials.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentTestimonial
-                      ? 'bg-accent-3 scale-110'
-                      : 'bg-gray-600 hover:bg-gray-500'
-                  }`}
+                  className='w-6 h-6 flex items-center justify-center rounded-full'
                   aria-label={`Ir al testimonio ${index + 1}`}
-                />
+                  aria-current={index === currentTestimonial}
+                >
+                  <span
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === currentTestimonial
+                        ? 'bg-accent-3 scale-110'
+                        : 'bg-gray-600 hover:bg-gray-500'
+                    }`}
+                  />
+                </button>
               ))}
             </div>
 
@@ -189,6 +204,24 @@ export default function TestimonialsSection() {
               aria-label='Siguiente testimonio'
             >
               <ChevronRight className='w-5 h-5' />
+            </Button>
+
+            <Button
+              variant='ghost'
+              size='sm'
+              onClick={() => setIsPlaying(prev => !prev)}
+              className='p-2'
+              aria-label={
+                isPlaying
+                  ? 'Pausar el carrusel automático'
+                  : 'Reanudar el carrusel automático'
+              }
+            >
+              {isPlaying ? (
+                <Pause className='w-5 h-5' />
+              ) : (
+                <Play className='w-5 h-5' />
+              )}
             </Button>
           </div>
         </div>

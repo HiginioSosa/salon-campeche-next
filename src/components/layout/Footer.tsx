@@ -47,7 +47,6 @@ export default function Footer() {
                   width={144}
                   height={144}
                   className='h-32 w-auto lg:h-36'
-                  priority
                 />
               </div>
 
@@ -72,7 +71,7 @@ export default function Footer() {
               {/* Social Media */}
               <div className='flex space-x-4'>
                 <a
-                  href={`https://facebook.com/${businessInfo.contact.social.facebook.replace('@', '')}`}
+                  href={businessInfo.contact.social.facebookUrl}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='w-10 h-10 bg-gray-800 hover:bg-accent-3 rounded-lg flex items-center justify-center transition-all duration-300 group'
@@ -81,7 +80,7 @@ export default function Footer() {
                   <Facebook className='w-5 h-5 text-gray-300 group-hover:text-background' />
                 </a>
                 <a
-                  href={`https://instagram.com/${businessInfo.contact.social.instagram.replace(' ', '')}`}
+                  href={businessInfo.contact.social.instagramUrl}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='w-10 h-10 bg-gray-800 hover:bg-accent-3 rounded-lg flex items-center justify-center transition-all duration-300 group'
@@ -207,12 +206,12 @@ export default function Footer() {
                 © {currentYear} {businessInfo.name}. Todos los derechos
                 reservados.
               </p>
-              <p className='text-gray-500 font-raleway text-xs mt-1'>
+              <p className='text-gray-400 font-raleway text-xs mt-1'>
                 Desarrollado con ❤️ para celebrar sin límites
               </p>
             </div>
 
-            <div className='flex items-center space-x-6'>
+            <div className='flex flex-wrap items-center justify-center gap-x-6 gap-y-2'>
               <Link
                 href='/privacidad'
                 className='text-gray-400 hover:text-accent-3 font-raleway text-sm transition-colors duration-200'
@@ -226,11 +225,17 @@ export default function Footer() {
                 Términos
               </Link>
               <Link
+                href='/faq'
+                className='text-gray-400 hover:text-accent-3 font-raleway text-sm transition-colors duration-200'
+              >
+                Preguntas Frecuentes
+              </Link>
+              <a
                 href='/sitemap.xml'
                 className='text-gray-400 hover:text-accent-3 font-raleway text-sm transition-colors duration-200'
               >
                 Sitemap
-              </Link>
+              </a>
             </div>
           </div>
         </div>

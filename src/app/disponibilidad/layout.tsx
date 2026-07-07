@@ -19,15 +19,7 @@ export const metadata: Metadata = {
     title: `Calendario de Disponibilidad - ${businessInfo.name}`,
     description:
       'Consulta en tiempo real las fechas disponibles para tu evento. Calendario actualizado con fechas libres y ocupadas.',
-    url: 'https://saloncampeche.com/disponibilidad',
-    images: [
-      {
-        url: '/og-disponibilidad.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Disponibilidad Salón Campeche',
-      },
-    ],
+    url: '/disponibilidad',
     locale: 'es_MX',
     type: 'website',
   },
@@ -36,10 +28,9 @@ export const metadata: Metadata = {
     title: `Disponibilidad - ${businessInfo.name}`,
     description:
       'Consulta fechas disponibles para tu evento en nuestro calendario en tiempo real.',
-    images: ['/og-disponibilidad.jpg'],
   },
   alternates: {
-    canonical: 'https://saloncampeche.com/disponibilidad',
+    canonical: '/disponibilidad',
   },
 }
 

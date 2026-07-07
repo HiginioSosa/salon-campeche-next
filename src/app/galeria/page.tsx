@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import {
   Eye,
@@ -20,6 +19,7 @@ import {
   Button,
   Card,
   CardContent,
+  Modal,
 } from '@/components'
 
 // Simulación de datos de galería
@@ -227,11 +227,24 @@ export default function GalleryPage() {
     setSelectedImage(filteredImages[newIndex])
   }
 
+  // Navegación con flechas del teclado dentro del modal
+  useEffect(() => {
+    if (!selectedImage) return
+    const handleArrows = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') navigateImage('prev')
+      else if (e.key === 'ArrowRight') navigateImage('next')
+    }
+    window.addEventListener('keydown', handleArrows)
+    return () => window.removeEventListener('keydown', handleArrows)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedImage, filteredImages])
+
   return (
     <MainLayout whatsAppMessage='¡Hola! Vi su galería de eventos y me encantaría saber más sobre sus servicios para mi celebración.'>
       {/* Hero Section */}
       <Section variant='gradient' size='lg'>
         <SectionHeader
+          as='h1'
           subtitle='Galería de Eventos'
           title='Momentos únicos capturados para siempre'
           description='Explora más de 150 eventos realizados y descubre cómo transformamos cada celebración en una experiencia inolvidable'
@@ -310,10 +323,19 @@ export default function GalleryPage() {
           {filteredImages.map(image => (
             <Card
               key={image.id}
+              role='button'
+              tabIndex={0}
+              aria-label={`Ver detalles de ${image.title}`}
               className={`group cursor-pointer transition-all duration-300 hover:scale-105 ${
                 image.featured ? 'ring-2 ring-accent-3/50' : ''
               }`}
               onClick={() => openModal(image)}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  openModal(image)
+                }
+              }}
             >
               <CardContent className='p-0 relative overflow-hidden rounded-xl'>
                 <div className='aspect-square relative overflow-hidden transition-all duration-700 group-hover:scale-110'>
@@ -337,9 +359,9 @@ export default function GalleryPage() {
                   </div>
                 )}
 
-                {/* Overlay con información */}
-                <div className='absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-6'>
-                  <div className='transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300'>
+                {/* Overlay con información (visible al pasar el cursor o al enfocar con teclado) */}
+                <div className='absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all duration-300 flex flex-col justify-end p-6'>
+                  <div className='transform translate-y-4 group-hover:translate-y-0 group-focus-within:translate-y-0 transition-transform duration-300'>
                     <h3 className='font-caveat font-bold text-2xl text-foreground mb-2'>
                       {image.title}
                     </h3>
@@ -423,32 +445,35 @@ export default function GalleryPage() {
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Link href='/paquetes'>
-              <Button size='lg' className='w-full sm:w-auto'>
-                Cotizar mi Evento
-              </Button>
-            </Link>
+            <Button href='/paquetes' size='lg' className='w-full sm:w-auto'>
+              Cotizar mi Evento
+            </Button>
 
-            <Link href='/contacto'>
-              <Button
-                variant='secondary'
-                size='lg'
-                className='w-full sm:w-auto'
-              >
-                Contactar Ahora
-              </Button>
-            </Link>
+            <Button
+              href='/contacto'
+              variant='secondary'
+              size='lg'
+              className='w-full sm:w-auto'
+            >
+              Contactar Ahora
+            </Button>
           </div>
         </div>
       </Section>
 
       {/* Modal de imagen */}
-      {selectedImage && (
-        <div className='fixed inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center p-4'>
-          <div className='relative max-w-4xl w-full'>
+      <Modal
+        isOpen={!!selectedImage}
+        onClose={closeModal}
+        labelledBy='gallery-modal-title'
+        className='relative max-w-4xl w-full'
+      >
+        {selectedImage && (
+          <>
             {/* Botón cerrar */}
             <button
               onClick={closeModal}
+              aria-label='Cerrar'
               className='absolute top-4 right-4 z-10 w-10 h-10 bg-background/80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
             >
               <X className='w-5 h-5' />
@@ -457,6 +482,7 @@ export default function GalleryPage() {
             {/* Navegación */}
             <button
               onClick={() => navigateImage('prev')}
+              aria-label='Imagen anterior'
               className='absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-background/80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
             >
               <ChevronLeft className='w-6 h-6' />
@@ -464,6 +490,7 @@ export default function GalleryPage() {
 
             <button
               onClick={() => navigateImage('next')}
+              aria-label='Imagen siguiente'
               className='absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-background/80 rounded-full flex items-center justify-center text-foreground hover:bg-accent-3 hover:text-background transition-all duration-200'
             >
               <ChevronRight className='w-6 h-6' />
@@ -487,7 +514,10 @@ export default function GalleryPage() {
               <div className='p-6'>
                 <div className='flex items-center justify-between mb-4'>
                   <div>
-                    <h3 className='font-caveat font-bold text-3xl text-foreground mb-1'>
+                    <h3
+                      id='gallery-modal-title'
+                      className='font-caveat font-bold text-3xl text-foreground mb-1'
+                    >
                       {selectedImage.title}
                     </h3>
                     <p className='font-raleway text-accent-3 font-semibold'>
@@ -497,6 +527,12 @@ export default function GalleryPage() {
 
                   <button
                     onClick={() => toggleLike(selectedImage.id)}
+                    aria-label={
+                      likedImages.includes(selectedImage.id)
+                        ? 'Quitar me gusta'
+                        : 'Marcar me gusta'
+                    }
+                    aria-pressed={likedImages.includes(selectedImage.id)}
                     className={`p-2 rounded-full transition-colors duration-200 ${
                       likedImages.includes(selectedImage.id)
                         ? 'bg-red-500 text-white'
@@ -543,9 +579,9 @@ export default function GalleryPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </Modal>
     </MainLayout>
   )
 }

@@ -1,6 +1,3 @@
-'use client'
-
-import Link from 'next/link'
 import {
   Users,
   Music,
@@ -151,7 +148,7 @@ export default function ServicesPage() {
     }))
 
   const foodServices = services
-    .filter(s => s.category === 'food' && s.id !== 'mesa-dulces')
+    .filter(s => s.category === 'food')
     .map(s => ({
       ...s,
       icon: <Utensils className='w-8 h-8' />,
@@ -199,6 +196,7 @@ export default function ServicesPage() {
       {/* Hero Section */}
       <Section variant='gradient' size='xl'>
         <SectionHeader
+          as='h1'
           subtitle='Nuestros Servicios'
           title='Todo lo que necesitas para tu evento perfecto'
           description='Servicios profesionales y completos para hacer de tu celebración una experiencia inolvidable'
@@ -258,24 +256,21 @@ export default function ServicesPage() {
         {/* CTA inicial */}
         <div className='text-center'>
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Link href='/paquetes'>
-              <Button size='lg' icon={<Calculator className='w-5 h-5' />}>
-                Cotizar Paquete
-              </Button>
-            </Link>
-            <a
-              href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
-              target='_blank'
-              rel='noopener noreferrer'
+            <Button
+              href='/paquetes'
+              size='lg'
+              icon={<Calculator className='w-5 h-5' />}
             >
-              <Button
-                variant='secondary'
-                size='lg'
-                icon={<MessageCircle className='w-5 h-5' />}
-              >
-                Consultar por WhatsApp
-              </Button>
-            </a>
+              Cotizar Paquete
+            </Button>
+            <Button
+              href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
+              variant='secondary'
+              size='lg'
+              icon={<MessageCircle className='w-5 h-5' />}
+            >
+              Consultar por WhatsApp
+            </Button>
           </div>
         </div>
       </Section>
@@ -369,7 +364,7 @@ export default function ServicesPage() {
       </Section>
 
       {/* Servicios Adicionales Personalizables */}
-      <Section variant='default' size='xl'>
+      <Section variant='default' size='xl' overflowVisible>
         <div id='adicionales'>
           <AdditionalServices />
         </div>
@@ -460,31 +455,32 @@ export default function ServicesPage() {
           </p>
 
           <div className='flex flex-col sm:flex-row gap-6 justify-center'>
-            <Link href='/paquetes'>
-              <Button
-                size='lg'
-                icon={<Calculator className='w-5 h-5' />}
-                className='w-full sm:w-auto'
-              >
-                Cotizador Interactivo
-              </Button>
-            </Link>
+            <Button
+              href='/paquetes'
+              size='lg'
+              icon={<Calculator className='w-5 h-5' />}
+              className='w-full sm:w-auto'
+            >
+              Cotizador Interactivo
+            </Button>
 
-            <Link href='/disponibilidad'>
-              <Button
-                variant='secondary'
-                size='lg'
-                className='w-full sm:w-auto'
-              >
-                Ver Disponibilidad
-              </Button>
-            </Link>
+            <Button
+              href='/disponibilidad'
+              variant='secondary'
+              size='lg'
+              className='w-full sm:w-auto'
+            >
+              Ver Disponibilidad
+            </Button>
 
-            <Link href='/contacto'>
-              <Button variant='ghost' size='lg' className='w-full sm:w-auto'>
-                Contactar Ahora
-              </Button>
-            </Link>
+            <Button
+              href='/contacto'
+              variant='ghost'
+              size='lg'
+              className='w-full sm:w-auto'
+            >
+              Contactar Ahora
+            </Button>
           </div>
 
           <div className='mt-8 p-6 bg-background/50 rounded-xl backdrop-blur-sm'>

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import {
   Phone,
   MessageCircle,
@@ -13,6 +12,7 @@ import {
 } from 'lucide-react'
 import { Section, Button, Card, CardContent } from '@/components'
 import { businessInfo } from '@/lib/brand'
+import { getTodayLocalISO } from '@/lib/validators'
 
 export default function ContactCTA() {
   const [formData, setFormData] = useState({
@@ -115,9 +115,7 @@ export default function ContactCTA() {
                   Enviar Otra Consulta
                 </Button>
 
-                <Link href='/disponibilidad'>
-                  <Button>Ver Disponibilidad</Button>
-                </Link>
+                <Button href='/disponibilidad'>Ver Disponibilidad</Button>
               </div>
             </CardContent>
           </Card>
@@ -226,7 +224,7 @@ export default function ContactCTA() {
                       value={formData.eventDate}
                       onChange={handleInputChange}
                       className='input-custom w-full'
-                      min={new Date().toISOString().split('T')[0]}
+                      min={getTodayLocalISO()}
                     />
                   </div>
                 </div>
@@ -396,17 +394,17 @@ export default function ContactCTA() {
 
             {/* Links adicionales */}
             <div className='flex flex-col sm:flex-row gap-4'>
-              <Link href='/disponibilidad' className='flex-1'>
-                <Button variant='secondary' className='w-full'>
-                  Ver Disponibilidad
-                </Button>
-              </Link>
+              <Button
+                href='/disponibilidad'
+                variant='secondary'
+                className='flex-1 w-full'
+              >
+                Ver Disponibilidad
+              </Button>
 
-              <Link href='/paquetes' className='flex-1'>
-                <Button variant='ghost' className='w-full'>
-                  Cotizador Online
-                </Button>
-              </Link>
+              <Button href='/paquetes' variant='ghost' className='flex-1 w-full'>
+                Cotizador Online
+              </Button>
             </div>
           </div>
         </div>

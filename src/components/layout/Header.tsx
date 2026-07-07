@@ -49,11 +49,11 @@ export default function Header() {
           <Link href='/' className='shrink-0'>
             <div className='hover:scale-105 transition-transform duration-200'>
               <Image
-                src='/logo-horizontal.png'
+                src='/logo-horizontal-tight.webp'
                 alt='Salón Campeche'
-                width={150}
-                height={50}
-                className='h-7 w-auto lg:h-14'
+                width={1670}
+                height={422}
+                className='h-8 w-auto lg:h-12'
                 priority
               />
             </div>
@@ -100,7 +100,9 @@ export default function Header() {
             <button
               onClick={toggleMenu}
               className='p-2 rounded-lg text-foreground hover:text-accent-3 hover:bg-foreground/10 transition-all duration-200'
-              aria-label='Abrir menú'
+              aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={isOpen}
+              aria-controls='mobile-menu'
             >
               {isOpen ? (
                 <X className='w-6 h-6' />
@@ -113,6 +115,7 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         <div
+          id='mobile-menu'
           className={`lg:hidden transition-all duration-300 ease-in-out ${
             isOpen
               ? 'max-h-screen opacity-100 visible'

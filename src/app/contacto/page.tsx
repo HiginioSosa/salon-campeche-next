@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import {
   Phone,
   MessageCircle,
@@ -29,6 +28,7 @@ import {
   Instagram,
 } from '@/components'
 import { businessInfo } from '@/lib/brand'
+import { getTodayLocalISO } from '@/lib/validators'
 
 const eventTypes = [
   'Boda',
@@ -68,6 +68,21 @@ const whyChooseUs = [
   },
 ]
 
+// URL del mapa embebido: usa las coordenadas exactas del salón si están definidas
+// (pin preciso); en su defecto, geolocaliza la dirección como texto (aproximado).
+const mapEmbedSrc = businessInfo.contact.location
+  ? `https://maps.google.com/maps?q=${businessInfo.contact.location.lat},${businessInfo.contact.location.lng}&z=17&hl=es&output=embed`
+  : `https://maps.google.com/maps?q=${encodeURIComponent(
+      `${businessInfo.contact.address.street}, ${businessInfo.contact.address.neighborhood}, ${businessInfo.contact.address.city}, ${businessInfo.contact.address.state} ${businessInfo.contact.address.zipCode}`
+    )}&z=16&hl=es&output=embed`
+
+// Enlace para abrir/cómo llegar en Google Maps (misma ubicación que el mapa).
+const mapLinkHref = businessInfo.contact.location
+  ? `https://www.google.com/maps/search/?api=1&query=${businessInfo.contact.location.lat},${businessInfo.contact.location.lng}`
+  : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      businessInfo.contact.address.full
+    )}`
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
@@ -80,9 +95,12 @@ export default function ContactPage() {
     preferredContact: 'whatsapp',
   })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  // URL de WhatsApp generada al enviar (para ofrecer un enlace de respaldo si el
+  // navegador bloquea la ventana emergente).
+  const [whatsAppUrl, setWhatsAppUrl] = useState('')
+  const [popupBlocked, setPopupBlocked] = useState(false)
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -102,29 +120,27 @@ export default function ContactPage() {
 
     if (!formData.name.trim()) newErrors.name = 'El nombre es requerido'
     if (!formData.phone.trim()) newErrors.phone = 'El teléfono es requerido'
+    else if (formData.phone.replace(/\D/g, '').length !== 10)
+      newErrors.phone = 'Ingresa un teléfono válido de 10 dígitos'
     if (!formData.email.trim()) newErrors.email = 'El email es requerido'
     else if (!/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = 'Email inválido'
     if (!formData.eventType)
       newErrors.eventType = 'Selecciona el tipo de evento'
     if (!formData.message.trim()) newErrors.message = 'El mensaje es requerido'
+    else if (formData.message.trim().length < 10)
+      newErrors.message = 'El mensaje debe tener al menos 10 caracteres'
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!validateForm()) return
 
-    setIsSubmitting(true)
-
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSubmitted(true)
-
-      const message = `¡Hola! Me interesa cotizar un evento.
+    const message = `¡Hola! Me interesa cotizar un evento.
 
 *Información de contacto:*
 👤 Nombre: ${formData.name}
@@ -141,12 +157,16 @@ ${formData.message}
 
 ¡Espero su respuesta!`
 
-      const phoneNumber = businessInfo.contact.whatsapp.replace(/\D/g, '')
-      const encodedMessage = encodeURIComponent(message)
-      const whatsappUrl = `https://wa.me/52${phoneNumber}?text=${encodedMessage}`
+    const phoneNumber = businessInfo.contact.whatsapp.replace(/\D/g, '')
+    const encodedMessage = encodeURIComponent(message)
+    const url = `https://wa.me/52${phoneNumber}?text=${encodedMessage}`
 
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
-    }, 2000)
+    // Abrir dentro del gesto de submit (síncrono) para reducir el bloqueo de
+    // ventanas emergentes. Si el navegador lo bloquea, ofrecemos un enlace manual.
+    const opened = window.open(url, '_blank', 'noopener,noreferrer')
+    setWhatsAppUrl(url)
+    setPopupBlocked(!opened)
+    setIsSubmitted(true)
   }
 
   const resetForm = () => {
@@ -176,22 +196,29 @@ ${formData.message}
                 </div>
 
                 <h1 className='font-caveat font-bold text-4xl text-foreground mb-4'>
-                  ¡Mensaje enviado exitosamente!
+                  ¡Continúa en WhatsApp!
                 </h1>
 
                 <p className='font-raleway text-gray-300 mb-8 leading-relaxed text-lg'>
-                  Tu consulta ha sido enviada por WhatsApp. Nuestro equipo te
-                  responderá muy pronto para ayudarte a planear tu evento
-                  perfecto.
+                  {popupBlocked
+                    ? 'Tu navegador bloqueó la apertura automática de WhatsApp. Pulsa el botón para abrir tu conversación con tu información ya escrita y enviarla.'
+                    : 'Abrimos WhatsApp con tu información ya lista. Solo pulsa enviar dentro de WhatsApp para que nuestro equipo la reciba. ¿No se abrió? Usa el botón de abajo.'}
                 </p>
 
                 <div className='flex flex-col sm:flex-row gap-4 justify-center mb-8'>
+                  <Button
+                    href={whatsAppUrl}
+                    className='w-full sm:w-auto'
+                    icon={<MessageCircle className='w-5 h-5' />}
+                  >
+                    Abrir WhatsApp
+                  </Button>
                   <Button onClick={resetForm} variant='secondary'>
                     Enviar Otra Consulta
                   </Button>
-                  <Link href='/disponibilidad'>
-                    <Button>Ver Disponibilidad</Button>
-                  </Link>
+                  <Button href='/disponibilidad' variant='ghost'>
+                    Ver Disponibilidad
+                  </Button>
                 </div>
 
                 <div className='text-center'>
@@ -217,6 +244,7 @@ ${formData.message}
     <MainLayout whatsAppMessage='¡Hola! Estoy visitando su página de contacto y me gustaría recibir información personalizada sobre mis servicios.'>
       <Section variant='gradient' size='lg'>
         <SectionHeader
+          as='h1'
           subtitle='Contacto'
           title='¡Hagamos realidad tu evento soñado!'
           description='Estamos aquí para ayudarte en cada paso. Contáctanos y recibe atención personalizada para crear la celebración perfecta.'
@@ -368,7 +396,7 @@ ${formData.message}
                           value={formData.eventDate}
                           onChange={handleInputChange}
                           className='input-custom w-full pl-10'
-                          min={new Date().toISOString().split('T')[0]}
+                          min={getTodayLocalISO()}
                         />
                       </div>
                     </div>
@@ -422,12 +450,11 @@ ${formData.message}
 
                   <Button
                     type='submit'
-                    loading={isSubmitting}
                     className='w-full'
                     size='lg'
                     icon={<Send className='w-5 h-5' />}
                   >
-                    {isSubmitting ? 'Enviando...' : 'Enviar por WhatsApp'}
+                    Enviar por WhatsApp
                   </Button>
 
                   <p className='text-gray-400 text-xs text-center'>
@@ -516,7 +543,7 @@ ${formData.message}
                   </h4>
                   <div className='flex space-x-4'>
                     <a
-                      href={`https://facebook.com/${businessInfo.contact.social.facebook.replace('@', '')}`}
+                      href={businessInfo.contact.social.facebookUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors duration-200'
@@ -525,7 +552,7 @@ ${formData.message}
                       <span className='font-raleway text-sm'>Facebook</span>
                     </a>
                     <a
-                      href={`https://instagram.com/${businessInfo.contact.social.instagram.replace(' ', '')}`}
+                      href={businessInfo.contact.social.instagramUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='flex items-center space-x-2 text-pink-400 hover:text-pink-300 transition-colors duration-200'
@@ -555,7 +582,7 @@ ${formData.message}
 
                 <div className='aspect-video rounded-lg overflow-hidden bg-gray-900'>
                   <iframe
-                    src='https://maps.google.com/maps?q=Calle%20Campeche%20Mz%2022%20Lt%20626b,%20Ampliación%20San%20Francisco,%20Ixtapaluca,%20Estado%20de%20México&t=&z=16&ie=UTF8&iwloc=&output=embed'
+                    src={mapEmbedSrc}
                     width='100%'
                     height='100%'
                     style={{ border: 0 }}
@@ -565,6 +592,16 @@ ${formData.message}
                     title='Ubicación Salón Campeche'
                   />
                 </div>
+
+                <a
+                  href={mapLinkHref}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='mt-3 inline-flex items-center space-x-2 text-accent-3 hover:text-accent-2 font-raleway font-semibold text-sm transition-colors duration-200'
+                >
+                  <MapPin className='w-4 h-4' />
+                  <span>Cómo llegar en Google Maps</span>
+                </a>
 
                 <div className='mt-4 grid grid-cols-2 gap-4 text-sm'>
                   <div className='flex items-center space-x-2'>
@@ -711,21 +748,17 @@ ${formData.message}
             </p>
 
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-              <a
+              <Button
                 href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
-                target='_blank'
-                rel='noopener noreferrer'
+                size='lg'
+                icon={<MessageCircle className='w-5 h-5' />}
               >
-                <Button size='lg' icon={<MessageCircle className='w-5 h-5' />}>
-                  Contactar por WhatsApp
-                </Button>
-              </a>
+                Contactar por WhatsApp
+              </Button>
 
-              <Link href='/paquetes'>
-                <Button variant='secondary' size='lg'>
-                  Ver Paquetes y Precios
-                </Button>
-              </Link>
+              <Button href='/paquetes' variant='secondary' size='lg'>
+                Ver Paquetes y Precios
+              </Button>
             </div>
           </div>
         </Section>

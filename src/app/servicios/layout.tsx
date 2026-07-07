@@ -15,11 +15,14 @@ export const metadata: Metadata = {
     'meseros eventos',
     'salon campeche servicios',
   ],
+  alternates: {
+    canonical: '/servicios',
+  },
   openGraph: {
     title: `Servicios Completos para Eventos - ${businessInfo.name}`,
     description:
       'Conoce todos nuestros servicios profesionales para hacer de tu evento una celebración perfecta. Desde $4,000 pesos.',
-    url: 'https://saloncampeche.com/servicios',
+    url: '/servicios',
   },
 }
 

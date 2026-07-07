@@ -38,6 +38,7 @@ export default function QuoteDisplay({
             quote={quote}
             eventType={eventType}
             clientName={clientName || 'Cliente'}
+            notes={notes}
           />
         </div>
 

@@ -1,5 +1,30 @@
 import type { ValidationError, FormValidation } from '@/types'
 
+// Convierte una cadena 'YYYY-MM-DD' (valor de un <input type="date">) a un Date
+// en medianoche LOCAL. Evita el desfase de zona horaria de `new Date('YYYY-MM-DD')`,
+// que interpreta la fecha como UTC y puede adelantar/atrasar un día.
+export const parseLocalDate = (dateStr: string): Date => {
+  const [year, month, day] = dateStr.split('-').map(Number)
+  return new Date(year, (month ?? 1) - 1, day ?? 1)
+}
+
+// Fecha de hoy normalizada a medianoche local (para comparaciones de solo-fecha).
+export const startOfToday = (): Date => {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  return today
+}
+
+// Fecha de hoy en formato 'YYYY-MM-DD' usando la zona horaria local
+// (para el atributo `min` de los <input type="date">).
+export const getTodayLocalISO = (): string => {
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const day = String(today.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 export interface QuoteFormData {
   guestCount: number
   eventDate: string
@@ -69,23 +94,20 @@ export const validateQuoteForm = (
     })
   }
 
-  // Validar fecha del evento
+  // Validar fecha del evento (comparación solo por fecha, en hora local)
   if (data.eventDate) {
-    const eventDate = new Date(data.eventDate)
-    const today = new Date()
-    const minDate = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000) // 7 días mínimo
+    const eventDate = parseLocalDate(data.eventDate)
+    const today = startOfToday()
 
     if (eventDate < today) {
       errors.push({
         field: 'eventDate',
         message: 'La fecha del evento no puede ser en el pasado',
       })
-    } else if (eventDate < minDate) {
-      errors.push({
-        field: 'eventDate',
-        message: 'Se recomienda reservar con al menos 7 días de anticipación',
-      })
     }
+    // Nota: la recomendación de reservar con 7 días de anticipación se maneja
+    // como sugerencia (ver generateSmartRecommendations) y NO como error, para
+    // no bloquear la cotización de fechas cercanas.
   }
 
   // Validar nombre del cliente si se proporciona
@@ -187,8 +209,8 @@ export const validateEventDate = (
     return { isValid: false, message: 'Selecciona una fecha' }
   }
 
-  const eventDate = new Date(date)
-  const today = new Date()
+  const eventDate = parseLocalDate(date)
+  const today = startOfToday()
   const maxDate = new Date(
     today.getFullYear() + 2,
     today.getMonth(),

@@ -21,11 +21,10 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     const baseStyles = 'rounded-xl transition-all duration-300'
 
     const variants = {
-      default: 'bg-gray-900 bg-opacity-50 border border-gray-800',
-      elevated: 'bg-gray-900 bg-opacity-70 shadow-elegant',
+      default: 'bg-gray-900/50 border border-gray-800',
+      elevated: 'bg-gray-900/70 shadow-elegant',
       outlined: 'bg-transparent border-2 border-gray-700',
-      glass:
-        'bg-gray-900 bg-opacity-30 backdrop-blur-sm border border-gray-700',
+      glass: 'bg-gray-900/30 backdrop-blur-sm border border-gray-700',
     }
 
     const hoverEffects = hover

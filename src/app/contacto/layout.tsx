@@ -17,15 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Contáctanos - Respuesta Inmediata - ${businessInfo.name}`,
     description: `📱 WhatsApp: ${businessInfo.contact.whatsapp} | 📞 Tel: ${businessInfo.contact.phone} | 📍 ${businessInfo.contact.address.city}, ${businessInfo.contact.address.state}. ¡Cotiza tu evento ahora!`,
-    url: 'https://saloncampeche.com/contacto',
-    images: [
-      {
-        url: '/og-contacto.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Contacto Salón Campeche',
-      },
-    ],
+    url: '/contacto',
     locale: 'es_MX',
     type: 'website',
   },
@@ -33,10 +25,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `Contacto - ${businessInfo.name}`,
     description: `Respuesta inmediata por WhatsApp. Tel: ${businessInfo.contact.phone}. Ubicación: ${businessInfo.contact.address.city}, ${businessInfo.contact.address.state}.`,
-    images: ['/og-contacto.jpg'],
   },
   alternates: {
-    canonical: 'https://saloncampeche.com/contacto',
+    canonical: '/contacto',
   },
 }
 

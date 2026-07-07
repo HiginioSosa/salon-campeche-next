@@ -121,46 +121,91 @@
     @apply bg-accent-2;
   }
 
-  /* Focus states personalizados */
-  *:focus {
+  /* Focus states personalizados (solo con teclado, no al hacer clic con mouse) */
+  *:focus-visible {
     @apply outline-none ring-2 ring-accent-3/50;
+  }
+
+  /* Cursor de mano en todos los elementos interactivos. Los <button> nativos no
+     lo muestran por defecto; los deshabilitados conservan su propio cursor. */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  label[for] {
+    cursor: pointer;
+  }
+
+  /* Respetar la preferencia de movimiento reducido del sistema (WCAG 2.3.3) */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
-/* Clases de componentes y utilidades */
-.btn-primary {
-  @apply bg-accent-3 hover:bg-accent-2 text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-accent-3/50;
-}
+/* Clases de componentes y utilidades.
+   Van en @layer components para que las utilidades (p.ej. pl-10, w-full) puedan
+   sobreescribirlas. Sin la capa, estas reglas ganarían a las utilidades en
+   Tailwind v4 y romperían, por ejemplo, el padding de los inputs con icono. */
+@layer components {
+  .btn-primary {
+    @apply bg-accent-3 hover:bg-accent-2 text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-accent-3/50;
+  }
 
-.btn-secondary {
-  @apply bg-transparent border-2 border-accent-3 text-accent-3 hover:bg-accent-3 hover:text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300;
-}
+  .btn-secondary {
+    @apply bg-transparent border-2 border-accent-3 text-accent-3 hover:bg-accent-3 hover:text-background font-raleway font-semibold px-6 py-3 rounded-lg transition-all duration-300;
+  }
 
-.btn-ghost {
-  @apply bg-transparent text-foreground hover:bg-foreground/10 font-raleway font-medium px-4 py-2 rounded-lg transition-all duration-300;
-}
+  .btn-ghost {
+    @apply bg-transparent text-foreground hover:bg-foreground/10 font-raleway font-medium px-4 py-2 rounded-lg transition-all duration-300;
+  }
 
-.card {
-  @apply bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 transition-all duration-300 hover:border-accent-3 hover:shadow-accent-glow;
-}
+  .card {
+    @apply bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 transition-all duration-300 hover:border-accent-3 hover:shadow-accent-glow;
+  }
 
-.container-section {
-  @apply container mx-auto px-4 sm:px-6 lg:px-8;
-}
+  .container-section {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
 
-.gradient-accent {
-  background: linear-gradient(135deg, #ec842f 0%, #de8052 50%, #cf7b75 100%);
-}
+  .gradient-accent {
+    background: linear-gradient(135deg, #ec842f 0%, #de8052 50%, #cf7b75 100%);
+  }
 
-.gradient-text {
-  background: linear-gradient(135deg, #f2b98d 0%, #ec842f 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+  .gradient-text {
+    background: linear-gradient(135deg, #f2b98d 0%, #ec842f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(236, 132, 47, 0.5);
+  }
+
+  .divider {
+    @apply w-24 h-1 bg-linear-to-r from-accent-3 to-accent-2 mx-auto my-8 rounded-full;
+  }
+
+  .input-custom {
+    @apply bg-gray-900/50 border border-gray-700 text-foreground placeholder-gray-400 px-4 py-3 rounded-lg focus:border-accent-3 focus:ring-1 focus:ring-accent-3 transition-all duration-300;
+  }
+
+  .overlay {
+    @apply fixed inset-0 bg-background/90 backdrop-blur-sm z-50;
+  }
 }
 
 @keyframes float {
@@ -171,20 +216,4 @@
   50% {
     transform: translateY(-10px) rotate(1deg);
   }
-}
-
-.text-glow {
-  text-shadow: 0 0 10px rgba(236, 132, 47, 0.5);
-}
-
-.divider {
-  @apply w-24 h-1 bg-linear-to-r from-accent-3 to-accent-2 mx-auto my-8 rounded-full;
-}
-
-.input-custom {
-  @apply bg-gray-900/50 border border-gray-700 text-foreground placeholder-gray-400 px-4 py-3 rounded-lg focus:border-accent-3 focus:ring-1 focus:ring-accent-3 transition-all duration-300;
-}
-
-.overlay {
-  @apply fixed inset-0 bg-background/90 backdrop-blur-sm z-50;
 }

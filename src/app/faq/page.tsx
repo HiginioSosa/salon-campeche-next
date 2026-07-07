@@ -3,7 +3,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import {
   ChevronDown,
   HelpCircle,
@@ -236,11 +235,30 @@ export default function FAQPage() {
 
   const popularFAQs = faqs.filter(faq => faq.popular)
 
+  // Datos estructurados FAQPage para rich results en buscadores.
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }
+
   return (
     <MainLayout whatsAppMessage='¡Hola! Tengo algunas dudas sobre sus servicios. ¿Podrían ayudarme con información específica?'>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* Hero Section */}
       <Section variant='gradient' size='lg'>
         <SectionHeader
+          as='h1'
           subtitle='Preguntas Frecuentes'
           title='Resuelve todas tus dudas'
           description='Encuentra respuestas rápidas a las preguntas más comunes sobre nuestros servicios, precios y políticas'
@@ -469,13 +487,12 @@ export default function FAQPage() {
                 <p className='font-raleway text-gray-300 text-sm mb-4'>
                   Respuesta inmediata las 24 horas
                 </p>
-                <a
+                <Button
                   href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
+                  size='sm'
                 >
-                  <Button size='sm'>Enviar Mensaje</Button>
-                </a>
+                  Enviar Mensaje
+                </Button>
               </CardContent>
             </Card>
 
@@ -490,11 +507,13 @@ export default function FAQPage() {
                 <p className='font-raleway text-gray-300 text-sm mb-4'>
                   Lunes a domingo 9:00 AM - 8:00 PM
                 </p>
-                <a href={`tel:${businessInfo.contact.phone}`}>
-                  <Button variant='secondary' size='sm'>
-                    Llamar Ahora
-                  </Button>
-                </a>
+                <Button
+                  href={`tel:${businessInfo.contact.phone}`}
+                  variant='secondary'
+                  size='sm'
+                >
+                  Llamar Ahora
+                </Button>
               </CardContent>
             </Card>
 
@@ -509,11 +528,9 @@ export default function FAQPage() {
                 <p className='font-raleway text-gray-300 text-sm mb-4'>
                   Conoce nuestras instalaciones
                 </p>
-                <Link href='/contacto'>
-                  <Button variant='ghost' size='sm'>
-                    Ver Ubicación
-                  </Button>
-                </Link>
+                <Button href='/contacto' variant='ghost' size='sm'>
+                  Ver Ubicación
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -528,17 +545,15 @@ export default function FAQPage() {
           </h3>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Link href='/servicios'>
-              <Button variant='secondary'>Ver Todos los Servicios</Button>
-            </Link>
+            <Button href='/servicios' variant='secondary'>
+              Ver Todos los Servicios
+            </Button>
 
-            <Link href='/paquetes'>
-              <Button>Cotizar mi Evento</Button>
-            </Link>
+            <Button href='/paquetes'>Cotizar mi Evento</Button>
 
-            <Link href='/disponibilidad'>
-              <Button variant='ghost'>Verificar Disponibilidad</Button>
-            </Link>
+            <Button href='/disponibilidad' variant='ghost'>
+              Verificar Disponibilidad
+            </Button>
           </div>
         </div>
       </Section>

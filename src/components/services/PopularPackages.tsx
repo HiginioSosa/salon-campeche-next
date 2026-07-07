@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Check, Star, Users, Calendar, ArrowRight } from 'lucide-react'
 import { Card, CardContent, Button } from '@/components'
 import { popularPackages } from '@/lib/services'
@@ -132,22 +131,24 @@ export default function PopularPackages() {
 
               {/* Botones de acción */}
               <div className='space-y-3'>
-                <Link href='/paquetes' className='block'>
-                  <Button
-                    variant={pkg.popular ? 'primary' : 'secondary'}
-                    className='w-full'
-                    icon={<Calendar className='w-4 h-4' />}
-                  >
-                    Personalizar Paquete
-                  </Button>
-                </Link>
+                <Button
+                  href='/paquetes'
+                  variant={pkg.popular ? 'primary' : 'secondary'}
+                  className='block w-full'
+                  icon={<Calendar className='w-4 h-4' />}
+                >
+                  Personalizar Paquete
+                </Button>
 
-                <Link href='/contacto' className='block'>
-                  <Button variant='ghost' className='w-full' size='sm'>
-                    Solicitar Información
-                    <ArrowRight className='w-4 h-4 ml-2' />
-                  </Button>
-                </Link>
+                <Button
+                  href='/contacto'
+                  variant='ghost'
+                  className='block w-full'
+                  size='sm'
+                >
+                  Solicitar Información
+                  <ArrowRight className='w-4 h-4 ml-2' />
+                </Button>
               </div>
 
               {/* Nota especial para el paquete popular */}
@@ -177,25 +178,23 @@ export default function PopularPackages() {
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Link href='/paquetes'>
-              <Button
-                variant='inverse'
-                size='lg'
-                className='bg-background text-accent-3 hover:bg-gray-100 w-full sm:w-auto'
-                icon={<Calendar className='w-5 h-5' />}
-              >
-                Cotizador Personalizado
-              </Button>
-            </Link>
-            <Link href='/disponibilidad'>
-              <Button
-                variant='inverse'
-                size='lg'
-                className='border-background text-background hover:bg-background hover:text-accent-3 w-full sm:w-auto'
-              >
-                Ver Disponibilidad
-              </Button>
-            </Link>
+            <Button
+              href='/paquetes'
+              variant='inverse'
+              size='lg'
+              className='bg-background text-accent-3 hover:bg-gray-100 w-full sm:w-auto'
+              icon={<Calendar className='w-5 h-5' />}
+            >
+              Cotizador Personalizado
+            </Button>
+            <Button
+              href='/disponibilidad'
+              variant='inverse'
+              size='lg'
+              className='border-background text-background hover:bg-background hover:text-accent-3 w-full sm:w-auto'
+            >
+              Ver Disponibilidad
+            </Button>
           </div>
         </div>
       </div>

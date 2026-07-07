@@ -9,6 +9,8 @@ interface PDFGeneratorProps {
   quote: Quote
   eventType: string
   clientName?: string
+  /** Notas a incluir en el PDF (tienen prioridad sobre quote.notes) */
+  notes?: string
 }
 
 export const generateQuotePDF = async ({
@@ -51,20 +53,22 @@ export const generateQuotePDF = async ({
 
   try {
     const img = new Image()
-    img.src = '/logo-horizontal.png'
+    img.src = '/logo-horizontal-tight.webp'
     await new Promise((resolve, reject) => {
       img.onload = resolve
       img.onerror = reject
     })
 
+    const ratio = img.width / img.height
+    // Redimensionar el logo antes de incrustarlo para no inflar el peso del PDF
+    // (con ~500px de ancho sigue nítido al tamaño impreso de ~55mm).
     const canvas = document.createElement('canvas')
-    canvas.width = img.width
-    canvas.height = img.height
+    canvas.width = 500
+    canvas.height = Math.round(500 / ratio)
     const ctx = canvas.getContext('2d')
     if (ctx) {
-      ctx.drawImage(img, 0, 0)
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
       const dataUrl = canvas.toDataURL('image/png')
-      const ratio = img.width / img.height
       const pdfHeight = 14
       const pdfWidth = pdfHeight * ratio
       doc.addImage(dataUrl, 'PNG', 20, 5, pdfWidth, pdfHeight)
@@ -154,9 +158,9 @@ export const generateQuotePDF = async ({
   doc.rect(20, yPosition, 170, 8, 'F')
 
   addColoredText('Concepto', 22, yPosition + 6, '#ffffff', 10, 'bold')
-  addColoredText('Cant.', 120, yPosition + 6, '#ffffff', 10, 'bold')
-  addColoredText('Precio Unit.', 140, yPosition + 6, '#ffffff', 10, 'bold')
-  addColoredText('Total', 170, yPosition + 6, '#ffffff', 10, 'bold')
+  addColoredText('Cant.', 130, yPosition + 6, '#ffffff', 10, 'bold', 'right')
+  addColoredText('Precio Unit.', 162, yPosition + 6, '#ffffff', 10, 'bold', 'right')
+  addColoredText('Total', 188, yPosition + 6, '#ffffff', 10, 'bold', 'right')
 
   yPosition += 12
 
@@ -179,9 +183,17 @@ export const generateQuotePDF = async ({
       doc.setFillColor(236, 132, 47)
       doc.rect(20, yPosition, 170, 8, 'F')
       addColoredText('Concepto', 22, yPosition + 6, '#ffffff', 10, 'bold')
-      addColoredText('Cant.', 120, yPosition + 6, '#ffffff', 10, 'bold')
-      addColoredText('Precio Unit.', 140, yPosition + 6, '#ffffff', 10, 'bold')
-      addColoredText('Total', 170, yPosition + 6, '#ffffff', 10, 'bold')
+      addColoredText('Cant.', 130, yPosition + 6, '#ffffff', 10, 'bold', 'right')
+      addColoredText(
+        'Precio Unit.',
+        162,
+        yPosition + 6,
+        '#ffffff',
+        10,
+        'bold',
+        'right'
+      )
+      addColoredText('Total', 188, yPosition + 6, '#ffffff', 10, 'bold', 'right')
       yPosition += 12
     }
 
@@ -197,21 +209,32 @@ export const generateQuotePDF = async ({
         : item.serviceName
 
     addColoredText(serviceName, 22, yPosition + 4, darkColor, 9)
-    addColoredText(item.quantity.toString(), 125, yPosition + 4, darkColor, 9)
     addColoredText(
-      `$${item.unitPrice.toLocaleString()}`,
-      145,
-      yPosition + 4,
-      darkColor,
-      9
-    )
-    addColoredText(
-      `$${item.total.toLocaleString()}`,
-      175,
+      item.quantity.toString(),
+      130,
       yPosition + 4,
       darkColor,
       9,
-      'bold'
+      'normal',
+      'right'
+    )
+    addColoredText(
+      `$${item.unitPrice.toLocaleString('es-MX')}`,
+      162,
+      yPosition + 4,
+      darkColor,
+      9,
+      'normal',
+      'right'
+    )
+    addColoredText(
+      `$${item.total.toLocaleString('es-MX')}`,
+      188,
+      yPosition + 4,
+      darkColor,
+      9,
+      'bold',
+      'right'
     )
 
     // Descripción multilinea controlada
@@ -243,7 +266,12 @@ export const generateQuotePDF = async ({
     yPosition += 10
   })
 
-  // Total
+  // Total — asegurar que todo el bloque (línea + subtotal + total + anticipo,
+  // ~40mm) quepa en la página; si no, pasar a una nueva para no encimar el pie.
+  if (yPosition > 240) {
+    doc.addPage()
+    yPosition = 20
+  }
   yPosition += 10
   doc.setDrawColor(236, 132, 47)
   doc.setLineWidth(1)
@@ -252,7 +280,7 @@ export const generateQuotePDF = async ({
   yPosition += 10
   addColoredText('SUBTOTAL:', 105, yPosition, darkColor, 12, 'bold')
   addColoredText(
-    `$${quote.subtotal.toLocaleString()}`,
+    `$${quote.subtotal.toLocaleString('es-MX')}`,
     185,
     yPosition,
     darkColor,
@@ -264,7 +292,7 @@ export const generateQuotePDF = async ({
   yPosition += 10
   addColoredText('TOTAL DEL PAQUETE:', 105, yPosition, primaryColor, 14, 'bold')
   addColoredText(
-    `$${quote.total.toLocaleString()}`,
+    `$${quote.total.toLocaleString('es-MX')}`,
     185,
     yPosition,
     primaryColor,
@@ -276,7 +304,7 @@ export const generateQuotePDF = async ({
   yPosition += 8
   addColoredText('Anticipo para reservar (50%):', 105, yPosition, grayColor, 10)
   addColoredText(
-    `$${quote.advancePayment.toLocaleString()}`,
+    `$${quote.advancePayment.toLocaleString('es-MX')}`,
     185,
     yPosition,
     primaryColor,
@@ -314,6 +342,10 @@ export const generateQuotePDF = async ({
         currentLine += (currentLine ? ' ' : '') + word
       } else {
         if (currentLine) {
+          if (yPosition > 275) {
+            doc.addPage()
+            yPosition = 20
+          }
           addColoredText(currentLine, 20, yPosition, grayColor, 10)
           yPosition += 5
         }
@@ -322,6 +354,10 @@ export const generateQuotePDF = async ({
     })
 
     if (currentLine) {
+      if (yPosition > 275) {
+        doc.addPage()
+        yPosition = 20
+      }
       addColoredText(currentLine, 20, yPosition, grayColor, 10)
       yPosition += 5
     }
@@ -394,13 +430,16 @@ export default function PDFGenerator({
   quote,
   eventType,
   clientName,
+  notes,
 }: PDFGeneratorProps) {
   const [isGenerating, setIsGenerating] = useState(false)
 
   const handleGeneratePDF = async () => {
     setIsGenerating(true)
     try {
-      await generateQuotePDF({ quote, eventType, clientName })
+      const quoteWithNotes =
+        notes !== undefined ? { ...quote, notes } : quote
+      await generateQuotePDF({ quote: quoteWithNotes, eventType, clientName })
     } finally {
       setIsGenerating(false)
     }

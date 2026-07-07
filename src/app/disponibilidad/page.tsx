@@ -3,7 +3,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import {
   Calendar as CalendarIcon,
   ChevronLeft,
@@ -23,24 +22,27 @@ import {
   Button,
   Card,
   CardContent,
+  Modal,
 } from '@/components'
 import { businessInfo } from '@/lib/brand'
+import { parseLocalDate } from '@/lib/validators'
 
-// Simulación de fechas ocupadas (en un caso real vendría de una API/base de datos)
+// Simulación de fechas ocupadas (en un caso real vendría de una API/base de datos).
+// TODO: reemplazar por datos reales desde el backend/calendario del negocio.
 const unavailableDates = [
-  { date: '2025-02-14', reason: 'Boda San Valentín', eventType: 'Boda' },
-  { date: '2025-02-22', reason: 'XV Años María', eventType: 'XV Años' },
+  { date: '2026-08-15', reason: 'Boda de Verano', eventType: 'Boda' },
+  { date: '2026-09-19', reason: 'XV Años Sofía', eventType: 'XV Años' },
   {
-    date: '2025-03-08',
+    date: '2026-10-10',
     reason: 'Evento Corporativo',
     eventType: 'Corporativo',
   },
-  { date: '2025-03-15', reason: 'Cumpleaños 50 años', eventType: 'Cumpleaños' },
-  { date: '2025-03-22', reason: 'Boda Primavera', eventType: 'Boda' },
-  { date: '2025-04-12', reason: 'XV Años Abril', eventType: 'XV Años' },
-  { date: '2025-04-19', reason: 'Baby Shower', eventType: 'Baby Shower' },
-  { date: '2025-05-10', reason: 'Día de las Madres', eventType: 'Celebración' },
-  { date: '2025-05-24', reason: 'Graduación', eventType: 'Graduación' },
+  { date: '2026-11-14', reason: 'Cumpleaños 50 años', eventType: 'Cumpleaños' },
+  { date: '2026-12-12', reason: 'Posada Empresarial', eventType: 'Corporativo' },
+  { date: '2027-02-14', reason: 'Boda San Valentín', eventType: 'Boda' },
+  { date: '2027-03-13', reason: 'Baby Shower', eventType: 'Baby Shower' },
+  { date: '2027-05-08', reason: 'Día de las Madres', eventType: 'Celebración' },
+  { date: '2027-06-19', reason: 'Graduación', eventType: 'Graduación' },
 ]
 
 const monthNames = [
@@ -72,7 +74,10 @@ export default function AvailabilityPage() {
   const [showModal, setShowModal] = useState(false)
   const [dateInfo, setDateInfo] = useState<DateInfo | null>(null)
 
+  // Normalizada a medianoche local para comparar solo por fecha (evita que "hoy"
+  // se marque como fecha pasada por la diferencia de horas).
   const today = new Date()
+  today.setHours(0, 0, 0, 0)
   const currentYear = currentDate.getFullYear()
   const currentMonth = currentDate.getMonth()
 
@@ -169,7 +174,7 @@ export default function AvailabilityPage() {
   }
 
   const formatDateForDisplay = (dateStr: string) => {
-    const date = new Date(dateStr)
+    const date = parseLocalDate(dateStr)
     return date.toLocaleDateString('es-MX', {
       weekday: 'long',
       year: 'numeric',
@@ -183,6 +188,7 @@ export default function AvailabilityPage() {
       {/* Hero Section */}
       <Section variant='gradient' size='lg'>
         <SectionHeader
+          as='h1'
           subtitle='Disponibilidad de Fechas'
           title='Consulta nuestro calendario actualizado'
           description='Verifica en tiempo real las fechas disponibles para tu evento y reserva la fecha perfecta para tu celebración'
@@ -322,13 +328,13 @@ export default function AvailabilityPage() {
                   </div>
                   <div>
                     <p className='font-raleway font-semibold text-foreground'>
-                      {new Date(event.date).toLocaleDateString('es-MX', {
+                      {parseLocalDate(event.date).toLocaleDateString('es-MX', {
                         day: 'numeric',
                         month: 'short',
                       })}
                     </p>
                     <p className='font-raleway text-gray-400 text-xs'>
-                      {new Date(event.date).toLocaleDateString('es-MX', {
+                      {parseLocalDate(event.date).toLocaleDateString('es-MX', {
                         weekday: 'long',
                       })}
                     </p>
@@ -442,46 +448,50 @@ export default function AvailabilityPage() {
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <a
+            <Button
               href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
-              target='_blank'
-              rel='noopener noreferrer'
+              size='lg'
+              icon={<MessageCircle className='w-5 h-5' />}
             >
-              <Button size='lg' icon={<MessageCircle className='w-5 h-5' />}>
-                Reservar por WhatsApp
-              </Button>
-            </a>
+              Reservar por WhatsApp
+            </Button>
 
-            <a href={`tel:${businessInfo.contact.phone}`}>
-              <Button
-                variant='secondary'
-                size='lg'
-                icon={<Phone className='w-5 h-5' />}
-              >
-                Llamar para Reservar
-              </Button>
-            </a>
+            <Button
+              href={`tel:${businessInfo.contact.phone}`}
+              variant='secondary'
+              size='lg'
+              icon={<Phone className='w-5 h-5' />}
+            >
+              Llamar para Reservar
+            </Button>
 
-            <Link href='/paquetes'>
-              <Button variant='ghost' size='lg'>
-                Ver Paquetes y Precios
-              </Button>
-            </Link>
+            <Button href='/paquetes' variant='ghost' size='lg'>
+              Ver Paquetes y Precios
+            </Button>
           </div>
         </div>
       </Section>
 
       {/* Modal de información de fecha */}
-      {showModal && dateInfo && (
-        <div className='fixed inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center p-4'>
-          <Card variant='elevated' className='max-w-md w-full'>
+      <Modal
+        isOpen={showModal && !!dateInfo}
+        onClose={() => setShowModal(false)}
+        labelledBy='date-modal-title'
+        className='max-w-md w-full'
+      >
+        {dateInfo && (
+          <Card variant='elevated'>
             <CardContent className='p-6'>
               <div className='flex items-center justify-between mb-6'>
-                <h3 className='font-caveat font-bold text-2xl text-foreground'>
+                <h3
+                  id='date-modal-title'
+                  className='font-caveat font-bold text-2xl text-foreground'
+                >
                   Información de Fecha
                 </h3>
                 <button
                   onClick={() => setShowModal(false)}
+                  aria-label='Cerrar'
                   className='w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors duration-200'
                 >
                   <X className='w-4 h-4 text-foreground' />
@@ -516,21 +526,24 @@ export default function AvailabilityPage() {
                     ¡Excelente! Esta fecha está disponible para tu evento.
                   </p>
                   <div className='grid grid-cols-2 gap-4'>
-                    <a
-                      href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}?text=¡Hola! Me interesa reservar la fecha ${formatDateForDisplay(dateInfo.date)} para mi evento.`}
-                      target='_blank'
-                      rel='noopener noreferrer'
+                    <Button
+                      href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(
+                        `¡Hola! Me interesa reservar la fecha ${formatDateForDisplay(dateInfo.date)} para mi evento.`
+                      )}`}
+                      size='sm'
+                      className='w-full'
                     >
-                      <Button size='sm' className='w-full'>
-                        <MessageCircle className='w-4 h-4 mr-2' />
-                        Reservar
-                      </Button>
-                    </a>
-                    <Link href='/paquetes'>
-                      <Button variant='secondary' size='sm' className='w-full'>
-                        Ver Precios
-                      </Button>
-                    </Link>
+                      <MessageCircle className='w-4 h-4 mr-2' />
+                      Reservar
+                    </Button>
+                    <Button
+                      href='/paquetes'
+                      variant='secondary'
+                      size='sm'
+                      className='w-full'
+                    >
+                      Ver Precios
+                    </Button>
                   </div>
                 </div>
               ) : (
@@ -562,8 +575,8 @@ export default function AvailabilityPage() {
               )}
             </CardContent>
           </Card>
-        </div>
-      )}
+        )}
+      </Modal>
     </MainLayout>
   )
 }

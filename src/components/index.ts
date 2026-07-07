@@ -16,6 +16,7 @@ export {
 export { default as Section, SectionHeader } from './ui/Section'
 export { default as Loading, Skeleton, QuoteLoading } from './ui/Loading'
 export { default as WhatsAppButton } from './ui/WhatsAppButton'
+export { default as Modal } from './ui/Modal'
 
 // Section components for pages
 export { default as HeroSection } from './sections/HeroSection'

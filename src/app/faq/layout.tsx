@@ -19,15 +19,7 @@ export const metadata: Metadata = {
     title: `FAQ - Resuelve todas tus dudas - ${businessInfo.name}`,
     description:
       'Respuestas a las preguntas más frecuentes sobre servicios, precios, políticas y horarios de nuestro salón de fiestas.',
-    url: 'https://saloncampeche.com/faq',
-    images: [
-      {
-        url: '/og-faq.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'FAQ Salón Campeche',
-      },
-    ],
+    url: '/faq',
     locale: 'es_MX',
     type: 'website',
   },
@@ -36,10 +28,9 @@ export const metadata: Metadata = {
     title: `Preguntas Frecuentes - ${businessInfo.name}`,
     description:
       'Todas las respuestas sobre servicios, precios y políticas de nuestro salón de fiestas en Ixtapaluca.',
-    images: ['/og-faq.jpg'],
   },
   alternates: {
-    canonical: 'https://saloncampeche.com/faq',
+    canonical: '/faq',
   },
 }
 

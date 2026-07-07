@@ -58,6 +58,12 @@ export default function PackageComparison({
     pkg: (typeof popularPackages)[0],
     featureId: string
   ) => {
+    // La renta del salón se identifica por prefijo (salon-primer-piso / salon-ambos-pisos)
+    if (featureId === 'salon') {
+      return pkg.includedServices.some(id => id.startsWith('salon-'))
+        ? 'included'
+        : 'not-included'
+    }
     if (pkg.includedServices.includes(featureId)) return 'included'
     if (['estacionamiento', 'horario'].includes(featureId)) return 'included' // Siempre incluidos
     if (

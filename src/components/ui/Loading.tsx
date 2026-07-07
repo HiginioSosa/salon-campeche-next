@@ -30,7 +30,7 @@ export default function Loading({
   if (variant === 'dots') {
     return (
       <div
-        className={`flex items-center justify-center ${fullScreen ? 'fixed inset-0 bg-background bg-opacity-50 z-50' : ''}`}
+        className={`flex items-center justify-center ${fullScreen ? 'fixed inset-0 bg-background/50 z-50' : ''}`}
       >
         <div className='flex flex-col items-center space-y-4'>
           <div className='flex space-x-2'>
@@ -59,7 +59,7 @@ export default function Loading({
   if (variant === 'pulse') {
     return (
       <div
-        className={`flex items-center justify-center ${fullScreen ? 'fixed inset-0 bg-background bg-opacity-50 z-50' : ''}`}
+        className={`flex items-center justify-center ${fullScreen ? 'fixed inset-0 bg-background/50 z-50' : ''}`}
       >
         <div className='flex flex-col items-center space-y-4'>
           <div
@@ -80,7 +80,7 @@ export default function Loading({
   // Default spinner
   return (
     <div
-      className={`flex items-center justify-center ${fullScreen ? 'fixed inset-0 bg-background bg-opacity-50 z-50' : ''}`}
+      className={`flex items-center justify-center ${fullScreen ? 'fixed inset-0 bg-background/50 z-50' : ''}`}
     >
       <div className='flex flex-col items-center space-y-4'>
         <Loader2 className={`${sizes[size]} text-accent-3 animate-spin`} />

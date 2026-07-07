@@ -5,6 +5,8 @@ interface SectionProps extends HTMLAttributes<HTMLElement> {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   centered?: boolean
   fullHeight?: boolean
+  /** Permite contenido posicionado (sticky) que de otro modo recortaría overflow-hidden */
+  overflowVisible?: boolean
 }
 
 const Section = forwardRef<HTMLElement, SectionProps>(
@@ -15,17 +17,18 @@ const Section = forwardRef<HTMLElement, SectionProps>(
       size = 'lg',
       centered = false,
       fullHeight = false,
+      overflowVisible = false,
       children,
       ...props
     },
     ref
   ) => {
-    const baseStyles = 'relative overflow-hidden'
+    const baseStyles = `relative ${overflowVisible ? '' : 'overflow-hidden'}`
 
     const variants = {
       default: 'bg-transparent',
-      dark: 'bg-gray-900 bg-opacity-30',
-      accent: 'bg-accent-3 bg-opacity-5',
+      dark: 'bg-gray-900/30',
+      accent: 'bg-accent-3/5',
       gradient:
         'bg-gradient-to-br from-accent-3/10 via-accent-2/5 to-accent-1/10',
     }
@@ -60,6 +63,8 @@ export const SectionHeader = forwardRef<
     subtitle?: string
     description?: string
     centered?: boolean
+    /** Nivel del encabezado del título. Usar 'h1' en el título principal de cada página. */
+    as?: 'h1' | 'h2' | 'h3'
   }
 >(
   (
@@ -69,6 +74,7 @@ export const SectionHeader = forwardRef<
       subtitle,
       description,
       centered = true,
+      as: TitleTag = 'h2',
       children,
       ...props
     },
@@ -85,9 +91,9 @@ export const SectionHeader = forwardRef<
         </p>
       )}
 
-      <h2 className='font-caveat font-bold text-3xl lg:text-5xl xl:text-6xl text-foreground mb-4'>
+      <TitleTag className='font-caveat font-bold text-3xl lg:text-5xl xl:text-6xl text-foreground mb-4'>
         {title}
-      </h2>
+      </TitleTag>
 
       {/* Decorative divider */}
       <div className={`divider ${!centered ? 'mx-0' : ''}`}></div>

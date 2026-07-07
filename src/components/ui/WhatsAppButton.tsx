@@ -52,9 +52,9 @@ export default function WhatsAppButton({
 
   return (
     <>
-      {/* Botón principal de WhatsApp */}
+      {/* Botón principal de WhatsApp (solo en tablet/desktop; en móvil se usa el fijo de abajo) */}
       <div
-        className={`fixed bottom-6 right-6 z-50 transition-all duration-500 transform ${
+        className={`hidden md:block fixed bottom-6 right-6 z-50 transition-all duration-500 transform ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
         }`}
       >
@@ -62,7 +62,7 @@ export default function WhatsAppButton({
           {/* Tooltip informativo */}
           {showTooltip && (
             <div className='absolute bottom-16 right-0 mb-2 animate-slide-up'>
-              <div className='bg-gray-900 bg-opacity-95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl p-4 max-w-xs relative'>
+              <div className='bg-gray-900/95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl p-4 max-w-xs relative'>
                 <button
                   onClick={handleTooltipClose}
                   className='absolute top-2 right-2 text-gray-400 hover:text-foreground transition-colors duration-200'
@@ -95,11 +95,6 @@ export default function WhatsAppButton({
             {/* Pulso animado */}
             <div className='absolute inset-0 w-14 h-14 bg-green-500 rounded-full animate-ping opacity-20'></div>
           </button>
-
-          {/* Indicador de notificación */}
-          <div className='absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center animate-pulse'>
-            <span className='text-white text-xs font-bold'>!</span>
-          </div>
         </div>
       </div>
 

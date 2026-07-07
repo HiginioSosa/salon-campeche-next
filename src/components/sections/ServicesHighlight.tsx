@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Music, Sparkles, Baby, Utensils, Camera, Users } from 'lucide-react'
 import { Section, SectionHeader, Card, CardContent, Button } from '@/components'
 
@@ -120,14 +119,13 @@ export default function ServicesHighlight() {
               </ul>
 
               {/* Botón de acción */}
-              <Link href={service.href} className='mt-auto'>
-                <Button
-                  variant='ghost'
-                  className='w-full justify-center group-hover:bg-accent-3 group-hover:text-background'
-                >
-                  Ver Detalles
-                </Button>
-              </Link>
+              <Button
+                href={service.href}
+                variant='ghost'
+                className='mt-auto w-full justify-center group-hover:bg-accent-3 group-hover:text-background'
+              >
+                Ver Detalles
+              </Button>
             </CardContent>
           </Card>
         ))}
@@ -145,16 +143,22 @@ export default function ServicesHighlight() {
           </p>
 
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Link href='/paquetes'>
-              <Button variant='inverse' size='lg' className='w-full sm:w-auto'>
-                Cotizar Paquete
-              </Button>
-            </Link>
-            <Link href='/servicios'>
-              <Button variant='inverse' size='lg' className='w-full sm:w-auto'>
-                Ver Todos los Servicios
-              </Button>
-            </Link>
+            <Button
+              href='/paquetes'
+              variant='inverse'
+              size='lg'
+              className='w-full sm:w-auto'
+            >
+              Cotizar Paquete
+            </Button>
+            <Button
+              href='/servicios'
+              variant='inverse'
+              size='lg'
+              className='w-full sm:w-auto'
+            >
+              Ver Todos los Servicios
+            </Button>
           </div>
         </div>
       </div>

@@ -89,7 +89,7 @@ export const services: Service[] = [
     name: 'Mesa de Dulces',
     description: 'Personalizable según cantidad y personalización solicitada',
     price: 3500,
-    category: 'food',
+    category: 'decoration',
     isOptional: true,
   },
 
@@ -206,7 +206,7 @@ export const popularPackages = [
       'trampolin',
       'meseros', // 5 meseros
     ],
-    basePrice: 25950,
+    basePrice: 25150,
     popular: false,
   },
 ]

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import Link from 'next/link'
 import {
   Calculator,
   Sparkles,
@@ -24,7 +23,15 @@ import ServiceSelector from '@/components/packages/ServiceSelector'
 import QuoteDisplay from '@/components/packages/QuoteDisplay'
 import TipsPanel from '@/components/packages/TipsPanel'
 import { businessInfo } from '@/lib/brand'
+import { popularPackages, calculateMinimumStaff } from '@/lib/services'
 import type { Quote } from '@/types'
+
+type InitialCalcValues = {
+  guestCount?: number
+  eventType?: string
+  venueType?: 'primer-piso' | 'ambos-pisos' | ''
+  tableType?: 'sencillas' | 'vestidas' | ''
+}
 
 export default function PackagesPage() {
   const [currentStep, setCurrentStep] = useState<'intro' | 'calculator'>(
@@ -45,6 +52,71 @@ export default function PackagesPage() {
     eventType: '',
     clientName: '',
   })
+
+  // Notas de la cotización: fuente única en el padre para que sobrevivan a los
+  // recálculos del cotizador y lleguen correctamente al PDF.
+  const [quoteNotes, setQuoteNotes] = useState('')
+  // Valores para precargar el cotizador al elegir un paquete predefinido.
+  const [initialCalc, setInitialCalc] = useState<InitialCalcValues | undefined>(
+    undefined
+  )
+
+  const startCustomCalculator = () => {
+    setInitialCalc(undefined)
+    setCalculatorData({
+      selectedServices: {},
+      guestCount: 0,
+      venueType: '',
+      currentQuote: null,
+      eventType: '',
+      clientName: '',
+    })
+    setQuoteNotes('')
+    setCurrentStep('calculator')
+  }
+
+  const startPackage = (packageId: string) => {
+    const pkg = popularPackages.find(p => p.id === packageId)
+    if (packageId === 'custom' || !pkg) {
+      startCustomCalculator()
+      return
+    }
+
+    const venueType: 'primer-piso' | 'ambos-pisos' =
+      pkg.includedServices.includes('salon-ambos-pisos')
+        ? 'ambos-pisos'
+        : 'primer-piso'
+    const tableType: 'sencillas' | 'vestidas' | '' =
+      pkg.includedServices.includes('mesas-vestidas')
+        ? 'vestidas'
+        : pkg.includedServices.includes('mesas-sencillas')
+          ? 'sencillas'
+          : ''
+    const guestCount = pkg.maxGuests
+
+    // Servicios adicionales (el salón y las mesas se manejan por venueType/tableType)
+    const additional: { [serviceId: string]: number } = {}
+    pkg.includedServices.forEach(id => {
+      if (
+        id.startsWith('salon-') ||
+        id === 'mesas-vestidas' ||
+        id === 'mesas-sencillas'
+      )
+        return
+      additional[id] = id === 'meseros' ? calculateMinimumStaff(guestCount) : 1
+    })
+
+    setInitialCalc({ guestCount, venueType, tableType })
+    setCalculatorData(prev => ({
+      ...prev,
+      selectedServices: additional,
+      guestCount,
+      venueType,
+      currentQuote: null,
+    }))
+    setQuoteNotes('')
+    setCurrentStep('calculator')
+  }
 
   // Memoizar la función onDataChange para evitar re-renders innecesarios
   const handleDataChange = useCallback(
@@ -100,6 +172,7 @@ export default function PackagesPage() {
           <QuoteCalculator
             onDataChange={handleDataChange}
             selectedServicesExternal={calculatorData.selectedServices}
+            initialValues={initialCalc}
           />
         </Section>
 
@@ -132,19 +205,8 @@ export default function PackagesPage() {
               clientName={calculatorData.clientName}
               guestCount={calculatorData.guestCount}
               eventDate={calculatorData.currentQuote.eventDate || ''}
-              notes={calculatorData.currentQuote.notes || ''}
-              onNotesChange={notes => {
-                // Actualizar las notas en la cotización
-                if (calculatorData.currentQuote) {
-                  setCalculatorData(prev => ({
-                    ...prev,
-                    currentQuote: {
-                      ...prev.currentQuote!,
-                      notes,
-                    },
-                  }))
-                }
-              }}
+              notes={quoteNotes}
+              onNotesChange={setQuoteNotes}
             />
           </Section>
         )}
@@ -161,21 +223,17 @@ export default function PackagesPage() {
             </p>
 
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-              <a
+              <Button
                 href={`https://wa.me/52${businessInfo.contact.whatsapp.replace(/\D/g, '')}`}
-                target='_blank'
-                rel='noopener noreferrer'
+                size='lg'
+                icon={<MessageCircle className='w-5 h-5' />}
               >
-                <Button size='lg' icon={<MessageCircle className='w-5 h-5' />}>
-                  Enviar por WhatsApp
-                </Button>
-              </a>
+                Enviar por WhatsApp
+              </Button>
 
-              <Link href='/contacto'>
-                <Button variant='secondary' size='lg'>
-                  Contacto Personalizado
-                </Button>
-              </Link>
+              <Button href='/contacto' variant='secondary' size='lg'>
+                Contacto Personalizado
+              </Button>
             </div>
           </div>
         </Section>
@@ -199,6 +257,7 @@ export default function PackagesPage() {
       {/* Hero Section */}
       <Section variant='gradient' size='xl'>
         <SectionHeader
+          as='h1'
           subtitle='Paquetes y Cotizaciones'
           title='Encuentra el paquete perfecto para tu evento'
           description='Elige entre nuestros paquetes prediseñados o crea una cotización personalizada con nuestro cotizador interactivo'
@@ -256,7 +315,7 @@ export default function PackagesPage() {
               <Button
                 size='lg'
                 className='w-full'
-                onClick={() => setCurrentStep('calculator')}
+                onClick={startCustomCalculator}
                 icon={<Calculator className='w-5 h-5' />}
               >
                 Crear Cotización Personalizada
@@ -315,6 +374,11 @@ export default function PackagesPage() {
                 variant='secondary'
                 size='lg'
                 className='w-full'
+                onClick={() =>
+                  document
+                    .getElementById('comparacion-paquetes')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }
                 icon={<Sparkles className='w-5 h-5' />}
               >
                 Ver Paquetes Predefinidos
@@ -363,17 +427,12 @@ export default function PackagesPage() {
 
       {/* Paquetes predefinidos populares */}
       <Section variant='dark' size='xl'>
-        <PackageComparison
-          onSelectPackage={packageId => {
-            if (packageId === 'custom') {
-              setCurrentStep('calculator')
-            } else {
-              // Aquí podrías precargar el paquete seleccionado en el calculador
-              setCurrentStep('calculator')
-            }
-          }}
-          selectedGuestCount={0}
-        />
+        <div id='comparacion-paquetes' className='scroll-mt-24'>
+          <PackageComparison
+            onSelectPackage={startPackage}
+            selectedGuestCount={0}
+          />
+        </div>
       </Section>
 
       {/* Proceso de cotización */}
@@ -445,23 +504,19 @@ export default function PackagesPage() {
           <div className='flex flex-col sm:flex-row gap-6 justify-center'>
             <Button
               size='lg'
-              onClick={() => setCurrentStep('calculator')}
+              onClick={startCustomCalculator}
               icon={<Calculator className='w-5 h-5' />}
             >
               Iniciar Cotización Personalizada
             </Button>
 
-            <Link href='/servicios'>
-              <Button variant='secondary' size='lg'>
-                Ver Todos los Servicios
-              </Button>
-            </Link>
+            <Button href='/servicios' variant='secondary' size='lg'>
+              Ver Todos los Servicios
+            </Button>
 
-            <Link href='/disponibilidad'>
-              <Button variant='ghost' size='lg'>
-                Verificar Disponibilidad
-              </Button>
-            </Link>
+            <Button href='/disponibilidad' variant='ghost' size='lg'>
+              Verificar Disponibilidad
+            </Button>
           </div>
         </div>
       </Section>

@@ -24,16 +24,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${businessInfo.name} - El mejor salón de fiestas en Ixtapaluca`,
     description: `Celebra sin límites en nuestro elegante salón. Capacidad hasta ${businessInfo.capacity.bothFloors} personas, servicios completos y ubicación privilegiada en ${businessInfo.contact.address.city}.`,
-    url: 'https://saloncampeche.com',
+    url: '/',
     siteName: businessInfo.name,
-    images: [
-      {
-        url: '/og-home.jpg',
-        width: 1200,
-        height: 630,
-        alt: `${businessInfo.name} - Salón de fiestas en Ixtapaluca`,
-      },
-    ],
     locale: 'es_MX',
     type: 'website',
   },
@@ -41,10 +33,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${businessInfo.name} - ${businessInfo.slogan}`,
     description: `El salón de fiestas más elegante de ${businessInfo.contact.address.city}. Eventos hasta ${businessInfo.capacity.bothFloors} personas.`,
-    images: ['/og-home.jpg'],
   },
   alternates: {
-    canonical: 'https://saloncampeche.com',
+    canonical: '/',
   },
 }
 

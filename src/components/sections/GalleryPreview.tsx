@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import { Eye, Heart, Calendar, Users } from 'lucide-react'
 import { Section, SectionHeader, Button } from '@/components'
@@ -82,7 +81,7 @@ export default function GalleryPreview() {
 
       {/* Grid principal de galería */}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
-        {galleryImages.map((image, index) => (
+        {galleryImages.map(image => (
           <div
             key={image.id}
             className='group relative overflow-hidden rounded-2xl aspect-square cursor-pointer'
@@ -96,7 +95,7 @@ export default function GalleryPreview() {
               fill
               sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
               className='object-cover transition-all duration-700 group-hover:scale-110'
-              priority={index < 3}
+              loading='lazy'
             />
 
             {/* Overlay con información */}
@@ -105,7 +104,11 @@ export default function GalleryPreview() {
                 hoveredImage === image.id ? 'opacity-100' : 'opacity-0'
               }`}
             >
-              <div className="transform transition-transform duration-300 ${hoveredImage === image.id ? 'translate-y-0' : 'translate-y-4'}">
+              <div
+                className={`transform transition-transform duration-300 ${
+                  hoveredImage === image.id ? 'translate-y-0' : 'translate-y-4'
+                }`}
+              >
                 <h3 className='font-caveat font-bold text-2xl text-foreground mb-2'>
                   {image.title}
                 </h3>
@@ -247,17 +250,18 @@ export default function GalleryPreview() {
         </p>
 
         <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-          <Link href='/galeria'>
-            <Button size='lg' className='w-full sm:w-auto'>
-              Ver Galería Completa
-            </Button>
-          </Link>
+          <Button href='/galeria' size='lg' className='w-full sm:w-auto'>
+            Ver Galería Completa
+          </Button>
 
-          <Link href='/paquetes'>
-            <Button variant='secondary' size='lg' className='w-full sm:w-auto'>
-              Cotizar mi Evento
-            </Button>
-          </Link>
+          <Button
+            href='/paquetes'
+            variant='secondary'
+            size='lg'
+            className='w-full sm:w-auto'
+          >
+            Cotizar mi Evento
+          </Button>
         </div>
       </div>
     </Section>
