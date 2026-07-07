@@ -23,6 +23,9 @@ const contentSecurityPolicy = [
 ].join('; ')
 
 const nextConfig: NextConfig = {
+  // Imagen Docker más ligera para el despliegue en el VPS (Dokploy).
+  output: 'standalone',
+
   // Optimización de imágenes
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -30,9 +33,11 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
-  // Optimización de compilación
+  // Optimización de compilación. Conserva warn/error en producción para no perder
+  // avisos importantes (p.ej. el respaldo del correo de nuevas solicitudes).
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole:
+      process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
   },
 
   // No exponer la tecnología del servidor

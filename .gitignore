@@ -40,3 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .vscode
+
+# base de datos SQLite (local)
+*.db
+*.db-journal
+prisma/*.db
+prisma/*.db-journal
