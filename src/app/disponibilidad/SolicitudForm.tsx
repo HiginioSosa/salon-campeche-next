@@ -56,6 +56,10 @@ export default function SolicitudForm({ fecha, onClose }: Props) {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
+    if (form.clienteTelefono.replace(/\D/g, '').length !== 10) {
+      setError('El teléfono debe tener 10 dígitos.')
+      return
+    }
     startTransition(async () => {
       const res = await crearSolicitudAction(
         {

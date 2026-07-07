@@ -187,3 +187,15 @@ export function listarActivasFuturas(): Promise<Reserva[]> {
     orderBy: { fecha: 'asc' },
   })
 }
+
+/**
+ * Todas las reservas de un mes (cualquier estado, incluido el histórico:
+ * rechazadas/canceladas/expiradas) para la agenda navegable del panel.
+ */
+export function reservasDelMes(anio: number, mes: number): Promise<Reserva[]> {
+  const prefijo = `${anio}-${String(mes).padStart(2, '0')}` // 'YYYY-MM'
+  return prisma.reserva.findMany({
+    where: { fecha: { startsWith: prefijo } },
+    orderBy: [{ fecha: 'asc' }, { creadaEn: 'asc' }],
+  })
+}

@@ -29,6 +29,9 @@ const etiquetaEstado: Record<string, { texto: string; clase: string }> = {
   EN_ESPERA: { texto: 'En espera de anticipo', clase: 'bg-yellow-500/20 text-yellow-300' },
   CONFIRMADA: { texto: 'Confirmada', clase: 'bg-green-500/20 text-green-300' },
   BLOQUEADA: { texto: 'Bloqueada', clase: 'bg-gray-500/20 text-gray-300' },
+  RECHAZADA: { texto: 'Rechazada', clase: 'bg-red-500/10 text-red-300' },
+  CANCELADA: { texto: 'Cancelada', clase: 'bg-gray-500/20 text-gray-400' },
+  EXPIRADA: { texto: 'Expirada', clase: 'bg-gray-500/20 text-gray-400' },
 }
 
 export default function ReservaCard({ r }: { r: ReservaVista }) {

@@ -29,7 +29,7 @@ export default function HerramientasAdmin() {
     e.preventDefault(); setError('')
     startTransition(async () => {
       try {
-        await crearManualAction({
+        const res = await crearManualAction({
           fecha: m.fecha,
           clienteNombre: m.clienteNombre,
           clienteTelefono: m.clienteTelefono,
@@ -39,10 +39,11 @@ export default function HerramientasAdmin() {
           espacio: m.espacio === 'PRIMER_PISO' || m.espacio === 'AMBOS_PISOS' ? m.espacio : undefined,
           estado: m.estado === 'CONFIRMADA' ? 'CONFIRMADA' : 'EN_ESPERA',
         })
+        if (!res.ok) { setError(res.error); return }
         cerrar()
         setM({ fecha: '', clienteNombre: '', clienteTelefono: '', clienteEmail: '', tipoEvento: '', numInvitados: '', espacio: '', estado: 'EN_ESPERA' })
       } catch {
-        setError('No se pudo crear (¿la fecha ya está ocupada?).')
+        setError('No se pudo crear. Intenta de nuevo.')
       }
     })
   }
@@ -51,10 +52,11 @@ export default function HerramientasAdmin() {
     e.preventDefault(); setError('')
     startTransition(async () => {
       try {
-        await bloquearAction(b.fecha, b.notas || undefined)
+        const res = await bloquearAction(b.fecha, b.notas || undefined)
+        if (!res.ok) { setError(res.error); return }
         cerrar(); setB({ fecha: '', notas: '' })
       } catch {
-        setError('No se pudo bloquear (¿la fecha ya está ocupada?).')
+        setError('No se pudo bloquear. Intenta de nuevo.')
       }
     })
   }

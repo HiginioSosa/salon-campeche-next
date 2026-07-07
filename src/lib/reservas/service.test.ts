@@ -10,6 +10,7 @@ import {
   crearReservaManual,
   disponibilidadMes,
   listarSolicitudesPendientes,
+  reservasDelMes,
 } from './service'
 import { FechaNoDisponibleError, TransicionInvalidaError } from './errors'
 
@@ -128,5 +129,16 @@ describe('lecturas', () => {
     const p = await listarSolicitudesPendientes()
     expect(p).toHaveLength(1)
     expect(p[0].estado).toBe('SOLICITADA')
+  })
+
+  it('reservasDelMes devuelve todas las del mes (incluido histórico) ordenadas por fecha', async () => {
+    const s1 = await crearSolicitud({ ...input, fecha: '2026-09-20' })
+    await rechazar(s1.id) // histórico
+    await crearSolicitud({ ...input, fecha: '2026-09-05' })
+    await crearSolicitud({ ...input, fecha: '2026-10-01' }) // otro mes
+    const delMes = await reservasDelMes(2026, 9)
+    expect(delMes).toHaveLength(2)
+    expect(delMes.map((r) => r.fecha)).toEqual(['2026-09-05', '2026-09-20'])
+    expect(delMes.some((r) => r.estado === 'RECHAZADA')).toBe(true)
   })
 })

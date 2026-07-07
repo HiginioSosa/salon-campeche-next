@@ -1,33 +1,22 @@
-import type { Reserva } from '@prisma/client'
 import { Card, CardContent } from '@/components'
 import {
   listarSolicitudesPendientes,
   listarActivasFuturas,
+  reservasDelMes,
 } from '@/lib/reservas/service'
-import ReservaCard, { type ReservaVista } from '../ReservaCard'
+import ReservaCard from '../ReservaCard'
 import HerramientasAdmin from '../HerramientasAdmin'
-
-function aVista(r: Reserva): ReservaVista {
-  return {
-    id: r.id,
-    fecha: r.fecha,
-    estado: r.estado,
-    clienteNombre: r.clienteNombre,
-    clienteTelefono: r.clienteTelefono,
-    clienteEmail: r.clienteEmail,
-    tipoEvento: r.tipoEvento,
-    numInvitados: r.numInvitados,
-    espacio: r.espacio,
-    mensajeCliente: r.mensajeCliente,
-    anticipoMonto: r.anticipoMonto,
-    expiraEn: r.expiraEn ? r.expiraEn.toISOString() : null,
-  }
-}
+import AgendaMes from '../AgendaMes'
+import { aVista } from '../vista'
 
 export default async function AdminPage() {
-  const [pendientes, activas] = await Promise.all([
+  const ahora = new Date()
+  const anioActual = ahora.getFullYear()
+  const mesActual = ahora.getMonth() + 1
+  const [pendientes, activas, delMes] = await Promise.all([
     listarSolicitudesPendientes(),
     listarActivasFuturas(),
+    reservasDelMes(anioActual, mesActual),
   ])
 
   return (
@@ -69,7 +58,7 @@ export default async function AdminPage() {
         <HerramientasAdmin />
       </section>
 
-      {/* Agenda: reservas activas */}
+      {/* Agenda: reservas activas próximas */}
       <section>
         <h2 className='font-caveat font-bold text-3xl text-foreground mb-4'>
           Próximas reservas
@@ -89,6 +78,18 @@ export default async function AdminPage() {
             ))}
           </div>
         )}
+      </section>
+
+      {/* Agenda navegable por mes (incluye histórico) */}
+      <section>
+        <h2 className='font-caveat font-bold text-3xl text-foreground mb-4'>
+          Agenda por mes
+        </h2>
+        <AgendaMes
+          anioInicial={anioActual}
+          mesInicial={mesActual}
+          reservasIniciales={delMes.map(aVista)}
+        />
       </section>
     </div>
   )
