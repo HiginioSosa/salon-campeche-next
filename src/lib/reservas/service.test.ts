@@ -6,6 +6,8 @@ import {
   confirmarAnticipo,
   rechazar,
   bloquearFecha,
+  disponibilidadMes,
+  listarSolicitudesPendientes,
 } from './service'
 import { FechaNoDisponibleError, TransicionInvalidaError } from './errors'
 
@@ -69,5 +71,30 @@ describe('transiciones de admin', () => {
     await expect(
       crearSolicitud({ ...input, fecha: '2026-10-01' })
     ).rejects.toBeInstanceOf(FechaNoDisponibleError)
+  })
+})
+
+describe('lecturas', () => {
+  it('disponibilidadMes marca una fecha CONFIRMADA como reservada', async () => {
+    const s = await crearSolicitud({ ...input, fecha: '2026-09-10' })
+    await autorizar(s.id)
+    await confirmarAnticipo(s.id)
+    const dias = await disponibilidadMes(2026, 9)
+    expect(dias).toContainEqual({ fecha: '2026-09-10', estado: 'reservada' })
+  })
+
+  it('disponibilidadMes no incluye fechas de otro mes', async () => {
+    await crearSolicitud({ ...input, fecha: '2026-09-10' })
+    const dias = await disponibilidadMes(2026, 10)
+    expect(dias).toHaveLength(0)
+  })
+
+  it('listarSolicitudesPendientes devuelve solo las SOLICITADA', async () => {
+    await crearSolicitud({ ...input, fecha: '2026-09-11' })
+    const s2 = await crearSolicitud({ ...input, fecha: '2026-09-12' })
+    await autorizar(s2.id)
+    const p = await listarSolicitudesPendientes()
+    expect(p).toHaveLength(1)
+    expect(p[0].estado).toBe('SOLICITADA')
   })
 })

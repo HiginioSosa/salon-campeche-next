@@ -2,7 +2,13 @@ import { Prisma, type Reserva } from '@prisma/client'
 import { prisma } from '@/lib/db'
 import { solicitudSchema, type SolicitudInput } from './validators'
 import { FechaNoDisponibleError, TransicionInvalidaError } from './errors'
-import { puedeTransicionar, type EstadoReserva } from './estados'
+import {
+  puedeTransicionar,
+  estadoPublico,
+  ESTADOS_ACTIVOS,
+  type EstadoReserva,
+  type EstadoPublico,
+} from './estados'
 
 const DIAS_APARTADO = Number(process.env.DIAS_APARTADO ?? 5)
 
@@ -124,4 +130,38 @@ export async function crearReservaManual(
     if (esFechaDuplicada(e)) throw new FechaNoDisponibleError()
     throw e
   }
+}
+
+export type DisponibilidadDia = { fecha: string; estado: EstadoPublico }
+
+/** Días ocupados del mes (mes 1-12) para el calendario público. */
+export async function disponibilidadMes(
+  anio: number,
+  mes: number
+): Promise<DisponibilidadDia[]> {
+  const prefijo = `${anio}-${String(mes).padStart(2, '0')}` // 'YYYY-MM'
+  const reservas = await prisma.reserva.findMany({
+    where: { estado: { in: ESTADOS_ACTIVOS }, fecha: { startsWith: prefijo } },
+  })
+  const ahora = new Date()
+  return reservas
+    .map((r) => ({ fecha: r.fecha, estado: estadoPublico(r.estado, r.expiraEn, ahora) }))
+    .filter((d) => d.estado !== 'disponible')
+}
+
+/** Solicitudes pendientes de revisión (bandeja del panel). */
+export function listarSolicitudesPendientes(): Promise<Reserva[]> {
+  return prisma.reserva.findMany({
+    where: { estado: 'SOLICITADA' },
+    orderBy: { solicitadaEn: 'asc' },
+  })
+}
+
+/** Todas las reservas de un mes (agenda del panel). */
+export function reservasDelMes(anio: number, mes: number): Promise<Reserva[]> {
+  const prefijo = `${anio}-${String(mes).padStart(2, '0')}`
+  return prisma.reserva.findMany({
+    where: { fecha: { startsWith: prefijo } },
+    orderBy: { fecha: 'asc' },
+  })
 }
