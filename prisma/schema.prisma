@@ -30,6 +30,10 @@ model Reserva {
 
   @@index([fecha])
   @@index([estado])
+  // NOTA: existe además un índice ÚNICO PARCIAL `reserva_fecha_activa_unica` sobre
+  // `fecha` (solo para estados activos) que impide dos reservas activas en la misma
+  // fecha. Prisma no puede expresar índices parciales en el schema, así que vive en
+  // la migración SQL (prisma/migrations/*_init_reservas/migration.sql). No borrarlo.
 }
 
 model UsuarioAdmin {

@@ -32,7 +32,7 @@ export default function HerramientasAdmin() {
         await crearManualAction({
           fecha: m.fecha,
           clienteNombre: m.clienteNombre,
-          clienteTelefono: m.clienteTelefono || '0000000000',
+          clienteTelefono: m.clienteTelefono,
           clienteEmail: m.clienteEmail || undefined,
           tipoEvento: m.tipoEvento || 'Evento',
           numInvitados: m.numInvitados ? Number(m.numInvitados) : undefined,
@@ -73,7 +73,7 @@ export default function HerramientasAdmin() {
             <input className='input-custom w-full' type='date' min={getTodayLocalISO()} value={m.fecha} onChange={(e) => setM({ ...m, fecha: e.target.value })} required />
             <input className='input-custom w-full' placeholder='Nombre del cliente *' value={m.clienteNombre} onChange={(e) => setM({ ...m, clienteNombre: e.target.value })} required />
             <div className='grid grid-cols-2 gap-3'>
-              <input className='input-custom w-full' type='tel' placeholder='Teléfono' value={m.clienteTelefono} onChange={(e) => setM({ ...m, clienteTelefono: e.target.value })} />
+              <input className='input-custom w-full' type='tel' placeholder='Teléfono (10 dígitos) *' value={m.clienteTelefono} onChange={(e) => setM({ ...m, clienteTelefono: e.target.value })} required />
               <input className='input-custom w-full' type='email' placeholder='Correo' value={m.clienteEmail} onChange={(e) => setM({ ...m, clienteEmail: e.target.value })} />
             </div>
             <div className='grid grid-cols-2 gap-3'>

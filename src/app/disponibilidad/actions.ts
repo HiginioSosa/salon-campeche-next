@@ -19,12 +19,18 @@ export async function crearSolicitudAction(
 
   try {
     const r = await crearSolicitud(parsed.data)
-    await enviarAvisoNuevaSolicitud({
-      clienteNombre: r.clienteNombre,
-      clienteTelefono: r.clienteTelefono,
-      tipoEvento: r.tipoEvento,
-      fecha: r.fecha,
-    })
+    // El aviso es secundario: si el correo falla, la solicitud YA se creó y no
+    // debe reportarse como error (si no, el cliente reintenta y choca consigo mismo).
+    try {
+      await enviarAvisoNuevaSolicitud({
+        clienteNombre: r.clienteNombre,
+        clienteTelefono: r.clienteTelefono,
+        tipoEvento: r.tipoEvento,
+        fecha: r.fecha,
+      })
+    } catch (errCorreo) {
+      console.error('Falló el aviso de nueva solicitud:', errCorreo)
+    }
     return { ok: true }
   } catch (e) {
     if (e instanceof FechaNoDisponibleError) {

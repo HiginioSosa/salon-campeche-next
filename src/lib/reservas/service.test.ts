@@ -5,7 +5,9 @@ import {
   autorizar,
   confirmarAnticipo,
   rechazar,
+  cancelar,
   bloquearFecha,
+  crearReservaManual,
   disponibilidadMes,
   listarSolicitudesPendientes,
 } from './service'
@@ -71,6 +73,36 @@ describe('transiciones de admin', () => {
     await expect(
       crearSolicitud({ ...input, fecha: '2026-10-01' })
     ).rejects.toBeInstanceOf(FechaNoDisponibleError)
+  })
+
+  it('crearReservaManual confirmada ocupa la fecha', async () => {
+    const r = await crearReservaManual({ ...input, fecha: '2026-11-01', estado: 'CONFIRMADA' })
+    expect(r.estado).toBe('CONFIRMADA')
+    await expect(
+      crearSolicitud({ ...input, fecha: '2026-11-01' })
+    ).rejects.toBeInstanceOf(FechaNoDisponibleError)
+  })
+
+  it('cancelar libera una reserva confirmada', async () => {
+    const r = await crearReservaManual({ ...input, fecha: '2026-11-02', estado: 'CONFIRMADA' })
+    await cancelar(r.id)
+    await expect(
+      crearSolicitud({ ...input, fecha: '2026-11-02' })
+    ).resolves.toMatchObject({ estado: 'SOLICITADA' })
+  })
+
+  it('libera un apartado EN_ESPERA vencido al re-solicitar la fecha (fix expiración)', async () => {
+    const s = await crearSolicitud(input)
+    await autorizar(s.id)
+    // Forzar expiración en el pasado.
+    await prisma.reserva.update({
+      where: { id: s.id },
+      data: { expiraEn: new Date('2020-01-01') },
+    })
+    const nueva = await crearSolicitud(input)
+    expect(nueva.estado).toBe('SOLICITADA')
+    const viejo = await prisma.reserva.findUnique({ where: { id: s.id } })
+    expect(viejo?.estado).toBe('EXPIRADA')
   })
 })
 

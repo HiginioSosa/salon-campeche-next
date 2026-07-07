@@ -26,8 +26,10 @@ export async function enviarAvisoNuevaSolicitud(r: AvisoInput): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY
   const destino = process.env.CORREO_AVISOS
   if (!apiKey || !destino) {
-    // Sin configurar: registrar en consola en vez de fallar.
-    console.info('[aviso solicitud]', asunto, '\n', texto)
+    // Sin configurar: registrar en consola en vez de fallar. Se usa console.warn
+    // (no info) para que sobreviva a `removeConsole` en producción y el dueño
+    // pueda ver el aviso en los logs si aún no configura Resend.
+    console.warn('[aviso solicitud — configura RESEND_API_KEY/CORREO_AVISOS]', asunto, '\n', texto)
     return
   }
   const resend = new Resend(apiKey)

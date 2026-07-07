@@ -12,12 +12,27 @@ import {
 
 const DIAS_APARTADO = Number(process.env.DIAS_APARTADO ?? 5)
 
+const FECHA_REGEX = /^\d{4}-\d{2}-\d{2}$/
+
 function esFechaDuplicada(e: unknown): boolean {
   return e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002'
 }
 
+/**
+ * Libera un apartado EN_ESPERA vencido de una fecha (lo pasa a EXPIRADA) antes de
+ * intentar ocuparla. Sin esto la fila vencida seguiría bloqueando el índice único
+ * aunque el calendario la muestre disponible (la expiración en lectura es perezosa).
+ */
+async function liberarExpiradaDeFecha(fecha: string): Promise<void> {
+  await prisma.reserva.updateMany({
+    where: { fecha, estado: 'EN_ESPERA', expiraEn: { lt: new Date() } },
+    data: { estado: 'EXPIRADA' },
+  })
+}
+
 export async function crearSolicitud(input: SolicitudInput): Promise<Reserva> {
   const d = solicitudSchema.parse(input)
+  await liberarExpiradaDeFecha(d.fecha)
   try {
     return await prisma.reserva.create({
       data: {
@@ -75,14 +90,12 @@ export function cancelar(id: string): Promise<Reserva> {
   return transicionar(id, 'CANCELADA')
 }
 
-export function desbloquear(id: string): Promise<Reserva> {
-  return transicionar(id, 'CANCELADA')
-}
-
 export async function bloquearFecha(
   fecha: string,
   notasInternas?: string
 ): Promise<Reserva> {
+  if (!FECHA_REGEX.test(fecha)) throw new Error('Fecha inválida')
+  await liberarExpiradaDeFecha(fecha)
   try {
     return await prisma.reserva.create({
       data: {
@@ -103,10 +116,15 @@ export async function bloquearFecha(
 export async function crearReservaManual(
   input: SolicitudInput & { estado: 'EN_ESPERA' | 'CONFIRMADA' }
 ): Promise<Reserva> {
+  if (input.estado !== 'EN_ESPERA' && input.estado !== 'CONFIRMADA') {
+    throw new Error('Estado inicial inválido')
+  }
   const d = solicitudSchema.parse(input)
+  await liberarExpiradaDeFecha(d.fecha)
   const ahora = new Date()
   const expiraEn = new Date()
   expiraEn.setDate(expiraEn.getDate() + DIAS_APARTADO)
+  expiraEn.setHours(23, 59, 59, 999)
   try {
     return await prisma.reserva.create({
       data: {
@@ -154,15 +172,6 @@ export function listarSolicitudesPendientes(): Promise<Reserva[]> {
   return prisma.reserva.findMany({
     where: { estado: 'SOLICITADA' },
     orderBy: { solicitadaEn: 'asc' },
-  })
-}
-
-/** Todas las reservas de un mes (agenda del panel). */
-export function reservasDelMes(anio: number, mes: number): Promise<Reserva[]> {
-  const prefijo = `${anio}-${String(mes).padStart(2, '0')}`
-  return prisma.reserva.findMany({
-    where: { fecha: { startsWith: prefijo } },
-    orderBy: { fecha: 'asc' },
   })
 }
 
