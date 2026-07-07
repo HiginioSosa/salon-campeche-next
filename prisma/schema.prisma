@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Reserva {
+  id                 String    @id @default(cuid())
+  fecha              String    // 'YYYY-MM-DD'
+  estado             String    // ver src/lib/reservas/estados.ts (EstadoReserva)
+  espacio            String? // 'PRIMER_PISO' | 'AMBOS_PISOS'
+  clienteNombre      String
+  clienteTelefono    String
+  clienteEmail       String?
+  tipoEvento         String
+  numInvitados       Int?
+  mensajeCliente     String?
+  notasInternas      String?
+  anticipoMonto      Int?
+  anticipoRecibidoEn DateTime?
+  solicitadaEn       DateTime?
+  autorizadaEn       DateTime?
+  expiraEn           DateTime?
+  confirmadaEn       DateTime?
+  creadaEn           DateTime  @default(now())
+  actualizadaEn      DateTime  @updatedAt
+
+  @@index([fecha])
+  @@index([estado])
+}
+
+model UsuarioAdmin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  creadaEn     DateTime @default(now())
+}
