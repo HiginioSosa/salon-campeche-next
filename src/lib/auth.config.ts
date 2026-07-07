@@ -6,16 +6,10 @@ import type { NextAuthConfig } from 'next-auth'
  * (Credentials) se añaden en auth.ts, que corre en Node.
  */
 export const authConfig: NextAuthConfig = {
+  // Autohospedado: confiar en el host del propio servidor (evita el error
+  // UntrustedHost de Auth.js en producción). También configurable con AUTH_TRUST_HOST.
+  trustHost: true,
   session: { strategy: 'jwt' },
   pages: { signIn: '/admin/login' },
   providers: [],
-  callbacks: {
-    authorized({ auth, request }) {
-      const { pathname } = request.nextUrl
-      const esAdmin =
-        pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')
-      if (esAdmin) return !!auth?.user
-      return true
-    },
-  },
 }

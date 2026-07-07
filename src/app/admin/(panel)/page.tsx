@@ -4,8 +4,8 @@ import {
   listarSolicitudesPendientes,
   listarActivasFuturas,
 } from '@/lib/reservas/service'
-import ReservaCard, { type ReservaVista } from './ReservaCard'
-import HerramientasAdmin from './HerramientasAdmin'
+import ReservaCard, { type ReservaVista } from '../ReservaCard'
+import HerramientasAdmin from '../HerramientasAdmin'
 
 function aVista(r: Reserva): ReservaVista {
   return {

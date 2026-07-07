@@ -1,7 +1,9 @@
 import { redirect } from 'next/navigation'
 import { auth, signOut } from '@/lib/auth'
 
-export default async function AdminLayout({
+// Layout de las páginas protegidas del panel. La página de login vive fuera de
+// este grupo, así que no queda atrapada en la guardia (evita el loop de redirección).
+export default async function PanelLayout({
   children,
 }: {
   children: React.ReactNode
