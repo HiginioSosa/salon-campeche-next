@@ -165,3 +165,16 @@ export function reservasDelMes(anio: number, mes: number): Promise<Reserva[]> {
     orderBy: { fecha: 'asc' },
   })
 }
+
+/** Reservas activas de hoy en adelante (para la agenda del panel). */
+export function listarActivasFuturas(): Promise<Reserva[]> {
+  const hoy = new Date()
+  const hoyISO = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`
+  return prisma.reserva.findMany({
+    where: {
+      estado: { in: ['EN_ESPERA', 'CONFIRMADA', 'BLOQUEADA'] },
+      fecha: { gte: hoyISO },
+    },
+    orderBy: { fecha: 'asc' },
+  })
+}
