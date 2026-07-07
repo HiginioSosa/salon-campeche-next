@@ -1,7 +1,8 @@
 import { Prisma, type Reserva } from '@prisma/client'
 import { prisma } from '@/lib/db'
 import { solicitudSchema, type SolicitudInput } from './validators'
-import { FechaNoDisponibleError } from './errors'
+import { FechaNoDisponibleError, TransicionInvalidaError } from './errors'
+import { puedeTransicionar, type EstadoReserva } from './estados'
 
 const DIAS_APARTADO = Number(process.env.DIAS_APARTADO ?? 5)
 
@@ -24,6 +25,99 @@ export async function crearSolicitud(input: SolicitudInput): Promise<Reserva> {
         numInvitados: d.numInvitados ?? null,
         mensajeCliente: d.mensajeCliente || null,
         solicitadaEn: new Date(),
+      },
+    })
+  } catch (e) {
+    if (esFechaDuplicada(e)) throw new FechaNoDisponibleError()
+    throw e
+  }
+}
+
+async function transicionar(
+  id: string,
+  hacia: EstadoReserva,
+  extra: Prisma.ReservaUpdateInput = {}
+): Promise<Reserva> {
+  const actual = await prisma.reserva.findUniqueOrThrow({ where: { id } })
+  if (!puedeTransicionar(actual.estado as EstadoReserva, hacia)) {
+    throw new TransicionInvalidaError(actual.estado, hacia)
+  }
+  return prisma.reserva.update({ where: { id }, data: { estado: hacia, ...extra } })
+}
+
+export function autorizar(id: string, opts?: { diasApartado?: number }): Promise<Reserva> {
+  const dias = opts?.diasApartado ?? DIAS_APARTADO
+  const expiraEn = new Date()
+  expiraEn.setDate(expiraEn.getDate() + dias)
+  expiraEn.setHours(23, 59, 59, 999)
+  return transicionar(id, 'EN_ESPERA', { autorizadaEn: new Date(), expiraEn })
+}
+
+export function rechazar(id: string): Promise<Reserva> {
+  return transicionar(id, 'RECHAZADA')
+}
+
+export function confirmarAnticipo(id: string, monto?: number): Promise<Reserva> {
+  return transicionar(id, 'CONFIRMADA', {
+    anticipoRecibidoEn: new Date(),
+    confirmadaEn: new Date(),
+    ...(monto != null ? { anticipoMonto: monto } : {}),
+  })
+}
+
+export function cancelar(id: string): Promise<Reserva> {
+  return transicionar(id, 'CANCELADA')
+}
+
+export function desbloquear(id: string): Promise<Reserva> {
+  return transicionar(id, 'CANCELADA')
+}
+
+export async function bloquearFecha(
+  fecha: string,
+  notasInternas?: string
+): Promise<Reserva> {
+  try {
+    return await prisma.reserva.create({
+      data: {
+        fecha,
+        estado: 'BLOQUEADA',
+        clienteNombre: '(Bloqueo interno)',
+        clienteTelefono: '',
+        tipoEvento: 'Bloqueo',
+        notasInternas: notasInternas ?? null,
+      },
+    })
+  } catch (e) {
+    if (esFechaDuplicada(e)) throw new FechaNoDisponibleError()
+    throw e
+  }
+}
+
+export async function crearReservaManual(
+  input: SolicitudInput & { estado: 'EN_ESPERA' | 'CONFIRMADA' }
+): Promise<Reserva> {
+  const d = solicitudSchema.parse(input)
+  const ahora = new Date()
+  const expiraEn = new Date()
+  expiraEn.setDate(expiraEn.getDate() + DIAS_APARTADO)
+  try {
+    return await prisma.reserva.create({
+      data: {
+        fecha: d.fecha,
+        estado: input.estado,
+        espacio: d.espacio ?? null,
+        clienteNombre: d.clienteNombre,
+        clienteTelefono: d.clienteTelefono,
+        clienteEmail: d.clienteEmail || null,
+        tipoEvento: d.tipoEvento,
+        numInvitados: d.numInvitados ?? null,
+        mensajeCliente: d.mensajeCliente || null,
+        solicitadaEn: ahora,
+        autorizadaEn: ahora,
+        expiraEn: input.estado === 'EN_ESPERA' ? expiraEn : null,
+        confirmadaEn: input.estado === 'CONFIRMADA' ? ahora : null,
+        anticipoRecibidoEn: input.estado === 'CONFIRMADA' ? ahora : null,
       },
     })
   } catch (e) {
